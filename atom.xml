@@ -5,9 +5,9 @@
   <subtitle>不念过往，不惧未来</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://yoursite.com/"/>
+  <link href="http://fangyanwei.github.io/"/>
   <updated>2018-06-13T15:47:57.823Z</updated>
-  <id>http://yoursite.com/</id>
+  <id>http://fangyanwei.github.io/</id>
   
   <author>
     <name>Fang Yanwei</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>Welcome To Use Hexo</title>
-    <link href="http://yoursite.com/2018/06/13/welcome_to_hexo/"/>
-    <id>http://yoursite.com/2018/06/13/welcome_to_hexo/</id>
+    <link href="http://fangyanwei.github.io/2018/06/13/welcome_to_hexo/"/>
+    <id>http://fangyanwei.github.io/2018/06/13/welcome_to_hexo/</id>
     <published>2018-06-13T15:24:42.184Z</published>
     <updated>2018-06-13T15:47:57.823Z</updated>
     
@@ -39,8 +39,8 @@
   
   <entry>
     <title>Markdown语法整理</title>
-    <link href="http://yoursite.com/2018/06/12/markdown-introduce/"/>
-    <id>http://yoursite.com/2018/06/12/markdown-introduce/</id>
+    <link href="http://fangyanwei.github.io/2018/06/12/markdown-introduce/"/>
+    <id>http://fangyanwei.github.io/2018/06/12/markdown-introduce/</id>
     <published>2018-06-12T15:00:39.000Z</published>
     <updated>2018-06-13T15:38:55.106Z</updated>
     
@@ -56,10 +56,10 @@
     
     </summary>
     
-      <category term="github" scheme="http://yoursite.com/categories/github/"/>
+      <category term="github" scheme="http://fangyanwei.github.io/categories/github/"/>
     
     
-      <category term="markdown" scheme="http://yoursite.com/tags/markdown/"/>
+      <category term="markdown" scheme="http://fangyanwei.github.io/tags/markdown/"/>
     
   </entry>
   
