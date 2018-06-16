@@ -75,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="base64," />
 
 
 
@@ -88,18 +88,18 @@
 
 
 
-<meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
-<meta name="keywords" content="fangyanwei">
+<meta name="description" content="最重要的是 1.便于网络传输。 2.不可见性。 （一）Encoding VS. Encryption 很多人都以为编码（Encoding）和加密（Encryption）是同一个意思。编码和加密都是对格式的一种转换，但是它们是有区别的。编码是 公开的，比如下面要介绍的Base 64编码，任何人都可以解码；而加密则相反，你只希望自己或者特定的人才可以对内容进行解密。 （二）Base 64编码 Base">
+<meta name="keywords" content="base64">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Welcome To Use Hexo">
-<meta property="og:url" content="http://yoursite.com/2018/06/13/welcome_to_hexo/index.html">
+<meta property="og:title" content="Base64编码及其作用">
+<meta property="og:url" content="http://yoursite.com/2018/06/16/base64-encode/index.html">
 <meta property="og:site_name" content="fangyanwei的博客">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="最重要的是 1.便于网络传输。 2.不可见性。 （一）Encoding VS. Encryption 很多人都以为编码（Encoding）和加密（Encryption）是同一个意思。编码和加密都是对格式的一种转换，但是它们是有区别的。编码是 公开的，比如下面要介绍的Base 64编码，任何人都可以解码；而加密则相反，你只希望自己或者特定的人才可以对内容进行解密。 （二）Base 64编码 Base">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-13T15:47:57.823Z">
+<meta property="og:updated_time" content="2018-06-16T05:13:25.671Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Welcome To Use Hexo">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta name="twitter:title" content="Base64编码及其作用">
+<meta name="twitter:description" content="最重要的是 1.便于网络传输。 2.不可见性。 （一）Encoding VS. Encryption 很多人都以为编码（Encoding）和加密（Encryption）是同一个意思。编码和加密都是对格式的一种转换，但是它们是有区别的。编码是 公开的，比如下面要介绍的Base 64编码，任何人都可以解码；而加密则相反，你只希望自己或者特定的人才可以对内容进行解密。 （二）Base 64编码 Base">
 
 
 
@@ -129,13 +129,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/06/13/welcome_to_hexo/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/06/16/base64-encode/"/>
 
 
 
 
 
-  <title>Welcome To Use Hexo | fangyanwei的博客</title>
+  <title>Base64编码及其作用 | fangyanwei的博客</title>
   
 
 
@@ -244,7 +244,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/13/welcome_to_hexo/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/16/base64-encode/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Fang Yanwei">
@@ -261,7 +261,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Welcome To Use Hexo</h1>
+          <h1 class="post-title" itemprop="name headline">Base64编码及其作用</h1>
         
 
         <div class="post-meta">
@@ -273,8 +273,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-13T23:24:42+08:00">
-                2018-06-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-16T13:11:42+08:00">
+                2018-06-16
               </time>
             
 
@@ -283,6 +283,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -305,7 +327,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  102
+                  879
                 </span>
               
 
@@ -321,7 +343,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  1
+                  3
                 </span>
               
             </div>
@@ -342,17 +364,21 @@
       
 
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<h3 id="生成文件本地预览"><a href="#生成文件本地预览" class="headerlink" title="生成文件本地预览"></a>生成文件本地预览</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$ hexo s -g</span><br></pre></td></tr></table></figure>
-<h3 id="生成文件发布"><a href="#生成文件发布" class="headerlink" title="生成文件发布"></a>生成文件发布</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$ hexo d -g</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+        <p>最重要的是</p>
+<p>1.便于网络传输。</p>
+<p>2.不可见性。</p>
+<p>（一）Encoding VS. Encryption</p>
+<p>很多人都以为编码（Encoding）和加密（Encryption）是同一个意思。编码和加密都是对格式的一种转换，但是它们是有区别的。编码是 公开的，比如下面要介绍的Base 64编码，任何人都可以解码；而加密则相反，你只希望自己或者特定的人才可以对内容进行解密。</p>
+<p>（二）Base 64编码</p>
+<p>Base 64 Encoding有什么用？举个简单的例子，你使用SMTP协议 （Simple Mail Transfer Protocol 简单邮件传输协议）来发送邮件。因为这个协议是基于文本的协议，所以如果邮件中包含一幅图片，我们知道图片的存储格式是二进制数据（binary data），而非文本格式，我们必须将二进制的数据编码成文本格式，这时候Base 64 Encoding就派上用场了。</p>
+<p>Base64编码的作用：由于某些系统中只能使用ASCII字符。Base64就是用来将非ASCII字符的数据转换成ASCII字符的一种方法。它使用下面表中所使用的字符与编码。</p>
+<p>而且base64特别适合在http，mime协议下快速传输数据。</p>
+<p>base64其实不是安全领域下的加密解密算法。虽然有时候经常看到所谓的base64加密解密。其实base64只能算是一个编码算法，对数据内容进行编码来适合传输。虽然base64编码过后原文也变成不能看到的字符格式，但是这种方式很初级，很简单。</p>
+<p>X.509公钥证书也好，电子邮件数据也好，经常要用到Base64编码，那么为什么要作一下这样的编码呢？</p>
+<p>我们知道在计算机中任何数据都是按ascii码存储的，而ascii码的128～255之间的值是不可见字符。而在网络上交换数据时，比如说从A地传到B地，往往要经过多个路由设备，由于不同的设备对字符的处理方式有一些不同，这样那些不可见字符就有可能被处理错误，这是不利于传输的。所以就先把数据先做一个Base64编码，统统变成可见字符，这样出错的可能性就大降低了。</p>
+<p>如一个xml当中包含另一个xml数据，此时如果将xml数据直接写入显然不合适，将xml进行适当编码存入较为方便，事实上xml当中的字符一般都是可见字符（0-127之间），但是由于中文的存在，可能存在不可见字符，直接将字符打印在外层xml的数据中显然不合理，那么怎么办呢？<br>可以使用base64进行编码，然后存入xml，解码反之<br>其实还有个办法，将byte的值写在xml当中，空格或者，分开，这样也可以将byte数据传入，不过这样更浪费空间，并且不易保存.</p>
+<p>另一个，比如http协议当中的key value字段，必须进行URLEncode 不然出现的等号可能使解析失败 空格也会使http请求解析出现问题，比如 请求行就是以空格来划分的 POST /guowuxin/hehe HTTP/1.1</p>
+<p>又比如有些文本协议不支持不可见字符的传递，只能用大于32的可见字符来传递信息（协议规定）</p>
 
       
     </div>
@@ -373,6 +399,35 @@
 	<div>
       
         
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2018/06/16/base64-encode/">Base64编码及其作用</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Fang Yanwei 的个人博客">Fang Yanwei</a></p>
+  <p><span>发布时间:</span>2018年06月16日 - 13:06</p>
+  <p><span>最后更新:</span>2018年06月16日 - 13:06</p>
+  <p><span>原始链接:</span><a href="/2018/06/16/base64-encode/" title="Base64编码及其作用">http://yoursite.com/2018/06/16/base64-encode/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/2018/06/16/base64-encode/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+      $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+        });
+    });  
+</script>
+
       
 	</div>
 
@@ -384,6 +439,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/base64/" rel="tag"><i class="fa fa-tag"></i> base64</a>
+          
+        </div>
+      
 
       
       
@@ -393,8 +454,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/06/12/markdown-introduce/" rel="next" title="Markdown语法整理">
-                <i class="fa fa-chevron-left"></i> Markdown语法整理
+              <a href="/2018/06/13/welcome_to_hexo/" rel="next" title="Welcome To Use Hexo">
+                <i class="fa fa-chevron-left"></i> Welcome To Use Hexo
               </a>
             
           </div>
@@ -402,10 +463,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/06/16/base64-encode/" rel="prev" title="Base64编码及其作用">
-                Base64编码及其作用 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -483,17 +540,8 @@ var jiathis_config={
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -570,22 +618,6 @@ var jiathis_config={
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成文件本地预览"><span class="nav-number">1.5.</span> <span class="nav-text">生成文件本地预览</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成文件发布"><span class="nav-number">1.6.</span> <span class="nav-text">生成文件发布</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       

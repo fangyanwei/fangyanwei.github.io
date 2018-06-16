@@ -5,9 +5,9 @@
   <subtitle>不念过往，不惧未来</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://fangyanwei.github.io/"/>
-  <updated>2018-06-13T15:47:57.823Z</updated>
-  <id>http://fangyanwei.github.io/</id>
+  <link href="http://yoursite.com/"/>
+  <updated>2018-06-16T05:13:25.671Z</updated>
+  <id>http://yoursite.com/</id>
   
   <author>
     <name>Fang Yanwei</name>
@@ -17,9 +17,38 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Base64编码及其作用</title>
+    <link href="http://yoursite.com/2018/06/16/base64-encode/"/>
+    <id>http://yoursite.com/2018/06/16/base64-encode/</id>
+    <published>2018-06-16T05:11:42.000Z</published>
+    <updated>2018-06-16T05:13:25.671Z</updated>
+    
+    <content type="html"><![CDATA[<p>最重要的是</p><p>1.便于网络传输。</p><p>2.不可见性。</p><p>（一）Encoding VS. Encryption</p><p>很多人都以为编码（Encoding）和加密（Encryption）是同一个意思。编码和加密都是对格式的一种转换，但是它们是有区别的。编码是 公开的，比如下面要介绍的Base 64编码，任何人都可以解码；而加密则相反，你只希望自己或者特定的人才可以对内容进行解密。</p><p>（二）Base 64编码</p><p>Base 64 Encoding有什么用？举个简单的例子，你使用SMTP协议 （Simple Mail Transfer Protocol 简单邮件传输协议）来发送邮件。因为这个协议是基于文本的协议，所以如果邮件中包含一幅图片，我们知道图片的存储格式是二进制数据（binary data），而非文本格式，我们必须将二进制的数据编码成文本格式，这时候Base 64 Encoding就派上用场了。</p><p>Base64编码的作用：由于某些系统中只能使用ASCII字符。Base64就是用来将非ASCII字符的数据转换成ASCII字符的一种方法。它使用下面表中所使用的字符与编码。</p><p>而且base64特别适合在http，mime协议下快速传输数据。</p><p>base64其实不是安全领域下的加密解密算法。虽然有时候经常看到所谓的base64加密解密。其实base64只能算是一个编码算法，对数据内容进行编码来适合传输。虽然base64编码过后原文也变成不能看到的字符格式，但是这种方式很初级，很简单。</p><p>X.509公钥证书也好，电子邮件数据也好，经常要用到Base64编码，那么为什么要作一下这样的编码呢？</p><p>我们知道在计算机中任何数据都是按ascii码存储的，而ascii码的128～255之间的值是不可见字符。而在网络上交换数据时，比如说从A地传到B地，往往要经过多个路由设备，由于不同的设备对字符的处理方式有一些不同，这样那些不可见字符就有可能被处理错误，这是不利于传输的。所以就先把数据先做一个Base64编码，统统变成可见字符，这样出错的可能性就大降低了。</p><p>如一个xml当中包含另一个xml数据，此时如果将xml数据直接写入显然不合适，将xml进行适当编码存入较为方便，事实上xml当中的字符一般都是可见字符（0-127之间），但是由于中文的存在，可能存在不可见字符，直接将字符打印在外层xml的数据中显然不合理，那么怎么办呢？<br>可以使用base64进行编码，然后存入xml，解码反之<br>其实还有个办法，将byte的值写在xml当中，空格或者，分开，这样也可以将byte数据传入，不过这样更浪费空间，并且不易保存.</p><p>另一个，比如http协议当中的key value字段，必须进行URLEncode 不然出现的等号可能使解析失败 空格也会使http请求解析出现问题，比如 请求行就是以空格来划分的 POST /guowuxin/hehe HTTP/1.1</p><p>又比如有些文本协议不支持不可见字符的传递，只能用大于32的可见字符来传递信息（协议规定）</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;最重要的是&lt;/p&gt;
+&lt;p&gt;1.便于网络传输。&lt;/p&gt;
+&lt;p&gt;2.不可见性。&lt;/p&gt;
+&lt;p&gt;（一）Encoding VS. Encryption&lt;/p&gt;
+&lt;p&gt;很多人都以为编码（Encoding）和加密（Encryption）是同一个意思。编码和加密都是对格式的一种转换，但是
+      
+    
+    </summary>
+    
+      <category term="C++" scheme="http://yoursite.com/categories/C/"/>
+    
+    
+      <category term="base64" scheme="http://yoursite.com/tags/base64/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Welcome To Use Hexo</title>
-    <link href="http://fangyanwei.github.io/2018/06/13/welcome_to_hexo/"/>
-    <id>http://fangyanwei.github.io/2018/06/13/welcome_to_hexo/</id>
+    <link href="http://yoursite.com/2018/06/13/welcome_to_hexo/"/>
+    <id>http://yoursite.com/2018/06/13/welcome_to_hexo/</id>
     <published>2018-06-13T15:24:42.184Z</published>
     <updated>2018-06-13T15:47:57.823Z</updated>
     
@@ -39,8 +68,8 @@
   
   <entry>
     <title>Markdown语法整理</title>
-    <link href="http://fangyanwei.github.io/2018/06/12/markdown-introduce/"/>
-    <id>http://fangyanwei.github.io/2018/06/12/markdown-introduce/</id>
+    <link href="http://yoursite.com/2018/06/12/markdown-introduce/"/>
+    <id>http://yoursite.com/2018/06/12/markdown-introduce/</id>
     <published>2018-06-12T15:00:39.000Z</published>
     <updated>2018-06-13T15:38:55.106Z</updated>
     
@@ -56,10 +85,10 @@
     
     </summary>
     
-      <category term="github" scheme="http://fangyanwei.github.io/categories/github/"/>
+      <category term="github" scheme="http://yoursite.com/categories/github/"/>
     
     
-      <category term="markdown" scheme="http://fangyanwei.github.io/tags/markdown/"/>
+      <category term="markdown" scheme="http://yoursite.com/tags/markdown/"/>
     
   </entry>
   
