@@ -75,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="richeditbox," />
 
 
 
@@ -88,17 +88,21 @@
 
 
 
-<meta name="description" content="今天很残酷，明天更残酷，后天很美好，但是大部分的人都是死在了明天晚上">
-<meta name="keywords" content="fangyanwei">
-<meta property="og:type" content="website">
-<meta property="og:title" content="fangyanwei的博客">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="1.现象分析输入一段文本：你#901好其中#901会被解析成表情，表情尺寸是35*35，字体大概是22*22,解析后好字向下偏移了大概（35-22）/2个像素，所以在draw的时候要把这个偏移值加上。 2.解决方案这个函数的作用是将文本中的表情符号解析出来123456789101112131415161718192021222324252627282930313233343536373839404">
+<meta name="keywords" content="richeditbox">
+<meta property="og:type" content="article">
+<meta property="og:title" content="修复富文本在插入表情后后面文字没上下对齐问题">
+<meta property="og:url" content="http://yoursite.com/2018/07/10/fix-richeditbox-not-allign-after-using-emotion/index.html">
 <meta property="og:site_name" content="fangyanwei的博客">
-<meta property="og:description" content="今天很残酷，明天更残酷，后天很美好，但是大部分的人都是死在了明天晚上">
+<meta property="og:description" content="1.现象分析输入一段文本：你#901好其中#901会被解析成表情，表情尺寸是35*35，字体大概是22*22,解析后好字向下偏移了大概（35-22）/2个像素，所以在draw的时候要把这个偏移值加上。 2.解决方案这个函数的作用是将文本中的表情符号解析出来123456789101112131415161718192021222324252627282930313233343536373839404">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="c:/Users/Administrator/Desktop/1.png">
+<meta property="og:image" content="c:/Users/Administrator/Desktop/2.png">
+<meta property="og:updated_time" content="2018-07-10T14:36:03.805Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="fangyanwei的博客">
-<meta name="twitter:description" content="今天很残酷，明天更残酷，后天很美好，但是大部分的人都是死在了明天晚上">
+<meta name="twitter:title" content="修复富文本在插入表情后后面文字没上下对齐问题">
+<meta name="twitter:description" content="1.现象分析输入一段文本：你#901好其中#901会被解析成表情，表情尺寸是35*35，字体大概是22*22,解析后好字向下偏移了大概（35-22）/2个像素，所以在draw的时候要把这个偏移值加上。 2.解决方案这个函数的作用是将文本中的表情符号解析出来123456789101112131415161718192021222324252627282930313233343536373839404">
+<meta name="twitter:image" content="c:/Users/Administrator/Desktop/1.png">
 
 
 
@@ -128,13 +132,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/07/10/fix-richeditbox-not-allign-after-using-emotion/"/>
 
 
 
 
 
-  <title>fangyanwei的博客</title>
+  <title>修复富文本在插入表情后后面文字没上下对齐问题 | fangyanwei的博客</title>
   
 
 
@@ -153,8 +157,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 	
 	<a href="https://github.com/fangyanwei"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub"></a>
@@ -229,9 +232,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -261,9 +264,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/10/fix-richeditbox-not-allign-after-using-emotion/" itemprop="url">修复富文本在插入表情后后面文字没上下对齐问题</a></h1>
+          <h1 class="post-title" itemprop="name headline">修复富文本在插入表情后后面文字没上下对齐问题</h1>
         
 
         <div class="post-meta">
@@ -366,15 +367,11 @@
       
 
       
-        
-          
-            <h1 id="1-现象分析"><a href="#1-现象分析" class="headerlink" title="1.现象分析"></a>1.现象分析</h1><p><img src="C:\Users\Administrator\Desktop\1.png" alt="before_fix"><br>输入一段文本：你#901好<br>其中#901会被解析成表情，表情尺寸是35*35，字体大概是22*22,解析后好字向下偏移了大概（35-22）/2个像素，所以在draw的时候要把这个偏移值加上。</p>
+        <h1 id="1-现象分析"><a href="#1-现象分析" class="headerlink" title="1.现象分析"></a>1.现象分析</h1><p><img src="C:\Users\Administrator\Desktop\1.png" alt="before_fix"><br>输入一段文本：你#901好<br>其中#901会被解析成表情，表情尺寸是35*35，字体大概是22*22,解析后好字向下偏移了大概（35-22）/2个像素，所以在draw的时候要把这个偏移值加上。</p>
 <h1 id="2-解决方案"><a href="#2-解决方案" class="headerlink" title="2.解决方案"></a>2.解决方案</h1><p>这个函数的作用是将文本中的表情符号解析出来<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br></pre></td><td class="code"><pre><span class="line">void RichEditbox::ParseControlText() //\u03A9????\u00F7\u2211?\uFFE5? \u03A9???#\u03BC???\u03A9??\u2030??\u2013\u2248?\uFFE0</span><br><span class="line">&#123;</span><br><span class="line">	//return;  //\u2018??\u00B1?\uFFE0??\u03BC\u00F9 </span><br><span class="line"></span><br><span class="line">	for (size_t i=0;i&lt;d_FormatedComponents.size();++i)</span><br><span class="line">	&#123;</span><br><span class="line">		if (d_FormatedComponents[i]-&gt;GetType()==RichEditboxComponentType_Text)</span><br><span class="line">		&#123;</span><br><span class="line">			RichEditboxTextComponent* pTextCpn=(RichEditboxTextComponent*)d_FormatedComponents[i];</span><br><span class="line">			if (pTextCpn)</span><br><span class="line">			&#123;</span><br><span class="line">				bool bIsCaratOnCpn=(i==d_caratPos.d_ComponentIndex)?true:false;</span><br><span class="line">				size_t newCaratIdx=d_caratPos.d_ComponentIndex;</span><br><span class="line">				size_t newCaratOffset=d_caratPos.d_ComponentOffset;</span><br><span class="line">				bool bChange=false;</span><br><span class="line">				String newText(&quot;&quot;);</span><br><span class="line">				bool bWaitForEmotionNum=false;</span><br><span class="line">				RichEditboxComponent* pNewCpn=pTextCpn-&gt;ParseControlText(bIsCaratOnCpn,i,d_caratPos.d_ComponentIndex,</span><br><span class="line">					d_caratPos.d_ComponentOffset,newCaratIdx,newCaratOffset,bChange,newText,bWaitForEmotionNum,d_AccceptEmotion);</span><br><span class="line"></span><br><span class="line">				d_WaitEmotionNum=bWaitForEmotionNum; //??\u2211\u00F2??\u2018?\u03BC?\uFFE5?\u00B1\u00EC?\u00E8?\u2030??</span><br><span class="line"></span><br><span class="line">				if (!bChange)</span><br><span class="line">				&#123;</span><br><span class="line">					continue;</span><br><span class="line">				&#125;</span><br><span class="line"></span><br><span class="line">				if (pNewCpn&amp;&amp;pNewCpn-&gt;GetType()==RichEditboxComponentType_Emotion)</span><br><span class="line">				&#123;</span><br><span class="line">					RichEditboxEmotionComponent* pEmotionCpn=(RichEditboxEmotionComponent*)pNewCpn;</span><br><span class="line">					pEmotionCpn-&gt;SetScale(d_EmotionScale);</span><br><span class="line">				&#125;</span><br><span class="line">				size_t inserIdx=i;</span><br><span class="line">				</span><br><span class="line">				RichEditboxTextComponent* pNewTextCpn=NULL;</span><br><span class="line"></span><br><span class="line">				if (!newText.empty())</span><br><span class="line">				&#123;</span><br><span class="line">					pNewTextCpn=new RichEditboxTextComponent;</span><br><span class="line">					pNewTextCpn-&gt;setText(newText);</span><br><span class="line">					pNewTextCpn-&gt;setFont(pTextCpn-&gt;getFont());</span><br><span class="line">					pNewTextCpn-&gt;setColours(pTextCpn-&gt;getColours());</span><br><span class="line"></span><br><span class="line">					float componentHeight = pNewTextCpn-&gt;getPixelSize().d_height;</span><br><span class="line">					float emotionHeight = pNewCpn-&gt;getPixelSize().d_height;</span><br><span class="line">					float yOffset = -(emotionHeight - componentHeight) / 2;</span><br><span class="line">					pNewTextCpn-&gt;SetYOffset(yOffset);</span><br><span class="line">				&#125;</span><br><span class="line">				bool bFirstEmotion = false;</span><br><span class="line">				if (pTextCpn-&gt;getText().empty())</span><br><span class="line">				&#123;</span><br><span class="line">					DelComponent(pTextCpn,true);</span><br><span class="line">					//d_FormatedComponents.erase(d_FormatedComponents.begin()+i);</span><br><span class="line"></span><br><span class="line">					//FYW 2018.5.2 修复表情是第0个插入错误问题  inserIdx=i&gt;0?(i-1):0;</span><br><span class="line">					if (i&gt;0)</span><br><span class="line">					&#123;</span><br><span class="line">						inserIdx = i - 1;</span><br><span class="line">					&#125; </span><br><span class="line">					else</span><br><span class="line">					&#123;</span><br><span class="line">						inserIdx = 0;</span><br><span class="line">						bFirstEmotion = true;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">				if (pNewCpn)</span><br><span class="line">				&#123;</span><br><span class="line">					size_t idx=inserIdx+1;</span><br><span class="line">					if (idx&gt;=d_FormatedComponents.size()&amp;&amp;!bFirstEmotion)</span><br><span class="line">					&#123;</span><br><span class="line">						d_FormatedComponents.push_back(pNewCpn);</span><br><span class="line">					&#125;else</span><br><span class="line">					&#123;</span><br><span class="line">						if (bFirstEmotion)</span><br><span class="line">						&#123;</span><br><span class="line">							d_FormatedComponents.insert(d_FormatedComponents.begin(), pNewCpn);</span><br><span class="line">						&#125; </span><br><span class="line">						else</span><br><span class="line">						&#123;</span><br><span class="line">							d_FormatedComponents.insert(d_FormatedComponents.begin() + idx, pNewCpn);</span><br><span class="line">						&#125;</span><br><span class="line">					&#125;</span><br><span class="line">					</span><br><span class="line">				&#125;</span><br><span class="line"></span><br><span class="line">				if (pNewTextCpn)</span><br><span class="line">				&#123;</span><br><span class="line"></span><br><span class="line">					size_t idx=inserIdx+2;</span><br><span class="line">					if (idx&gt;=d_FormatedComponents.size()&amp;&amp;!bFirstEmotion)</span><br><span class="line">					&#123;</span><br><span class="line">						d_FormatedComponents.push_back(pNewTextCpn);</span><br><span class="line">					&#125;else</span><br><span class="line">					&#123;</span><br><span class="line">						if (bFirstEmotion)</span><br><span class="line">						&#123;</span><br><span class="line">							d_FormatedComponents.insert(d_FormatedComponents.begin() + (idx-1), pNewTextCpn);</span><br><span class="line">						&#125; </span><br><span class="line">						else</span><br><span class="line">						&#123;</span><br><span class="line">							d_FormatedComponents.insert(d_FormatedComponents.begin() + idx, pNewTextCpn);</span><br><span class="line">						&#125;</span><br><span class="line">						</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">				</span><br><span class="line">				d_caratPos.d_ComponentIndex=newCaratIdx;</span><br><span class="line">				d_caratPos.d_ComponentOffset=newCaratOffset;</span><br><span class="line">				</span><br><span class="line">				i=inserIdx;</span><br><span class="line">				</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>然后在富文本的渲染类中设置偏移(部分代码)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">if (FormatComponents[i]-&gt;isTextType())</span><br><span class="line">&#123;</span><br><span class="line">    float textYOffset=w-&gt;GetTextYOffset();//这是获取整个富文本的偏移</span><br><span class="line">    pos.d_y+=textYOffset;</span><br><span class="line">    textYOffset = FormatComponents[i]-&gt;GetYOffset();//获取某个组件的偏移</span><br><span class="line">    pos.d_y += textYOffset;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"> //文字是否居中</span><br><span class="line"> if (w-&gt;getTextLineVertCenter())&#123;</span><br><span class="line">     pos.d_y += ((dest_area.d_bottom - dest_area.d_top) - w-&gt;GetExtendSize().d_height) / 2.0;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line">if (w-&gt;getTextLineHoriCenter())&#123;</span><br><span class="line">    pos.d_x += ((dest_area.d_right - dest_area.d_left) - w-&gt;GetExtendSize().d_width)/2.0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"> FormatComponents[i]-&gt;draw(w-&gt;getGeometryBuffer(),</span><br><span class="line">     pos,</span><br><span class="line">     &amp;final_cols, &amp;dest_area,vertOffset,0.0f,bTextBorder);</span><br><span class="line"></span><br><span class="line"> DrawWidth+=componentsize.d_width;</span><br></pre></td></tr></table></figure></p>
 <p>修复后效果：<br><img src="C:\Users\Administrator\Desktop\2.png" alt="after_fix"></p>
 
-          
-        
       
     </div>
     
@@ -383,9 +380,46 @@
 	
 	<div>
 	  
+		<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+	  
 	</div>
 	
 	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2018/07/10/fix-richeditbox-not-allign-after-using-emotion/">修复富文本在插入表情后后面文字没上下对齐问题</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Fang Yanwei 的个人博客">Fang Yanwei</a></p>
+  <p><span>发布时间:</span>2018年07月10日 - 22:07</p>
+  <p><span>最后更新:</span>2018年07月10日 - 22:07</p>
+  <p><span>原始链接:</span><a href="/2018/07/10/fix-richeditbox-not-allign-after-using-emotion/" title="修复富文本在插入表情后后面文字没上下对齐问题">http://yoursite.com/2018/07/10/fix-richeditbox-not-allign-after-using-emotion/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/2018/07/10/fix-richeditbox-not-allign-after-using-emotion/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+      $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+        });
+    });  
+</script>
+
       
 	</div>
 
@@ -397,567 +431,36 @@
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/16/base64-encode/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Fang Yanwei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="fangyanwei的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/06/16/base64-encode/" itemprop="url">Base64编码及其作用</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-16T13:11:42+08:00">
-                2018-06-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/C/" itemprop="url" rel="index">
-                    <span itemprop="name">C++</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
+            <a href="/tags/richeditbox/" rel="tag"><i class="fa fa-tag"></i> richeditbox</a>
           
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  879
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  3
-                </span>
-              
-            </div>
-          
-
-          
-
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>最重要的是</p>
-<p>1.便于网络传输。</p>
-<p>2.不可见性。</p>
-<p>（一）Encoding VS. Encryption</p>
-<p>很多人都以为编码（Encoding）和加密（Encryption）是同一个意思。编码和加密都是对格式的一种转换，但是它们是有区别的。编码是 公开的，比如下面要介绍的Base 64编码，任何人都可以解码；而加密则相反，你只希望自己或者特定的人才可以对内容进行解密。</p>
-<p>（二）Base 64编码</p>
-<p>Base 64 Encoding有什么用？举个简单的例子，你使用SMTP协议 （Simple Mail Transfer Protocol 简单邮件传输协议）来发送邮件。因为这个协议是基于文本的协议，所以如果邮件中包含一幅图片，我们知道图片的存储格式是二进制数据（binary data），而非文本格式，我们必须将二进制的数据编码成文本格式，这时候Base 64 Encoding就派上用场了。</p>
-<p>Base64编码的作用：由于某些系统中只能使用ASCII字符。Base64就是用来将非ASCII字符的数据转换成ASCII字符的一种方法。它使用下面表中所使用的字符与编码。</p>
-<p>而且base64特别适合在http，mime协议下快速传输数据。</p>
-<p>base64其实不是安全领域下的加密解密算法。虽然有时候经常看到所谓的base64加密解密。其实base64只能算是一个编码算法，对数据内容进行编码来适合传输。虽然base64编码过后原文也变成不能看到的字符格式，但是这种方式很初级，很简单。</p>
-<p>X.509公钥证书也好，电子邮件数据也好，经常要用到Base64编码，那么为什么要作一下这样的编码呢？</p>
-<p>我们知道在计算机中任何数据都是按ascii码存储的，而ascii码的128～255之间的值是不可见字符。而在网络上交换数据时，比如说从A地传到B地，往往要经过多个路由设备，由于不同的设备对字符的处理方式有一些不同，这样那些不可见字符就有可能被处理错误，这是不利于传输的。所以就先把数据先做一个Base64编码，统统变成可见字符，这样出错的可能性就大降低了。</p>
-<p>如一个xml当中包含另一个xml数据，此时如果将xml数据直接写入显然不合适，将xml进行适当编码存入较为方便，事实上xml当中的字符一般都是可见字符（0-127之间），但是由于中文的存在，可能存在不可见字符，直接将字符打印在外层xml的数据中显然不合理，那么怎么办呢？<br>可以使用base64进行编码，然后存入xml，解码反之<br>其实还有个办法，将byte的值写在xml当中，空格或者，分开，这样也可以将byte数据传入，不过这样更浪费空间，并且不易保存.</p>
-<p>另一个，比如http协议当中的key value字段，必须进行URLEncode 不然出现的等号可能使解析失败 空格也会使http请求解析出现问题，比如 请求行就是以空格来划分的 POST /guowuxin/hehe HTTP/1.1</p>
-<p>又比如有些文本协议不支持不可见字符的传递，只能用大于32的可见字符来传递信息（协议规定）</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-	
-	<div>
-	  
-	</div>
-	
-	<div>
-      
-	</div>
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
       
 
       
       
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
       
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/13/welcome_to_hexo/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Fang Yanwei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="fangyanwei的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/06/13/welcome_to_hexo/" itemprop="url">Welcome To Use Hexo</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-13T23:24:42+08:00">
-                2018-06-13
-              </time>
+              <a href="/2018/06/16/base64-encode/" rel="next" title="Base64编码及其作用">
+                <i class="fa fa-chevron-left"></i> Base64编码及其作用
+              </a>
             
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  102
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  1
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<h3 id="生成文件本地预览"><a href="#生成文件本地预览" class="headerlink" title="生成文件本地预览"></a>生成文件本地预览</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$ hexo s -g</span><br></pre></td></tr></table></figure>
-<h3 id="生成文件发布"><a href="#生成文件发布" class="headerlink" title="生成文件发布"></a>生成文件发布</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$ hexo d -g</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-	
-	<div>
-	  
-	</div>
-	
-	<div>
-      
-	</div>
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/12/markdown-introduce/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Fang Yanwei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="fangyanwei的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/06/12/markdown-introduce/" itemprop="url">Markdown语法整理</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-12T23:00:39+08:00">
-                2018-06-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/github/" itemprop="url" rel="index">
-                    <span itemprop="name">github</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  1,197
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  5
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="1-标题"><a href="#1-标题" class="headerlink" title="1.标题"></a>1.标题</h1><h2 id="第一种写法："><a href="#第一种写法：" class="headerlink" title="第一种写法："></a>第一种写法：</h2><p>总共有6级标题，分别用1~6个# 加空格 加内容，如：</p>
-<h1 id="我是一级标题"><a href="#我是一级标题" class="headerlink" title="我是一级标题"></a>我是一级标题</h1><h2 id="我是二级标题"><a href="#我是二级标题" class="headerlink" title="我是二级标题"></a>我是二级标题</h2><h3 id="我是三级标题"><a href="#我是三级标题" class="headerlink" title="我是三级标题"></a>我是三级标题</h3><h4 id="我是四级标题"><a href="#我是四级标题" class="headerlink" title="我是四级标题"></a>我是四级标题</h4><h5 id="我是五级标题"><a href="#我是五级标题" class="headerlink" title="我是五级标题"></a>我是五级标题</h5><h6 id="我是六级标题"><a href="#我是六级标题" class="headerlink" title="我是六级标题"></a>我是六级标题</h6><p>####### 这是错误的示例</p>
-<h2 id="第二种写法："><a href="#第二种写法：" class="headerlink" title="第二种写法："></a>第二种写法：</h2><h1 id="这是一级标题"><a href="#这是一级标题" class="headerlink" title="这是一级标题"></a>这是一级标题</h1><h2 id="这是二级标题"><a href="#这是二级标题" class="headerlink" title="这是二级标题"></a>这是二级标题</h2><p>这种方式好像只能表示一级和二级标题，而且=和-的数量没有限制，只要大于一个就行，但是兼容性好像不太好</p>
-<p>##第三种写法：</p>
-<h1 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h1><h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><h3 id="三级标题"><a href="#三级标题" class="headerlink" title="三级标题"></a>三级标题</h3><h4 id="四级标题"><a href="#四级标题" class="headerlink" title="四级标题"></a>四级标题</h4><h5 id="五级标题"><a href="#五级标题" class="headerlink" title="五级标题"></a>五级标题</h5><h6 id="六级标题"><a href="#六级标题" class="headerlink" title="六级标题"></a>六级标题</h6><p>那既然3种都可以使用，可不可以混合使用呢？我试了一下，是可以的，但是为了让页面标签的统一性，不建议混合使用，推荐使用第一种，比较简洁，全面</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/06/12/markdown-introduce/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
           </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-	
-	<div>
-	  
-	</div>
-	
-	<div>
-      
-	</div>
 
-    
+          <span class="post-nav-divider"></span>
 
-    
-
-    
-
-    <footer class="post-footer">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
       
 
       
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -967,10 +470,37 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
 
 
           </div>
@@ -978,6 +508,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -998,8 +532,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -1076,6 +619,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-现象分析"><span class="nav-number">1.</span> <span class="nav-text">1.现象分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-解决方案"><span class="nav-number">2.</span> <span class="nav-text">2.解决方案</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -1246,6 +805,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
