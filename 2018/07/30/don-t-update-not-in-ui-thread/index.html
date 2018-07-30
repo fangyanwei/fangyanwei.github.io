@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-corner-indicator.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="多线程," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="fangyanwei的博客" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="#问题1项目中有个空间功能，可以根据玩家的喜好设置图片作为自己的头像，实现是启动一个线程去拿到玩家设置的图片，然后显示到UI的头像部分。但是不幸的是在安卓中，当拿到照片后显示上去却是黑的。 #问题2项目中接入了ijkplayer实现了直播功能，ijk底层是启动了多个线程在不停的处理语音和视频数据，因频繁的点击开启和关闭容易导致闪退，所以加了个处理，开启后ijk没初始化好是不允许关闭的，初始化好后通">
+<meta name="keywords" content="多线程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="不要在非UI线程中做更新UI的操作">
+<meta property="og:url" content="http://yoursite.com/2018/07/30/don-t-update-not-in-ui-thread/index.html">
+<meta property="og:site_name" content="fangyanwei的博客">
+<meta property="og:description" content="#问题1项目中有个空间功能，可以根据玩家的喜好设置图片作为自己的头像，实现是启动一个线程去拿到玩家设置的图片，然后显示到UI的头像部分。但是不幸的是在安卓中，当拿到照片后显示上去却是黑的。 #问题2项目中接入了ijkplayer实现了直播功能，ijk底层是启动了多个线程在不停的处理语音和视频数据，因频繁的点击开启和关闭容易导致闪退，所以加了个处理，开启后ijk没初始化好是不允许关闭的，初始化好后通">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-07-30T16:36:48.036Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="不要在非UI线程中做更新UI的操作">
+<meta name="twitter:description" content="#问题1项目中有个空间功能，可以根据玩家的喜好设置图片作为自己的头像，实现是启动一个线程去拿到玩家设置的图片，然后显示到UI的头像部分。但是不幸的是在安卓中，当拿到照片后显示上去却是黑的。 #问题2项目中接入了ijkplayer实现了直播功能，ijk底层是启动了多个线程在不停的处理语音和视频数据，因频繁的点击开启和关闭容易导致闪退，所以加了个处理，开启后ijk没初始化好是不允许关闭的，初始化好后通">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/07/30/don-t-update-not-in-ui-thread/"/>
+
+
+
+
+
+  <title>不要在非UI线程中做更新UI的操作 | fangyanwei的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	
+	<a href="https://github.com/fangyanwei"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">fangyanwei的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">不念过往，不惧未来</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/30/don-t-update-not-in-ui-thread/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Fang Yanwei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="fangyanwei的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">不要在非UI线程中做更新UI的操作</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-30T23:45:10+08:00">
+                2018-07-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1,778
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  10
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>#问题1<br>项目中有个空间功能，可以根据玩家的喜好设置图片作为自己的头像，实现是启动一个线程去拿到玩家设置的图片，然后显示到UI的头像部分。但是不幸的是在安卓中，当拿到照片后显示上去却是黑的。</p>
+<p>#问题2<br>项目中接入了ijkplayer实现了直播功能，ijk底层是启动了多个线程在不停的处理语音和视频数据，因频繁的点击开启和关闭容易导致闪退，所以加了个处理，开启后ijk没初始化好是不允许关闭的，初始化好后通知游戏做些UI的更新操作，这一步也很容易导致闪退。</p>
+<p>谷歌之后发现是在非UI线程中做了UI更新的操作导致的，为了加深理解特写了一个使用Thread异步下载图像的deamon。</p>
+<a id="more"></a> 
+<p>因为需要访问网络，所以要在 AndroidManifest.xml 中添加网络访问权限：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.INTERNET"</span> /&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>布局文件很简单，一个 Button，一个 ImageView：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:padding</span>=<span class="string">"10dip"</span> &gt;</span></span><br><span class="line"> </span><br><span class="line">	<span class="tag">&lt;<span class="name">Button</span></span></span><br><span class="line"><span class="tag">		<span class="attr">android:id</span>=<span class="string">"@+id/LoadButton"</span></span></span><br><span class="line"><span class="tag">		<span class="attr">android:layout_width</span>=<span class="string">"fill_parent"</span></span></span><br><span class="line"><span class="tag">		<span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">		<span class="attr">android:text</span>=<span class="string">"Load"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">Button</span>&gt;</span></span><br><span class="line"> </span><br><span class="line">	<span class="tag">&lt;<span class="name">ImageView</span></span></span><br><span class="line"><span class="tag">		<span class="attr">android:id</span>=<span class="string">"@+id/ImageVivew"</span> </span></span><br><span class="line"><span class="tag">		<span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span> </span></span><br><span class="line"><span class="tag">		<span class="attr">android:layout_height</span>=<span class="string">"400dip"</span> </span></span><br><span class="line"><span class="tag">		<span class="attr">android:scaleType</span>=<span class="string">"centerInside"</span> </span></span><br><span class="line"><span class="tag">		<span class="attr">android:padding</span>=<span class="string">"2dp"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">ImageView</span>&gt;</span> </span><br><span class="line">	</span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>首先来看定义：图片的 url 路径，两个消息值以及一些控件：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br></pre></td><td class="code"><pre><span class="line">   <span class="keyword">package</span> com.vivian.asynctasktest;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"><span class="keyword">import</span> java.lang.ref.WeakReference;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.os.Handler;</span><br><span class="line"><span class="keyword">import</span> android.os.Message;</span><br><span class="line"><span class="keyword">import</span> android.app.Activity;</span><br><span class="line"><span class="keyword">import</span> android.app.ProgressDialog;</span><br><span class="line"><span class="keyword">import</span> android.graphics.Bitmap;</span><br><span class="line"><span class="keyword">import</span> android.graphics.BitmapFactory;</span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"><span class="keyword">import</span> android.view.Menu;</span><br><span class="line"><span class="keyword">import</span> android.view.View;</span><br><span class="line"><span class="keyword">import</span> android.widget.Button;</span><br><span class="line"><span class="keyword">import</span> android.widget.ImageView;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String sImageUrl = <span class="string">"http://fashion.qqread.com/ArtImage/20110225/0083_13.jpg"</span>;</span><br><span class="line">    </span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MSG_LOAD_SUCCESS = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MSG_LOAD_FAILURE = <span class="number">1</span>;</span><br><span class="line">	</span><br><span class="line">    <span class="keyword">private</span> Button mLoadButton;</span><br><span class="line">    <span class="keyword">private</span> ProgressDialog mProgressBar;</span><br><span class="line">    <span class="keyword">private</span> ImageView mImageView;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MyHandler</span> <span class="keyword">extends</span> <span class="title">Handler</span></span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> WeakReference&lt;MainActivity&gt; mActivity;</span><br><span class="line">        </span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">MyHandler</span><span class="params">(MainActivity activity)</span> </span>&#123;</span><br><span class="line">          mActivity = <span class="keyword">new</span> WeakReference&lt;MainActivity&gt;(activity);</span><br><span class="line">        &#125;</span><br><span class="line">            </span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(Message msg)</span> </span>&#123;</span><br><span class="line">        	MainActivity activity = mActivity.get();</span><br><span class="line">          <span class="keyword">if</span> (activity != <span class="keyword">null</span>) &#123;</span><br><span class="line">        	  Log.i(<span class="string">"UI thread"</span>, <span class="string">" &gt;&gt; handleMessage()"</span>);</span><br><span class="line">          	</span><br><span class="line">              <span class="keyword">switch</span>(msg.what)&#123;</span><br><span class="line">              <span class="keyword">case</span> MSG_LOAD_SUCCESS:</span><br><span class="line">              	Bitmap bitmap = (Bitmap) msg.obj;</span><br><span class="line">              	activity.mImageView.setImageBitmap(bitmap);</span><br><span class="line">                  </span><br><span class="line">              	activity.mProgressBar.setProgress(<span class="number">100</span>);</span><br><span class="line">              	activity.mProgressBar.setMessage(<span class="string">"Image downloading success!"</span>);</span><br><span class="line">              	activity.mProgressBar.dismiss();</span><br><span class="line">                  <span class="keyword">break</span>;</span><br><span class="line">                  </span><br><span class="line">              <span class="keyword">case</span> MSG_LOAD_FAILURE:</span><br><span class="line">            	  activity.mProgressBar.setMessage(<span class="string">"Image downloading failure!"</span>);</span><br><span class="line">            	  activity.mProgressBar.dismiss();</span><br><span class="line">              	<span class="keyword">break</span>;</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">		</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> MyHandler mHandler = <span class="keyword">new</span> MyHandler(<span class="keyword">this</span>);</span><br><span class="line">    </span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">		setContentView(R.layout.activity_main);</span><br><span class="line">		</span><br><span class="line">		Log.i(<span class="string">"UI thread"</span>, <span class="string">" &gt;&gt; onCreate()"</span>);</span><br><span class="line">		</span><br><span class="line">		mProgressBar = <span class="keyword">new</span> ProgressDialog(<span class="keyword">this</span>);</span><br><span class="line">		mProgressBar.setCancelable(<span class="keyword">true</span>);</span><br><span class="line">		mProgressBar.setMessage(<span class="string">"Image downloading ..."</span>);</span><br><span class="line">		mProgressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);</span><br><span class="line">		mProgressBar.setMax(<span class="number">100</span>);</span><br><span class="line">		</span><br><span class="line">		mImageView = (ImageView)<span class="keyword">this</span>.findViewById(R.id.ImageVivew);</span><br><span class="line">		</span><br><span class="line">		mLoadButton = (Button)<span class="keyword">this</span>.findViewById(R.id.LoadButton);</span><br><span class="line">		mLoadButton.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span> </span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">        		mProgressBar.setProgress(<span class="number">0</span>);</span><br><span class="line">        		mProgressBar.show();</span><br><span class="line">        		</span><br><span class="line">        		<span class="keyword">new</span> Thread() &#123;</span><br><span class="line">        			<span class="meta">@Override</span></span><br><span class="line">        			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        				Log.i(<span class="string">"Load thread"</span>, <span class="string">" &gt;&gt; run()"</span>);</span><br><span class="line">                        Bitmap bitmap = loadImageFromUrl(sImageUrl);</span><br><span class="line">                        <span class="keyword">if</span>(bitmap != <span class="keyword">null</span>)</span><br><span class="line">                        &#123;</span><br><span class="line">                        	 mImageView.setImageBitmap(bitmap);</span><br><span class="line">                             mProgressBar.setProgress(<span class="number">100</span>);</span><br><span class="line">                             mProgressBar.setMessage(<span class="string">"Image downloading success!"</span>);</span><br><span class="line">                             mProgressBar.dismiss();</span><br><span class="line">                        &#125;</span><br><span class="line"><span class="comment">//（1）                        </span></span><br><span class="line"><span class="comment">//                        if (bitmap != null) &#123;</span></span><br><span class="line"><span class="comment">//                        	Message msg = mHandler.obtainMessage(MSG_LOAD_SUCCESS, bitmap);</span></span><br><span class="line"><span class="comment">//                        	mHandler.sendMessage(msg);</span></span><br><span class="line"><span class="comment">//                        &#125;</span></span><br><span class="line"><span class="comment">//                        else &#123;</span></span><br><span class="line"><span class="comment">//                        	Message msg = mHandler.obtainMessage(MSG_LOAD_FAILURE, null);</span></span><br><span class="line"><span class="comment">//                        	mHandler.sendMessage(msg);</span></span><br><span class="line"><span class="comment">//                        &#125;</span></span><br><span class="line">        			&#125;</span><br><span class="line">        		&#125;.start();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onCreateOptionsMenu</span><span class="params">(Menu menu)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// Inflate the menu; this adds items to the action bar if it is present.</span></span><br><span class="line">		getMenuInflater().inflate(R.menu.main, menu);</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">static</span> Bitmap <span class="title">loadImageFromUrl</span><span class="params">(String uil)</span> </span>&#123;</span><br><span class="line">    	Bitmap bitmap = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            InputStream in = <span class="keyword">new</span> java.net.URL(sImageUrl).openStream();</span><br><span class="line">            bitmap = BitmapFactory.decodeStream(in);</span><br><span class="line">            in.close();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        	e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> bitmap;</span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line"><span class="comment">//(2)   </span></span><br><span class="line"><span class="comment">//    private Handler mHandler= new Handler()&#123;</span></span><br><span class="line"><span class="comment">//        @Override</span></span><br><span class="line"><span class="comment">//        public void handleMessage(Message msg) &#123;</span></span><br><span class="line"><span class="comment">//        	Log.i("UI thread", " &gt;&gt; handleMessage()");</span></span><br><span class="line"><span class="comment">//        	</span></span><br><span class="line"><span class="comment">//            switch(msg.what)&#123;</span></span><br><span class="line"><span class="comment">//            case MSG_LOAD_SUCCESS:</span></span><br><span class="line"><span class="comment">//            	Bitmap bitmap = (Bitmap) msg.obj;</span></span><br><span class="line"><span class="comment">//                mImageView.setImageBitmap(bitmap);</span></span><br><span class="line"><span class="comment">//                </span></span><br><span class="line"><span class="comment">//                mProgressBar.setProgress(100);</span></span><br><span class="line"><span class="comment">//                mProgressBar.setMessage("Image downloading success!");</span></span><br><span class="line"><span class="comment">//                mProgressBar.dismiss();</span></span><br><span class="line"><span class="comment">//                break;</span></span><br><span class="line"><span class="comment">//                </span></span><br><span class="line"><span class="comment">//            case MSG_LOAD_FAILURE:</span></span><br><span class="line"><span class="comment">//                mProgressBar.setMessage("Image downloading failure!");</span></span><br><span class="line"><span class="comment">//                mProgressBar.dismiss();</span></span><br><span class="line"><span class="comment">//            	break;</span></span><br><span class="line"><span class="comment">//            &#125;</span></span><br><span class="line"><span class="comment">//        &#125;</span></span><br><span class="line"><span class="comment">//    &#125;;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如果将（1）处的代码注释掉，直接在线程中做UI操作的话，程序会闪退。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">07-30 11:37:27.744: W/OpenGLRenderer(1825): --------- beginning of crash</span><br><span class="line">07-30 11:37:33.917: E/AndroidRuntime(1825): FATAL EXCEPTION: Thread-148</span><br><span class="line">07-30 11:37:33.917: E/AndroidRuntime(1825): Process: com.vivian.asynctasktest, PID: 1825</span><br><span class="line">07-30 11:37:33.917: E/AndroidRuntime(1825): android.view.ViewRootImpl$CalledFromWrongThreadException: Only the original thread that created a view hierarchy can touch its views.</span><br><span class="line">07-30 11:37:33.917: E/AndroidRuntime(1825): 	at android.view.ViewRootImpl.checkThread(ViewRootImpl.java:6556)</span><br><span class="line">07-30 11:37:33.917: E/AndroidRuntime(1825): 	at android.view.ViewRootImpl.requestLayout(ViewRootImpl.java:907)</span><br><span class="line">07-30 11:37:33.917: E/AndroidRuntime(1825): 	at android.view.View.requestLayout(View.java:18722)</span><br><span class="line">07-30 11:37:33.917: E/AndroidRuntime(1825): 	at android.view.View.requestLayout(View.java:18722)</span><br><span class="line">07-30 11:37:33.917: E/AndroidRuntime(1825): 	at android.view.View.requestLayout(View.java:18722)</span><br><span class="line">07-30 11:37:33.917: E/AndroidRuntime(1825): 	at android.view.View.requestLayout(View.java:18722)</span><br><span class="line">07-30 11:37:33.917: E/AndroidRuntime(1825): 	at android.view.View.requestLayout(View.java:18722)</span><br><span class="line">07-30 11:37:33.917: E/AndroidRuntime(1825): 	at android.widget.ImageView.setImageDrawable(ImageView.java:475)</span><br><span class="line">07-30 11:37:33.917: E/AndroidRuntime(1825): 	at android.widget.ImageView.setImageBitmap(ImageView.java:605)</span><br><span class="line">07-30 11:37:33.917: E/AndroidRuntime(1825): 	at com.vivian.asynctasktest.MainActivity$1$1.run(MainActivity.java:94)</span><br><span class="line">07-30 11:37:34.004: E/Surface(1825): getSlotFromBufferLocked: unknown buffer: 0xf3d54f40</span><br><span class="line">07-30 11:37:34.041: E/WindowManager(1825): android.view.WindowLeaked: Activity com.vivian.asynctasktest.MainActivity has leaked window com.android.internal.policy.PhoneWindow$DecorView&#123;c3a3678 V.E...... R....... 0,0-729,280&#125; that was originally added here</span><br><span class="line">07-30 11:37:34.041: E/WindowManager(1825): 	at android.view.ViewRootImpl.<span class="tag">&lt;<span class="name">init</span>&gt;</span>(ViewRootImpl.java:368)</span><br><span class="line">07-30 11:37:34.041: E/WindowManager(1825): 	at android.view.WindowManagerGlobal.addView(WindowManagerGlobal.java:299)</span><br><span class="line">07-30 11:37:34.041: E/WindowManager(1825): 	at android.view.WindowManagerImpl.addView(WindowManagerImpl.java:85)</span><br><span class="line">07-30 11:37:34.041: E/WindowManager(1825): 	at android.app.Dialog.show(Dialog.java:319)</span><br><span class="line">07-30 11:37:34.041: E/WindowManager(1825): 	at com.vivian.asynctasktest.MainActivity$1.onClick(MainActivity.java:85)</span><br><span class="line">07-30 11:37:34.041: E/WindowManager(1825): 	at android.view.View.performClick(View.java:5198)</span><br><span class="line">07-30 11:37:34.041: E/WindowManager(1825): 	at android.view.View$PerformClick.run(View.java:21147)</span><br><span class="line">07-30 11:37:34.041: E/WindowManager(1825): 	at android.os.Handler.handleCallback(Handler.java:739)</span><br><span class="line">07-30 11:37:34.041: E/WindowManager(1825): 	at android.os.Handler.dispatchMessage(Handler.java:95)</span><br><span class="line">07-30 11:37:34.041: E/WindowManager(1825): 	at android.os.Looper.loop(Looper.java:148)</span><br><span class="line">07-30 11:37:34.041: E/WindowManager(1825): 	at android.app.ActivityThread.main(ActivityThread.java:5417)</span><br><span class="line">07-30 11:37:34.041: E/WindowManager(1825): 	at java.lang.reflect.Method.invoke(Native Method)</span><br><span class="line">07-30 11:37:34.041: E/WindowManager(1825): 	at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:726)</span><br><span class="line">07-30 11:37:34.041: E/WindowManager(1825): 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:616)</span><br><span class="line">07-30 11:37:34.047: E/Surface(1825): getSlotFromBufferLocked: unknown buffer: 0xf3d55020</span><br><span class="line">07-30 11:42:33.995: I/Process(1825): Sending signal. PID: 1825 SIG: 9</span><br></pre></td></tr></table></figure></p>
+<p>而（2）处代码之所以注释起来，是因为有内存泄漏的风险，所以改用静态弱引用的方式。可参考：<br><a href="http://" target="_blank" rel="noopener">http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2014/1106/1922.html</a></p>
+<p>#总结<br>deamon采用在线程中给UI线程发消息的机制，成功实现异步下载图像。</p>
+<p>所以项目中的两个问题都可以在线程中准备好图片或者是可以开始播放电台后不立即做UI操作，而是发个消息，或者是保存一个状态，等到下一帧渲染UI的时候再做处理。</p>
+<p>另外，对于安卓多线程的问题，这位大神总结的很好，看了获益匪浅。以下是传送门<br><a href="http://" target="_blank" rel="noopener">https://blog.csdn.net/kesalin/article/details/37659547</a></p>
+
+      
+    </div>
+    
+    
+    
+	
+	<div>
+	  
+		<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+	  
+	</div>
+	
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2018/07/30/don-t-update-not-in-ui-thread/">不要在非UI线程中做更新UI的操作</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Fang Yanwei 的个人博客">Fang Yanwei</a></p>
+  <p><span>发布时间:</span>2018年07月30日 - 23:07</p>
+  <p><span>最后更新:</span>2018年07月31日 - 00:07</p>
+  <p><span>原始链接:</span><a href="/2018/07/30/don-t-update-not-in-ui-thread/" title="不要在非UI线程中做更新UI的操作">http://yoursite.com/2018/07/30/don-t-update-not-in-ui-thread/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/2018/07/30/don-t-update-not-in-ui-thread/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+      $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+        });
+    });  
+</script>
+
+      
+	</div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/多线程/" rel="tag"><i class="fa fa-tag"></i> 多线程</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/22/you-must-restart-adb-and-eclipse/" rel="next" title="you must restart adb and eclipse">
+                <i class="fa fa-chevron-left"></i> you must restart adb and eclipse
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Fang Yanwei</p>
+              <p class="site-description motion-element" itemprop="description">今天很残酷，明天更残酷，后天很美好，但是大部分的人都是死在了明天晚上</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/fangyanwei" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fang Yanwei</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">9.7k</span>
+  
+</div>
+
+
+	<div class="powered-by">
+		<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+		  本站访客数:<span id="busuanzi_value_site_uv"></span>
+		</span>
+	</div>
+
+  <!--
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+  -->
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共9.7k字</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
