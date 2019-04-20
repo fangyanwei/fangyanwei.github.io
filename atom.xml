@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-04-20T09:47:49.722Z</updated>
+  <updated>2019-04-20T10:40:36.099Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -21,17 +21,18 @@
     <link href="http://yoursite.com/2019/04/20/markdown-%E4%B8%89%E7%A7%8D%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E6%96%B9%E5%BC%8F/"/>
     <id>http://yoursite.com/2019/04/20/markdown-三种插入图片方式/</id>
     <published>2019-04-20T09:46:47.000Z</published>
-    <updated>2019-04-20T09:47:49.722Z</updated>
+    <updated>2019-04-20T10:40:36.099Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="1）插入本地图片"><a href="#1）插入本地图片" class="headerlink" title="1）插入本地图片"></a>1）插入本地图片</h2><p>只需要在基础语法的括号中填入图片的位置路径即可，支持绝对路径和相对路径。</p><p>例如：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![avatar](/user/desktop/doge.png)</span><br></pre></td></tr></table></figure><blockquote><p>缺点是不灵活不好分享，本地图片的路径更改或丢失都会造成markdown文件调不出图。</p></blockquote><p>不知为什么，我用的本地图片在编辑器上可以看到图片，但是发布出去后没显示出来。</p><h2 id="2-插入网络图片"><a href="#2-插入网络图片" class="headerlink" title="2)插入网络图片"></a>2)插入网络图片</h2><p>只需要在基础语法的括号中填入图片的网络链接即可，现在已经有很多免费/收费图床和方便传图的小工具可选。</p><p>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![avatar](http://baidu.com/pic/doge.png)</span><br></pre></td></tr></table></figure></p><blockquote><p>缺点是图片存在网络服务器上，非常依赖网络。</p></blockquote><p>很多人喜欢用图床，比如七牛啥的一堆，也有大神直接用的github,可以参考如下网页：<br><a href="http://" target="_blank" rel="noopener">https://www.cnblogs.com/cxint/p/7200164.html</a></p><h2 id="3-把图片存入markdown文件"><a href="#3-把图片存入markdown文件" class="headerlink" title="3)把图片存入markdown文件"></a>3)把图片存入markdown文件</h2><p>用base64转码工具把图片转成一段字符串，然后把字符串填到基础格式中链接的那个位置。</p><p>基础用法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![avatar](data:image/png;base64,iVBORw0......)</span><br></pre></td></tr></table></figure></p><p>这个时候会发现插入的这一长串字符串会把整个文章分割开，非常影响编写文章时的体验。如果能够把大段的base64字符串放在文章末尾，然后在文章中通过一个id来调用，文章就不会被分割的这么乱了。就像写论文时的文末的注释和参考文档一样。这个想法可以通过markdown的参考式链接语法来实现。<br>进阶用法如下：<br>文中引用语法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![avatar][doge]</span><br></pre></td></tr></table></figure></p><p>文末存储字符串语法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[doge]:data:image/png;base64,iVBORw0......</span><br></pre></td></tr></table></figure></p><p>提供一个在线图片转成base64的网页：<br><a href="http://" target="_blank" rel="noopener">https://tool.css-js.com/base64.html</a></p>]]></content>
+    <content type="html"><![CDATA[<h2 id="1）插入本地图片"><a href="#1）插入本地图片" class="headerlink" title="1）插入本地图片"></a>1）插入本地图片</h2><p>只需要在基础语法的括号中填入图片的位置路径即可，支持绝对路径和相对路径。</p><p>例如：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![avatar](/user/desktop/doge.png)</span><br></pre></td></tr></table></figure><blockquote><p>缺点是不灵活不好分享，本地图片的路径更改或丢失都会造成markdown文件调不出图。</p></blockquote><a id="more"></a> <p>不知为什么，我用的本地图片在编辑器上可以看到图片，但是发布出去后没显示出来。</p><h2 id="2-插入网络图片"><a href="#2-插入网络图片" class="headerlink" title="2)插入网络图片"></a>2)插入网络图片</h2><p>只需要在基础语法的括号中填入图片的网络链接即可，现在已经有很多免费/收费图床和方便传图的小工具可选。</p><p>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![avatar](http://baidu.com/pic/doge.png)</span><br></pre></td></tr></table></figure></p><blockquote><p>缺点是图片存在网络服务器上，非常依赖网络。</p></blockquote><p>很多人喜欢用图床，比如七牛啥的一堆，也有大神直接用的github,可以参考如下网页：<br><a href="http://" target="_blank" rel="noopener">https://www.cnblogs.com/cxint/p/7200164.html</a></p><h2 id="3-把图片存入markdown文件"><a href="#3-把图片存入markdown文件" class="headerlink" title="3)把图片存入markdown文件"></a>3)把图片存入markdown文件</h2><p>用base64转码工具把图片转成一段字符串，然后把字符串填到基础格式中链接的那个位置。</p><p>基础用法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![avatar](data:image/png;base64,iVBORw0......)</span><br></pre></td></tr></table></figure></p><p>这个时候会发现插入的这一长串字符串会把整个文章分割开，非常影响编写文章时的体验。如果能够把大段的base64字符串放在文章末尾，然后在文章中通过一个id来调用，文章就不会被分割的这么乱了。就像写论文时的文末的注释和参考文档一样。这个想法可以通过markdown的参考式链接语法来实现。<br>进阶用法如下：<br>文中引用语法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![avatar][doge]</span><br></pre></td></tr></table></figure></p><p>文末存储字符串语法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[doge]:data:image/png;base64,iVBORw0......</span><br></pre></td></tr></table></figure></p><p>提供一个在线图片转成base64的网页：<br><a href="http://" target="_blank" rel="noopener">https://tool.css-js.com/base64.html</a></p>]]></content>
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;1）插入本地图片&quot;&gt;&lt;a href=&quot;#1）插入本地图片&quot; class=&quot;headerlink&quot; title=&quot;1）插入本地图片&quot;&gt;&lt;/a&gt;1）插入本地图片&lt;/h2&gt;&lt;p&gt;只需要在基础语法的括号中填入图片的位置路径即可，支持绝对路径和相对路径。&lt;/p&gt;
-&lt;p&gt;例如
-      
+      &lt;h2 id=&quot;1）插入本地图片&quot;&gt;&lt;a href=&quot;#1）插入本地图片&quot; class=&quot;headerlink&quot; title=&quot;1）插入本地图片&quot;&gt;&lt;/a&gt;1）插入本地图片&lt;/h2&gt;&lt;p&gt;只需要在基础语法的括号中填入图片的位置路径即可，支持绝对路径和相对路径。&lt;/p&gt;
+&lt;p&gt;例如：&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;![avatar](/user/desktop/doge.png)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;blockquote&gt;
+&lt;p&gt;缺点是不灵活不好分享，本地图片的路径更改或丢失都会造成markdown文件调不出图。&lt;/p&gt;
+&lt;/blockquote&gt;
     
     </summary>
     
