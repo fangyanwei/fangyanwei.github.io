@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-corner-indicator.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="laya," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="fangyanwei的博客" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="1.问题如图，点击表情插入输入框，超过其宽度后没被裁剪。 2.问题解析在点击表情的时候是这样设置文本的  chatInput.changeText(chatInput.text+emotionObj.pure);  看下官方对这个接口的定义：123456789101112131415/**         * &amp;lt;p&amp;gt;快速更改显示文本。不进行排版计算，效率较高。&amp;lt;/p&amp;gt;">
+<meta name="keywords" content="laya">
+<meta property="og:type" content="article">
+<meta property="og:title" content="解决内容超出输入框没有裁剪的问题">
+<meta property="og:url" content="http://fangyanwei.top/2020/07/03/解决内容超出输入框没有裁剪的问题/index.html">
+<meta property="og:site_name" content="fangyanwei的博客">
+<meta property="og:description" content="1.问题如图，点击表情插入输入框，超过其宽度后没被裁剪。 2.问题解析在点击表情的时候是这样设置文本的  chatInput.changeText(chatInput.text+emotionObj.pure);  看下官方对这个接口的定义：123456789101112131415/**         * &amp;lt;p&amp;gt;快速更改显示文本。不进行排版计算，效率较高。&amp;lt;/p&amp;gt;">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.loli.net/2020/07/03/Jdoq3KATc1kPWys.png">
+<meta property="og:image" content="https://i.loli.net/2020/07/03/fL9CjotTU1h56kG.png">
+<meta property="og:image" content="https://i.loli.net/2020/07/03/xJnPuwXCWFtfsDh.png">
+<meta property="og:image" content="https://i.loli.net/2020/07/03/OIdVJX3uBbMU6v8.png">
+<meta property="og:image" content="https://i.loli.net/2020/07/03/FqMikxynmLacYBA.png">
+<meta property="og:updated_time" content="2020-07-03T02:30:02.607Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="解决内容超出输入框没有裁剪的问题">
+<meta name="twitter:description" content="1.问题如图，点击表情插入输入框，超过其宽度后没被裁剪。 2.问题解析在点击表情的时候是这样设置文本的  chatInput.changeText(chatInput.text+emotionObj.pure);  看下官方对这个接口的定义：123456789101112131415/**         * &amp;lt;p&amp;gt;快速更改显示文本。不进行排版计算，效率较高。&amp;lt;/p&amp;gt;">
+<meta name="twitter:image" content="https://i.loli.net/2020/07/03/Jdoq3KATc1kPWys.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://fangyanwei.top/2020/07/03/解决内容超出输入框没有裁剪的问题/"/>
+
+
+
+
+
+  <title>解决内容超出输入框没有裁剪的问题 | fangyanwei的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	
+	<a href="https://github.com/fangyanwei"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">fangyanwei的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">不念过往，不惧未来</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://fangyanwei.top/2020/07/03/解决内容超出输入框没有裁剪的问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Fang Yanwei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="fangyanwei的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">解决内容超出输入框没有裁剪的问题</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-03T09:20:43+08:00">
+                2020-07-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/laya/" itemprop="url" rel="index">
+                    <span itemprop="name">laya</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3,614
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  18
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="1-问题"><a href="#1-问题" class="headerlink" title="1.问题"></a>1.问题</h1><p>如图，点击表情插入输入框，超过其宽度后没被裁剪。<br><img src="https://i.loli.net/2020/07/03/Jdoq3KATc1kPWys.png" alt=""></p>
+<h1 id="2-问题解析"><a href="#2-问题解析" class="headerlink" title="2.问题解析"></a>2.问题解析</h1><p>在点击表情的时候是这样设置文本的</p>
+<blockquote>
+<p>chatInput.changeText(chatInput.text+emotionObj.pure);</p>
+</blockquote>
+<p>看下官方对这个接口的定义：<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">         * &lt;p&gt;快速更改显示文本。不进行排版计算，效率较高。&lt;/p&gt;</span></span><br><span class="line"><span class="comment">         * &lt;p&gt;如果只更改文字内容，不更改文字样式，建议使用此接口，能提高效率。&lt;/p&gt;</span></span><br><span class="line"><span class="comment">         * @param text 文本内容。</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">changeText</span><span class="params">(text:String)</span>:void </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (_text !== text) &#123;</span><br><span class="line">                lang(text + <span class="string">""</span>);</span><br><span class="line">                <span class="keyword">if</span> (<span class="keyword">this</span>._graphics &amp;&amp; <span class="keyword">this</span>._graphics.replaceText(_text)) &#123;</span><br><span class="line">                    <span class="comment">//repaint();</span></span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    typeset();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>接口已经很明确的说了，不进行排版计算。所以最简单的解决方案是用text接口，这样设置之后就会重新排版，不会超出。</p>
+<blockquote>
+<p>chatInput.text = chatInput.text+emotionObj.pure;</p>
+</blockquote>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">set</span> <span class="title">text</span><span class="params">(value:String)</span>:void </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>._text !== value) &#123;</span><br><span class="line">        lang(value + <span class="string">""</span>);</span><br><span class="line">        isChanged = <span class="literal">true</span>;</span><br><span class="line">        event(Event.CHANGE);</span><br><span class="line">        <span class="keyword">if</span> (borderColor) &#123;</span><br><span class="line">            <span class="keyword">this</span>._setBorderStyleColor(<span class="number">0</span>, <span class="number">0</span>, <span class="keyword">this</span>.width, <span class="keyword">this</span>.height, borderColor, <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* @private</span></span><br><span class="line"><span class="comment">* 一个布尔值，表示文本的属性是否有改变。若为true表示有改变。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">set</span> <span class="title">isChanged</span><span class="params">(value:Boolean)</span>:void </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>._isChanged !== value) &#123;</span><br><span class="line">        <span class="keyword">this</span>._isChanged = value;</span><br><span class="line">        value &amp;&amp; Laya.systemTimer.callLater(<span class="keyword">this</span>, typeset);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到设置text后，会在下一帧中调用typeset刷新</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;排版文本。&lt;/p&gt;</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;进行宽高计算，渲染、重绘文本。&lt;/p&gt;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">typeset</span><span class="params">()</span>:void </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>._isChanged = <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">this</span>._text) &#123;</span><br><span class="line">        _clipPoint = <span class="literal">null</span>;</span><br><span class="line">        _textWidth = _textHeight = <span class="number">0</span>;</span><br><span class="line">        graphics.clear(<span class="literal">true</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (Render.isConchApp) &#123;</span><br><span class="line">        __JS__(<span class="string">"window.conchTextCanvas.font=this._getContextFont();"</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        Browser.context.font = _getContextFont();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    _lines.length = <span class="number">0</span>;</span><br><span class="line">    _lineWidths.length = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (_isPassWordMode())<span class="comment">//如果是password显示状态应该使用密码符号计算</span></span><br><span class="line">    &#123;</span><br><span class="line">        _parseLines(_getPassWordTxt(<span class="keyword">this</span>._text));</span><br><span class="line">    &#125;<span class="keyword">else</span></span><br><span class="line">    _parseLines(<span class="keyword">this</span>._text);</span><br><span class="line"></span><br><span class="line">    _evalTextSize();</span><br><span class="line">    <span class="comment">//启用Viewport</span></span><br><span class="line">    <span class="keyword">if</span> (_checkEnabledViewportOrNot()) _clipPoint || (<span class="keyword">this</span>._clipPoint = <span class="keyword">new</span> Point(<span class="number">0</span>, <span class="number">0</span>));</span><br><span class="line">    <span class="comment">//否则禁用Viewport</span></span><br><span class="line">    <span class="keyword">else</span> _clipPoint = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    _renderText();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那为什么聊天的输入框就可以，好友这个输入框就不行呢？<br>印象中之前聊天输入也是有这个问题，后面有人提出说点击输入那个文本会跳来跳去的，当时没闹明白怎么回事就去改了。现在看来是因为我用的控件是TextInput，但是在代码我却把它定义成了Input，因为TextInput是继承自Label，它跟Text相比是Label有相对布局，所以强转成了Input后它就失去了自动布局的特性，表现上就会获得焦点跟失去焦点时文本的位置会抖。</p>
+<blockquote>
+<p>public class TextInput extends Label</p>
+</blockquote>
+<blockquote>
+<p>public class Input extends Text</p>
+</blockquote>
+<blockquote>
+<p>public class Label extends UIComponent</p>
+</blockquote>
+<p><img src="https://i.loli.net/2020/07/03/fL9CjotTU1h56kG.png" alt=""></p>
+<p>所以当时我的做法是在底下多加了一个背景框，然后调整输入的高度跟字号一样，就样就不跳了，然后我当时输入框多设置了一个属性overflow为scroll,发现这个超出输入框宽度不被裁剪的问题也好了，当时以为就是设置了overflow解决了。<br>其实不然，因为创建Input或者TextInput的时候默认就是scroll的，请看代码<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**创建一个新的 &lt;code&gt;Input&lt;/code&gt; 类实例。*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">Input</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    _width = <span class="number">100</span>;</span><br><span class="line">    _height = <span class="number">20</span>;</span><br><span class="line"></span><br><span class="line">    multiline = <span class="literal">false</span>;</span><br><span class="line">    overflow = Text.SCROLL;<span class="comment">//默认就是这个了 </span></span><br><span class="line"></span><br><span class="line">    on(Event.MOUSE_DOWN, <span class="keyword">this</span>, _onMouseDown);</span><br><span class="line">    on(Event.UNDISPLAY, <span class="keyword">this</span>, _onUnDisplay);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//TextInput的创建子结点函数</span></span><br><span class="line"><span class="keyword">override</span> <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">createChildren</span><span class="params">()</span>:void </span>&#123;</span><br><span class="line">    addChild(_tf = <span class="keyword">new</span> Input());   <span class="comment">//在这里创建了Input当做text</span></span><br><span class="line">    _tf.padding = Styles.inputLabelPadding;</span><br><span class="line">    _tf.on(Event.INPUT, <span class="keyword">this</span>, _onInput);</span><br><span class="line">    _tf.on(Event.ENTER, <span class="keyword">this</span>, _onEnter);</span><br><span class="line">    _tf.on(Event.BLUR, <span class="keyword">this</span>, _onBlur);</span><br><span class="line">    _tf.on(Event.FOCUS, <span class="keyword">this</span>, _onFocus);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>那既然答案不是这个，为何缩小了下输入框的高度就可以裁剪了呢？<br>经过深入研究底层的代码，终于找到了原因！<br>答案就在刚才的typeset函数里，请看它最后几行代码<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//启用Viewport</span></span><br><span class="line">    <span class="keyword">if</span> (_checkEnabledViewportOrNot()) _clipPoint || (<span class="keyword">this</span>._clipPoint = <span class="keyword">new</span> Point(<span class="number">0</span>, <span class="number">0</span>));</span><br><span class="line">    <span class="comment">//否则禁用Viewport</span></span><br><span class="line">    <span class="keyword">else</span> _clipPoint = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    _renderText();</span><br></pre></td></tr></table></figure></p>
+<p>这里有个属性_clipPoint，是在真正的渲染文本接口_renderText里要用到的。<br>它的开启条件就看_checkEnabledViewportOrNot这个函数了<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**@private */</span></span><br><span class="line">private function _checkEnabledViewportOrNot():Boolean &#123;</span><br><span class="line">    <span class="keyword">return</span> overflow == SCROLL &amp;&amp; ((_width &gt; <span class="number">0</span> &amp;&amp; _textWidth &gt; _width) || (_height &gt; <span class="number">0</span> &amp;&amp; _textHeight &gt; _height)); <span class="comment">// 设置了宽高并且超出了</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>看下面这个计算文本size的接口，因为计算文本占用的高度的时候，加上了一个默认的行间距leading(6)，所以内容占用高度会大于控件的高度（跟字号一样）<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**@private */</span></span><br><span class="line">private function _evalTextSize():void &#123;</span><br><span class="line">    <span class="keyword">var</span> nw:Number, nh:Number;</span><br><span class="line">    nw = Math.max.apply(<span class="keyword">this</span>, _lineWidths);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//计算textHeight</span></span><br><span class="line">    <span class="keyword">if</span> ((_style <span class="keyword">as</span> TextStyle).currBitmapFont)</span><br><span class="line">        nh = _lines.length * ((_style <span class="keyword">as</span> TextStyle).currBitmapFont.getMaxHeight() + leading) + padding[<span class="number">0</span>] + padding[<span class="number">2</span>];</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        nh = _lines.length * (_charSize.height + leading) + padding[<span class="number">0</span>] + padding[<span class="number">2</span>];</span><br><span class="line">    <span class="keyword">if</span> (nw != _textWidth || nh != _textHeight) &#123;</span><br><span class="line">        _textWidth = nw;</span><br><span class="line">        _textHeight = nh;</span><br><span class="line">            <span class="comment">//<span class="doctag">TODO:</span></span></span><br><span class="line">            <span class="comment">//if (!_width || !_height)</span></span><br><span class="line">            <span class="comment">//conchModel &amp;&amp; conchModel.size(_width || _textWidth, _height || _textHeight);</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>所以这样就设置好了要裁剪，那是在哪里生效的呢，在_renderText里<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* @private</span></span><br><span class="line"><span class="comment">* 渲染文字。</span></span><br><span class="line"><span class="comment">* @param   begin 开始渲染的行索引。</span></span><br><span class="line"><span class="comment">* @param   visibleLineCount 渲染的行数。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">protected function _renderText():void &#123;</span><br><span class="line"><span class="keyword">var</span> padding:Array = <span class="keyword">this</span>.padding;</span><br><span class="line"><span class="keyword">var</span> visibleLineCount:int = _lines.length;</span><br><span class="line"><span class="comment">// overflow为scroll或visible时会截行</span></span><br><span class="line"><span class="keyword">if</span> (overflow != VISIBLE) &#123;</span><br><span class="line">visibleLineCount = Math.min(visibleLineCount, Math.floor((height - padding[<span class="number">0</span>] - padding[<span class="number">2</span>]) / (leading + _charSize.height)) + <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> beginLine:int = scrollY / (_charSize.height + leading) | <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> graphics:Graphics = <span class="keyword">this</span>.graphics;</span><br><span class="line">graphics.clear(<span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> ctxFont:String = _getContextFont();</span><br><span class="line">Browser.context.font = ctxFont;</span><br><span class="line"></span><br><span class="line"><span class="comment">//处理垂直对齐</span></span><br><span class="line"><span class="keyword">var</span> startX:Number = padding[<span class="number">3</span>];</span><br><span class="line"><span class="keyword">var</span> textAlgin:String = <span class="string">"left"</span>;</span><br><span class="line"><span class="keyword">var</span> lines:Array = _lines;</span><br><span class="line"><span class="keyword">var</span> lineHeight:Number = leading + _charSize.height;</span><br><span class="line"><span class="keyword">var</span> tCurrBitmapFont:BitmapFont = (_style <span class="keyword">as</span> TextStyle).currBitmapFont;</span><br><span class="line"><span class="keyword">if</span> (tCurrBitmapFont) &#123;</span><br><span class="line">lineHeight = leading + tCurrBitmapFont.getMaxHeight();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> startY:Number = padding[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">//处理水平对齐</span></span><br><span class="line"><span class="keyword">if</span> ((!tCurrBitmapFont) &amp;&amp; <span class="keyword">this</span>._width &gt; <span class="number">0</span> &amp;&amp; _textWidth &lt;= _width) &#123;</span><br><span class="line"><span class="keyword">if</span> (align == <span class="string">"right"</span>) &#123;</span><br><span class="line">    textAlgin = <span class="string">"right"</span>;</span><br><span class="line">    startX = <span class="keyword">this</span>._width - padding[<span class="number">1</span>];</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (align == <span class="string">"center"</span>) &#123;</span><br><span class="line">    textAlgin = <span class="string">"center"</span>;</span><br><span class="line">    startX = <span class="keyword">this</span>._width * <span class="number">0.5</span> + padding[<span class="number">3</span>] - padding[<span class="number">1</span>];</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//修复文本垂直居中问题 fixed by FYW 2020-6-23 19:20</span></span><br><span class="line"><span class="keyword">if</span> (_height &gt; <span class="number">0</span>) &#123;</span><br><span class="line"><span class="keyword">var</span> tempVAlign:String = (_textHeight &gt; _height) ? <span class="string">"top"</span> : valign;</span><br><span class="line"><span class="keyword">if</span> (tempVAlign === <span class="string">"middle"</span>)</span><br><span class="line">    startY = (_height - visibleLineCount * _charSize.height-(visibleLineCount<span class="number">-1</span>)*leading) * <span class="number">0.5</span> + padding[<span class="number">0</span>] - padding[<span class="number">2</span>];</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> (tempVAlign === <span class="string">"bottom"</span>)</span><br><span class="line">    startY = _height - visibleLineCount * _charSize.height-(visibleLineCount<span class="number">-1</span>)*leading - padding[<span class="number">2</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> style:TextStyle = _style <span class="keyword">as</span> TextStyle;</span><br><span class="line"><span class="comment">//drawBg(style);</span></span><br><span class="line"><span class="keyword">if</span> (tCurrBitmapFont &amp;&amp; tCurrBitmapFont.autoScaleSize) &#123;</span><br><span class="line"><span class="keyword">var</span> bitmapScale:Number = tCurrBitmapFont.fontSize / fontSize;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//渲染</span></span><br><span class="line"><span class="keyword">if</span> (_clipPoint) &#123;</span><br><span class="line">graphics.save();</span><br><span class="line"><span class="keyword">if</span> (tCurrBitmapFont &amp;&amp; tCurrBitmapFont.autoScaleSize) &#123;</span><br><span class="line">    <span class="keyword">var</span> tClipWidth:int;</span><br><span class="line">    <span class="keyword">var</span> tClipHeight:int;</span><br><span class="line"></span><br><span class="line">    _width ? tClipWidth = (_width - padding[<span class="number">3</span>] - padding[<span class="number">1</span>]) : tClipWidth = _textWidth;</span><br><span class="line">    _height ? tClipHeight = (_height - padding[<span class="number">0</span>] - padding[<span class="number">2</span>]) : tClipHeight = _textHeight;</span><br><span class="line"></span><br><span class="line">    tClipWidth *= bitmapScale;</span><br><span class="line">    tClipHeight *= bitmapScale;</span><br><span class="line"></span><br><span class="line">    graphics.clipRect(padding[<span class="number">3</span>], padding[<span class="number">0</span>], tClipWidth, tClipHeight);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    graphics.clipRect(padding[<span class="number">3</span>], padding[<span class="number">0</span>], _width ? (_width - padding[<span class="number">3</span>] - padding[<span class="number">1</span>]) : _textWidth, _height ? (_height - padding[<span class="number">0</span>] - padding[<span class="number">2</span>]) : _textHeight);</span><br><span class="line">&#125;</span><br><span class="line">repaint();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> password:Boolean = style.asPassword;</span><br><span class="line"><span class="comment">// 输入框的prompt始终显示明文</span></span><br><span class="line"><span class="keyword">if</span> ((<span class="string">"prompt"</span> <span class="keyword">in</span> <span class="keyword">this</span>) &amp;&amp; <span class="keyword">this</span>[<span class="string">'prompt'</span>] == <span class="keyword">this</span>._text)</span><br><span class="line">password = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> x:Number = <span class="number">0</span>, y:Number = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">var</span> end:int = Math.min(_lines.length, visibleLineCount + beginLine) || <span class="number">1</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i:int = beginLine; i &lt; end; i++) &#123;</span><br><span class="line"><span class="keyword">var</span> word:String = lines[i];</span><br><span class="line"><span class="keyword">var</span> _word:*;</span><br><span class="line"><span class="keyword">if</span> (password) &#123;</span><br><span class="line">    <span class="keyword">var</span> len:int = word.length;</span><br><span class="line">    word = <span class="string">""</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> j:int = len; j &gt; <span class="number">0</span>; j--) &#123;</span><br><span class="line">        word += <span class="string">"●"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (word == <span class="literal">null</span>) word = <span class="string">""</span>;</span><br><span class="line">x = startX - (_clipPoint ? _clipPoint.x : <span class="number">0</span>);</span><br><span class="line">y = startY + lineHeight * i - (_clipPoint ? _clipPoint.y : <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">underline &amp;&amp; _drawUnderline(textAlgin, x, y, i);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (tCurrBitmapFont) &#123;</span><br><span class="line">    <span class="keyword">var</span> tWidth:Number = width;</span><br><span class="line">    <span class="keyword">if</span> (tCurrBitmapFont.autoScaleSize) &#123;</span><br><span class="line">        tWidth = width * bitmapScale;</span><br><span class="line">    &#125;</span><br><span class="line">    tCurrBitmapFont._drawText(word, <span class="keyword">this</span>, x, y, align, tWidth);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (Render.isWebGL) &#123;</span><br><span class="line">        _words || (_words = <span class="keyword">new</span> Vector.&lt;WordText&gt;());</span><br><span class="line">        _word = _words.length &gt; (i - beginLine) ? _words[i - beginLine] : <span class="keyword">new</span> WordText();</span><br><span class="line">        _word.setText(word);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        _word = word;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//修复按钮描边之后文本在手机上居中问题 fixed by FYW 2020-6-23 19:22</span></span><br><span class="line">    <span class="keyword">if</span>(Render.isConchApp)&#123;</span><br><span class="line">        style.stroke?graphics.fillBorderText(_word, x+<span class="number">2</span>, y+<span class="number">3</span>, ctxFont, color, style.strokeColor, style.stroke, textAlgin):graphics.fillText(_word, x, y, ctxFont, color, textAlgin);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        style.stroke?graphics.fillBorderText(_word, x, y, ctxFont, color, style.strokeColor, style.stroke, textAlgin):graphics.fillText(_word, x, y, ctxFont, color, textAlgin);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (tCurrBitmapFont &amp;&amp; tCurrBitmapFont.autoScaleSize) &#123;</span><br><span class="line"><span class="keyword">var</span> tScale:Number = <span class="number">1</span> / bitmapScale;</span><br><span class="line"><span class="keyword">this</span>.scale(tScale, tScale);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (_clipPoint) graphics.restore();</span><br><span class="line"></span><br><span class="line">_startX = startX;</span><br><span class="line">_startY = startY;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>看其中有几行代码就是设置裁剪的graphics.clipRect<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//渲染</span></span><br><span class="line"><span class="keyword">if</span> (_clipPoint) &#123;</span><br><span class="line">    graphics.save();</span><br><span class="line">    <span class="keyword">if</span> (tCurrBitmapFont &amp;&amp; tCurrBitmapFont.autoScaleSize) &#123;</span><br><span class="line">        <span class="keyword">var</span> tClipWidth:int;</span><br><span class="line">        <span class="keyword">var</span> tClipHeight:int;</span><br><span class="line">        _width ? tClipWidth = (_width - padding[<span class="number">3</span>] - padding[<span class="number">1</span>]) : tClipWidth = _textWidth;</span><br><span class="line">        _height ? tClipHeight = (_height - padding[<span class="number">0</span>] - padding[<span class="number">2</span>]) : tClipHeight = _textHeight;</span><br><span class="line">        tClipWidth *= bitmapScale;</span><br><span class="line">        tClipHeight *= bitmapScale;</span><br><span class="line">        graphics.clipRect(padding[<span class="number">3</span>], padding[<span class="number">0</span>], tClipWidth, tClipHeight);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        graphics.clipRect(padding[<span class="number">3</span>], padding[<span class="number">0</span>], _width ? (_width - padding[<span class="number">3</span>] - padding[<span class="number">1</span>]) : _textWidth, _height ? (_height - padding[<span class="number">0</span>] - padding[<span class="number">2</span>]) : _textHeight);</span><br><span class="line">    &#125;</span><br><span class="line">    repaint();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>clipRect跟其他的渲染接口一样，都是放到命令流里去了<br><img src="https://i.loli.net/2020/07/03/xJnPuwXCWFtfsDh.png" alt=""><br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @private</span></span><br><span class="line"><span class="comment"> * 保存到命令流。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">public function _saveToCmd(fun:Function, args:*):* &#123;</span><br><span class="line">    <span class="keyword">if</span> (_sp) &#123;</span><br><span class="line">        _sp._renderType |= SpriteConst.GRAPHICS;</span><br><span class="line">        _sp._setRenderType(_sp._renderType);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (_one == <span class="literal">null</span>) &#123;</span><br><span class="line">        _one = args;</span><br><span class="line">        _render = _renderOne;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">//_sp &amp;&amp; (_sp._renderType &amp;= ~SpriteConst.IMAGE);</span></span><br><span class="line">        _render = _renderAll;</span><br><span class="line">        (_cmds || (_cmds = [])).length === <span class="number">0</span> &amp;&amp; _cmds.push(_one);</span><br><span class="line">        _cmds.push(args);</span><br><span class="line">    &#125;</span><br><span class="line">    _repaint();</span><br><span class="line">    <span class="keyword">return</span> args;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个保存命令接口里用了一个_one来保存第一个命令，如果有超过一个的命令，则会连同之前的_one一起push到_cmds这个数组中去。</p>
+<p>回到最开始的那个changeText，设置文本真正生效的是这行</p>
+<blockquote>
+<p>if (this._graphics &amp;&amp; this._graphics.replaceText(_text))</p>
+</blockquote>
+<p>上面保存的命令流就是在这里起作用的<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @private</span></span><br><span class="line"><span class="comment"> * 替换文本内容。</span></span><br><span class="line"><span class="comment"> * @param text 文本内容。</span></span><br><span class="line"><span class="comment"> * @return 替换成功则值为true，否则值为flase。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">replaceText</span><span class="params">(text:String)</span>:Boolean </span>&#123;</span><br><span class="line">    _repaint();</span><br><span class="line">    <span class="comment">//todo 该函数现在加速器应该不对</span></span><br><span class="line">    <span class="keyword">var</span> cmds:Array = <span class="keyword">this</span>._cmds;</span><br><span class="line">    <span class="keyword">if</span> (!cmds) &#123;</span><br><span class="line">        <span class="keyword">if</span> (_one &amp;&amp; _isTextCmd(_one)) &#123;</span><br><span class="line">            _one.text = text;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> i:int = cmds.length - <span class="number">1</span>; i &gt; <span class="number">-1</span>; i--) &#123;</span><br><span class="line">            <span class="keyword">if</span> (_isTextCmd(cmds[i])) &#123;</span><br><span class="line">                cmds[i].text = text;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>以下就是一个_cmds的结构<br><img src="https://i.loli.net/2020/07/03/OIdVJX3uBbMU6v8.png" alt=""><br>以下是引擎提供的一些常用绘制命令<br><img src="https://i.loli.net/2020/07/03/FqMikxynmLacYBA.png" alt=""></p>
+<h1 id="3-总结"><a href="#3-总结" class="headerlink" title="3.总结"></a>3.总结</h1><p>内容超过输入框的宽度没有裁剪的问题有两个方法解决：<br>1)用text方法替换changeText，这样能保证每次变化都重新计算一次布局，只是相比changeText牺牲点性能。<br>2)如果不想损耗性能，则要在输入框底下多一个背景，然后输入就不要背景了，调整基高度跟字号一样，这样在第<br>一次设置默认显示的文本时会设置其裁剪大小，保证超过后会被裁剪掉。</p>
+<p>有兴趣的童鞋可以参考下我处理输入框文本变化的接口，这个接口完美的解决了上个项目插入富文本后不能在中间做插入删除操作的问题。</p>
+<blockquote>
+<p>editInput.on(Event.CHANGE,this,onEditInputChange);//先监听变化事件</p>
+</blockquote>
+<p>下面是实现的思路：<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//第一版：解决了英文状态下追加跟删除的问题，但是中文输入会出问题，因为输入zhidao之后变成了知道，此方案只替换了第一个不一样的字符</span></span><br><span class="line"><span class="comment">//第二版：解决中文输入法下只替换部分字符问题，替换整段，因为同时只能操作一段字符。 </span></span><br><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">onEditInputChange</span><span class="params">(e:Event)</span>:void</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">var</span> curStr:String = editInput.text;</span><br><span class="line">    <span class="keyword">if</span>(curStr.length&gt;editInput.maxChars)&#123;</span><br><span class="line">        TipsManager.instance.addMessageTipById(<span class="number">150170</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(curStr == lastInputString)&#123;</span><br><span class="line">        <span class="comment">//跟上次一样返回：因为搜狗拼音输入法输入中文时，输入太长的时候它会人为帮你加个分隔符，这个分割符不像五笔输入法一样会有占位符',</span></span><br><span class="line">        <span class="comment">//它直接就是一个空字符串，所以一次输入会产生两次input,且第二次跟第一次的字符串一样，所以要排除这种情况;</span></span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(curStr==<span class="string">""</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(htmlArray.length&gt;<span class="number">0</span>)&#123;</span><br><span class="line">            htmlArray = [];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="comment">//有富文本要处理</span></span><br><span class="line">        <span class="keyword">if</span>(htmlArray.length&gt;<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">var</span> appendFlag:Boolean = <span class="literal">false</span>;<span class="comment">//追加标志</span></span><br><span class="line">            <span class="keyword">if</span>(curStr.length&gt;lastInputString.length)&#123;</span><br><span class="line">                appendFlag = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">var</span> len:int = curStr.length ;</span><br><span class="line">            <span class="keyword">var</span> defrentIndex:int = len<span class="number">-1</span>;<span class="comment">//默认就是在最后操作</span></span><br><span class="line">            <span class="keyword">var</span> startIndex:int = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">var</span> endIndex:int = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">var</span> elementObj:Object;</span><br><span class="line">            <span class="keyword">var</span> j:int = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">var</span> index:int = <span class="number">0</span>; index &lt; len; index++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(curStr.charAt(index) &amp;&amp; lastInputString.charAt(index) &amp;&amp; curStr.charAt(index) != lastInputString.charAt(index))&#123;</span><br><span class="line">                    defrentIndex = index;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// console.log(defrentIndex,len,appendFlag,curStr,curStr[defrentIndex],"插入位置相关");</span></span><br><span class="line">            <span class="keyword">if</span>(defrentIndex == len<span class="number">-1</span> )&#123;</span><br><span class="line">                <span class="keyword">var</span> obj:Object = htmlArray[htmlArray.length<span class="number">-1</span>];</span><br><span class="line">                <span class="keyword">if</span>(appendFlag)&#123;<span class="comment">//在最后追加</span></span><br><span class="line">                    <span class="keyword">var</span> appendStr:String = curStr[defrentIndex];</span><br><span class="line">                    <span class="keyword">if</span>(obj.isRich)&#123;<span class="comment">//最后一条是富文本，开个新obj存新文本</span></span><br><span class="line">                        <span class="keyword">var</span> newObj:Object = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">                        newObj.pure = appendStr;</span><br><span class="line">                        newObj.html = Tools.createHTMLElement(appendStr);</span><br><span class="line">                        newObj.isRich = <span class="literal">false</span>;</span><br><span class="line">                        htmlArray.push(newObj);</span><br><span class="line">                    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                        obj.pure = obj.pure+appendStr;</span><br><span class="line">                        obj.html = Tools.createHTMLElement(obj.pure)</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="comment">// console.log(appendStr,"最后追加")</span></span><br><span class="line">                &#125;<span class="keyword">else</span>&#123; <span class="comment">//在最后删除</span></span><br><span class="line">                    <span class="comment">//先找段首的位置</span></span><br><span class="line">                    <span class="keyword">for</span>( index = <span class="number">0</span>; index &lt; htmlArray.length; index++)&#123;</span><br><span class="line">                        elementObj= htmlArray[index];</span><br><span class="line">                        <span class="keyword">if</span>(index== htmlArray.length<span class="number">-1</span>)&#123;</span><br><span class="line">                            <span class="keyword">break</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                        startIndex += elementObj.pure.length;</span><br><span class="line">                    &#125;</span><br><span class="line">                    obj.pure = curStr.substring(startIndex,defrentIndex+<span class="number">1</span>);<span class="comment">//这个函数是一个左闭右开区间，所以要加1</span></span><br><span class="line">                    <span class="keyword">if</span>(obj.pure==<span class="string">""</span>)&#123;<span class="comment">//整个被删除了</span></span><br><span class="line">                        htmlArray.splice(htmlArray.length<span class="number">-1</span>,<span class="number">1</span>);</span><br><span class="line">                    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                        <span class="keyword">if</span>(obj.isRich)&#123;</span><br><span class="line">                            obj.isRich = <span class="literal">false</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                        obj.html = Tools.createHTMLElement(obj.pure);</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="comment">// console.log(startIndex,obj.pure,"最后删除")</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;<span class="comment">//在前面追加或者删除这两种情况有点麻烦，如果富文本中间操作，富文本失效</span></span><br><span class="line">                <span class="keyword">for</span>( index = <span class="number">0</span>; index &lt; htmlArray.length; index++)</span><br><span class="line">                &#123;</span><br><span class="line">                    elementObj = htmlArray[index];</span><br><span class="line">                    <span class="keyword">if</span>(defrentIndex&lt;= startIndex+elementObj.pure.length<span class="number">-1</span>)&#123;</span><br><span class="line">                        <span class="keyword">var</span> findStr:String = <span class="string">""</span>;</span><br><span class="line">                        <span class="keyword">var</span> newStr:String = <span class="string">""</span>;</span><br><span class="line">                        <span class="keyword">if</span>(defrentIndex==startIndex)&#123;<span class="comment">//段首操作</span></span><br><span class="line">                            <span class="keyword">if</span>(appendFlag)&#123;<span class="comment">//追加</span></span><br><span class="line">                                findStr += htmlArray[index].pure;</span><br><span class="line">                                endIndex = curStr.indexOf(findStr,startIndex);</span><br><span class="line">                                <span class="keyword">if</span>(endIndex==<span class="number">-1</span>)&#123;<span class="comment">//找不到说明不是追加，是中文输入法整个替换了</span></span><br><span class="line">                                    <span class="keyword">if</span>(index == htmlArray.length<span class="number">-1</span>)&#123;</span><br><span class="line">                                        newStr = curStr.substr(defrentIndex);</span><br><span class="line">                                    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                                        <span class="keyword">for</span>(j = index+<span class="number">1</span>; j &lt; htmlArray.length; j++)</span><br><span class="line">                                        &#123;</span><br><span class="line">                                            findStr += htmlArray[j].pure;</span><br><span class="line">                                        &#125;</span><br><span class="line">                                        endIndex = curStr.indexOf(findStr,defrentIndex);</span><br><span class="line">                                        newStr = curStr.substring(startIndex,endIndex);</span><br><span class="line">                                    &#125;</span><br><span class="line">                                    elementObj.pure = newStr;</span><br><span class="line">                                    elementObj.html = Tools.createHTMLElement(newStr); </span><br><span class="line">                                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                                    newStr = curStr.substring(defrentIndex,endIndex);</span><br><span class="line">                                    <span class="keyword">if</span>(index==<span class="number">0</span> ||htmlArray[index<span class="number">-1</span>].isRich)&#123;<span class="comment">//最前面插入或者前面没段或者前的段是富文本</span></span><br><span class="line">                                        <span class="comment">//增加一个段</span></span><br><span class="line">                                        <span class="keyword">var</span> insertObj:Object = &#123;&#125;;</span><br><span class="line">                                        insertObj.pure = newStr;</span><br><span class="line">                                        insertObj.html =  Tools.createHTMLElement(insertObj.pure);</span><br><span class="line">                                        insertObj.isRich = <span class="literal">false</span>;</span><br><span class="line">                                        htmlArray.splice(index,<span class="number">0</span>,insertObj);</span><br><span class="line">                                    &#125;<span class="keyword">else</span>&#123;<span class="comment">//纯文本</span></span><br><span class="line">                                        <span class="keyword">var</span> preObj:Object = htmlArray[index<span class="number">-1</span>];</span><br><span class="line">                                        preObj.pure += newStr;</span><br><span class="line">                                        preObj.html = Tools.createHTMLElement(preObj.pure);</span><br><span class="line">                                    &#125;</span><br><span class="line">                                &#125;</span><br><span class="line">                            &#125;<span class="keyword">else</span>&#123;<span class="comment">//删除</span></span><br><span class="line">                                <span class="keyword">var</span> deleteNum:int = lastInputString.length-curStr.length</span><br><span class="line">                                <span class="keyword">if</span>(elementObj.pure.length&lt;=deleteNum)&#123;<span class="comment">//整个删除了</span></span><br><span class="line">                                    htmlArray.splice(index,<span class="number">1</span>);</span><br><span class="line">                                &#125;<span class="keyword">else</span>&#123;<span class="comment">//剩余的取出来 </span></span><br><span class="line">                                    <span class="keyword">if</span>(index == htmlArray.length<span class="number">-1</span>)&#123;</span><br><span class="line">                                        newStr = curStr.substr(startIndex);</span><br><span class="line">                                    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                                        <span class="keyword">for</span>(j = index+<span class="number">1</span>; j &lt; htmlArray.length; j++)</span><br><span class="line">                                        &#123;</span><br><span class="line">                                            findStr += htmlArray[j].pure;</span><br><span class="line">                                        &#125;</span><br><span class="line">                                        endIndex = curStr.indexOf(findStr,defrentIndex);</span><br><span class="line">                                        newStr = curStr.substring(startIndex,endIndex);</span><br><span class="line">                                    &#125;</span><br><span class="line">                                    elementObj.pure = newStr;</span><br><span class="line">                                    elementObj.html = Tools.createHTMLElement(newStr);</span><br><span class="line">                                    <span class="keyword">if</span>(elementObj.isRich)&#123;</span><br><span class="line">                                        elementObj.isRich = <span class="literal">false</span>;</span><br><span class="line">                                    &#125;</span><br><span class="line">                                &#125;</span><br><span class="line">                            &#125;</span><br><span class="line">                            <span class="comment">// console.log(findStr,endIndex,newStr,"段首操作")</span></span><br><span class="line">                        &#125;<span class="keyword">else</span>&#123;<span class="comment">//段首之后操作</span></span><br><span class="line">                            <span class="comment">//整个段都替换</span></span><br><span class="line">                            <span class="keyword">if</span>(index == htmlArray.length<span class="number">-1</span>)&#123;</span><br><span class="line">                                newStr = curStr.substring(startIndex,curStr.length);</span><br><span class="line">                            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                                <span class="keyword">for</span>(j = index+<span class="number">1</span>; j &lt; htmlArray.length; j++)</span><br><span class="line">                                &#123;</span><br><span class="line">                                    findStr += htmlArray[j].pure;</span><br><span class="line">                                &#125;</span><br><span class="line">                                endIndex = curStr.indexOf(findStr,defrentIndex);</span><br><span class="line">                                newStr = curStr.substring(startIndex,endIndex);</span><br><span class="line">                            &#125;</span><br><span class="line">                            <span class="comment">// console.log(index,curStr,findStr,startIndex,endIndex, newStr,"段首之后操作");</span></span><br><span class="line">                            <span class="keyword">if</span>(newStr==<span class="string">""</span>)&#123;<span class="comment">//整个段被移除了</span></span><br><span class="line">                                htmlArray.splice(index,<span class="number">1</span>);</span><br><span class="line">                            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                                <span class="keyword">if</span>(elementObj.isRich)&#123;</span><br><span class="line">                                    elementObj.isRich = <span class="literal">false</span>;</span><br><span class="line">                                &#125;</span><br><span class="line">                                elementObj.html = Tools.createHTMLElement(newStr);</span><br><span class="line">                                elementObj.pure = newStr;</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="keyword">break</span></span><br><span class="line">                    &#125;</span><br><span class="line">                    startIndex += elementObj.pure.length;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// console.log("htmlArray",htmlArray);</span></span><br><span class="line">    lastInputString = curStr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+	
+	<div>
+	  
+		<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+	  
+	</div>
+	
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2020/07/03/解决内容超出输入框没有裁剪的问题/">解决内容超出输入框没有裁剪的问题</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Fang Yanwei 的个人博客">Fang Yanwei</a></p>
+  <p><span>发布时间:</span>2020年07月03日 - 09:07</p>
+  <p><span>最后更新:</span>2020年07月03日 - 10:07</p>
+  <p><span>原始链接:</span><a href="/2020/07/03/解决内容超出输入框没有裁剪的问题/" title="解决内容超出输入框没有裁剪的问题">http://fangyanwei.top/2020/07/03/解决内容超出输入框没有裁剪的问题/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://fangyanwei.top/2020/07/03/解决内容超出输入框没有裁剪的问题/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+      $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+        });
+    });  
+</script>
+
+      
+	</div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/laya/" rel="tag"><i class="fa fa-tag"></i> laya</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/03/welcome_to_hexo/" rel="next" title="Welcome To Use Hexo">
+                <i class="fa fa-chevron-left"></i> Welcome To Use Hexo
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Fang Yanwei</p>
+              <p class="site-description motion-element" itemprop="description">今天很残酷，明天更残酷，后天很美好，但是大部分的人都是死在了明天晚上</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/fangyanwei" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-问题"><span class="nav-number">1.</span> <span class="nav-text">1.问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-问题解析"><span class="nav-number">2.</span> <span class="nav-text">2.问题解析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-总结"><span class="nav-number">3.</span> <span class="nav-text">3.总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fang Yanwei</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">17.5k</span>
+  
+</div>
+
+
+	<div class="powered-by">
+		<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+		  本站访客数:<span id="busuanzi_value_site_uv"></span>
+		</span>
+	</div>
+
+  <!--
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+  -->
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共17.5k字</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
