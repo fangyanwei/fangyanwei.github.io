@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-corner-indicator.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="截屏，模糊," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="fangyanwei的博客" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="需求如下图中左图所示，策划想要的效果是当玩家没有收集的拼图要显示一个毛玻璃一样的模糊效果，另外加一个半透明的黑色遮罩效果。  分析左边先是底下有个蓝色的背景图片，然后是一个英雄的立绘，只不过这个模型的立绘是静止的。那先我们要想办法把这两个东西合到一起先画出来，然后给它做模糊处理，就如上图右侧对比显示出来的一样。然后再根据有没收集，截取右侧处理好之后的部分区域盖在原来的背景跟立绘上面。">
+<meta name="keywords" content="截屏，模糊">
+<meta property="og:type" content="article">
+<meta property="og:title" content="实现拼图模糊效果">
+<meta property="og:url" content="http://fangyanwei.top/2021/04/04/实现拼图模糊效果/index.html">
+<meta property="og:site_name" content="fangyanwei的博客">
+<meta property="og:description" content="需求如下图中左图所示，策划想要的效果是当玩家没有收集的拼图要显示一个毛玻璃一样的模糊效果，另外加一个半透明的黑色遮罩效果。  分析左边先是底下有个蓝色的背景图片，然后是一个英雄的立绘，只不过这个模型的立绘是静止的。那先我们要想办法把这两个东西合到一起先画出来，然后给它做模糊处理，就如上图右侧对比显示出来的一样。然后再根据有没收集，截取右侧处理好之后的部分区域盖在原来的背景跟立绘上面。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/fangyanwei/cloudimg/img/20210404203309.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/fangyanwei/cloudimg/img/20210404215940.png">
+<meta property="og:updated_time" content="2021-04-04T14:27:12.753Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="实现拼图模糊效果">
+<meta name="twitter:description" content="需求如下图中左图所示，策划想要的效果是当玩家没有收集的拼图要显示一个毛玻璃一样的模糊效果，另外加一个半透明的黑色遮罩效果。  分析左边先是底下有个蓝色的背景图片，然后是一个英雄的立绘，只不过这个模型的立绘是静止的。那先我们要想办法把这两个东西合到一起先画出来，然后给它做模糊处理，就如上图右侧对比显示出来的一样。然后再根据有没收集，截取右侧处理好之后的部分区域盖在原来的背景跟立绘上面。">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/fangyanwei/cloudimg/img/20210404203309.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://fangyanwei.top/2021/04/04/实现拼图模糊效果/"/>
+
+
+
+
+
+  <title>实现拼图模糊效果 | fangyanwei的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	
+	<a href="https://github.com/fangyanwei"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">fangyanwei的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">不念过往，不惧未来</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://fangyanwei.top/2021/04/04/实现拼图模糊效果/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Fang Yanwei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="fangyanwei的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">实现拼图模糊效果</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-04-04T07:38:28+08:00">
+                2021-04-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/cocos2dx/" itemprop="url" rel="index">
+                    <span itemprop="name">cocos2dx</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1,660
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  7
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>如下图中左图所示，策划想要的效果是当玩家没有收集的拼图要显示一个毛玻璃一样的模糊效果，另外加一个半透明的黑色遮罩效果。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/fangyanwei/cloudimg/img/20210404203309.png" alt=""></p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>左边先是底下有个蓝色的背景图片，然后是一个英雄的立绘，只不过这个模型的立绘是静止的。<br>那先我们要想办法把这两个东西合到一起先画出来，然后给它做模糊处理，就如上图右侧对比显示出来的一样。<br>然后再根据有没收集，截取右侧处理好之后的部分区域盖在原来的背景跟立绘上面。<br><a id="more"></a></p>
+<h2 id="把背景跟立绘画在一张精灵里面"><a href="#把背景跟立绘画在一张精灵里面" class="headerlink" title="把背景跟立绘画在一张精灵里面"></a>把背景跟立绘画在一张精灵里面</h2><p>这里我们要借助RenderTuxture,它截屏的过程大致如下：<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--注意这里不要把透明度那个参数传进去了，要不画不出来</span></span><br><span class="line"><span class="keyword">local</span> canvas = cc.RenderTexture:<span class="built_in">create</span>(drawWidth,drawHeight,cc.TEXTURE2_D_PIXEL_FORMAT_RG_B888)</span><br><span class="line">canvas:beginWithClear(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>)</span><br><span class="line">node:visit()</span><br><span class="line">canvas:endToLua()</span><br><span class="line"><span class="keyword">local</span> sprite = cc.Sprite:createWithTexture(canvas:getSprite():getTexture(),cc.rect(<span class="number">0</span>,<span class="number">0</span>,width,height))</span><br></pre></td></tr></table></figure></p>
+<p>这是使用RT截屏的一般过程，通过这个过程就把想要截取的node给画出来了。</p>
+<p>开始我是分开画的，先画背景再画立绘，这里我在画背景的时候，没问题。但是画那个立绘模型的时候出问题了。因为在调试第一个拼图时调好了，但是在换另外一个立绘的时候，因为每个英雄模型的高矮不一致，所以如果从头上只截取一个固定尺寸的区域，有些可能看到大体轮廓，但是有些只能看到一个头，这样显然不行。</p>
+<p>因为英雄可能有几十上百个，不可能每个英雄都来调一个偏移值什么的来控制对齐，感觉这是一个死胡同。这个时候我找来策划说了一下难度不好处理，看能不能美术出一个统一的模糊的图片直接盖上去了，就不用程序这么辛苦了。</p>
+<p>但是很遗憾，美术也说帮不上忙，他们也是需要一个个英雄的处理，所以还是只能程序自己想办法，策划说让我再折腾折腾，要是实在实现不了，就只能先这么滴了。</p>
+<p>既然分开不行，那就把背景跟立绘放一个组件里去，直接对这个组件操作它就不用考虑模型的对齐的什么问题，因为底下看到的是什么我们就画什么。但是这个方案又遇到了另外一个问题，因为RT的位置不能移动，它只能固定的从左下角(0,0)截取一个区域，所以在画这个组件的时候，需要先把它挪到左下角来，让它的左下角跟（0，0）点重合，截屏完后再把它位置放回去。<br>这个方案效果是实现了，但是在移动的时候，会有一个一闪而过的位移闪屏的效果，这我自己都觉得无法接受，策划肯定说不行的，所以只能想另外的方案。</p>
+<p>这个时候我想到一个方案，先截取一块大的区域，把目标区域先弄进去，再画第二次的时候把不要的区域挖掉。<br>比如，本来是要截取从（100，100）点一个200x200的区域，之前时把它挪到（0，0）点，画完一个200x200区域后再放回（100，100）点，这样会导致闪屏。<br>现在直接从（0，0）点截取一个300x300的区域，然后第二次截取直接在这个300x300区域上从（100，100）截取一个200x200的区域就不会有闪屏问题了，只是要多画一次，性能影响也不大。以下是此过程关键代码：<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">lihuiDisplay:setData(bigReward[self.activeData.bigId].model,<span class="literal">nil</span>)</span><br><span class="line">lihuiDisplay:setStatic(<span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line">Scheduler.scheduleOnce(<span class="number">0.1</span>,<span class="function"><span class="keyword">function</span> <span class="params">()</span></span></span><br><span class="line">    <span class="comment">--模糊的处理</span></span><br><span class="line">    <span class="keyword">local</span> pos = self.lihuiMark:getPosition()</span><br><span class="line">    <span class="keyword">local</span> width =  self.lihuiMark:getSize().width</span><br><span class="line">    <span class="keyword">local</span> height =  self.lihuiMark:getSize().height</span><br><span class="line">    <span class="keyword">local</span> drawWidth = width + pos.x</span><br><span class="line">    <span class="keyword">local</span> drawHeight =  display.height -pos.y</span><br><span class="line">    <span class="comment">--先将原点到要截取区域先画出来，不需要的等下第二次截取的时候挖孔去掉</span></span><br><span class="line">    <span class="keyword">local</span> canvas = cc.RenderTexture:<span class="built_in">create</span>(drawWidth,drawHeight,cc.TEXTURE2_D_PIXEL_FORMAT_RG_B888)</span><br><span class="line">    canvas:beginWithClear(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>)</span><br><span class="line">    self.lihuiMark:displayObject():visit()</span><br><span class="line">    canvas:endToLua()</span><br><span class="line"></span><br><span class="line">    <span class="comment">--再画一次</span></span><br><span class="line">    <span class="keyword">local</span> sprite = cc.Sprite:createWithTexture(canvas:getSprite():getTexture(),cc.rect(pos.x,display.height-pos.y-height,width,height))</span><br><span class="line">    sprite:setFlippedY(<span class="literal">true</span>);</span><br><span class="line">    sprite:setAnchorPoint(<span class="number">0</span>,<span class="number">0</span>)</span><br><span class="line">    sprite:setPosition(<span class="number">0</span>,<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">local</span> canvasBurl = cc.RenderTexture:<span class="built_in">create</span>(width,height,cc.TEXTURE2_D_PIXEL_FORMAT_RG_B888)</span><br><span class="line">    canvasBurl:beginWithClear(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>)</span><br><span class="line">    self:test(sprite)</span><br><span class="line">    sprite:visit()</span><br><span class="line">    canvasBurl:endToLua()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    self.captureTexture = cc.Sprite:createWithTexture(canvasBurl:getSprite():getTexture(),cc.rect(<span class="number">0</span>,<span class="number">0</span>,width,height))</span><br><span class="line">    <span class="comment">--把这个图片放到屏幕外面，因为不添加到UI上模糊的效果出不来</span></span><br><span class="line">    self.captureTexture :setPosition(<span class="number">-2000</span>,<span class="number">-2000</span>)</span><br><span class="line">    self.captureTexture:setAnchorPoint(<span class="number">0</span>,<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    self.captureTexture :setFlippedY(<span class="literal">true</span>);</span><br><span class="line">    self.view:displayObject():addChild(self.captureTexture)</span><br></pre></td></tr></table></figure></p>
+<h2 id="模糊处理"><a href="#模糊处理" class="headerlink" title="模糊处理"></a>模糊处理</h2><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> shaderKey = <span class="string">"guassian_blur"</span></span><br><span class="line"><span class="keyword">local</span> glProgramCache = cc.GLProgramCache:getInstance()</span><br><span class="line"><span class="keyword">local</span> glProgram  = glProgramCache:getGLProgram(shaderKey)</span><br><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> glProgram <span class="keyword">then</span></span><br><span class="line">    <span class="keyword">local</span> vertex = <span class="built_in">require</span> <span class="string">"Game.Shaders.GaussianBlurVert"</span></span><br><span class="line">    <span class="keyword">local</span> fragment = <span class="built_in">require</span> <span class="string">"Game.Shaders.GaussianBlurFrag"</span></span><br><span class="line"></span><br><span class="line">    glProgram = cc.GLProgram:createWithByteArrays(vertex , fragment)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> glProgram <span class="keyword">then</span> <span class="keyword">return</span> <span class="keyword">end</span></span><br><span class="line">    glProgramCache:addGLProgram(glProgram, shaderKey)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="keyword">local</span> state = cc.GLProgramState:<span class="built_in">create</span>(glProgram)</span><br><span class="line">state:setUniformVec2(<span class="string">"unit_matrix"</span>, &#123;x = <span class="number">1</span>/display.width,y = <span class="number">1</span>/display.height&#125;)</span><br><span class="line">state:setUniformFloat(<span class="string">"blurRaius"</span>, <span class="number">9</span>)</span><br><span class="line">state:setUniformFloat(<span class="string">"sampleNum"</span>, <span class="number">4</span>)</span><br><span class="line">node:setGLProgramState(state)</span><br></pre></td></tr></table></figure>
+<p>这段代码是参考了项目中Window窗口，非全屏底下有个黑色的全屏模糊遮罩。</p>
+<h2 id="截取模糊后的部分区域盖到原来的列表上面"><a href="#截取模糊后的部分区域盖到原来的列表上面" class="headerlink" title="截取模糊后的部分区域盖到原来的列表上面"></a>截取模糊后的部分区域盖到原来的列表上面</h2><p>关键代码如下：<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> row = <span class="built_in">math</span>.<span class="built_in">ceil</span>((index+<span class="number">1</span>)/<span class="number">5</span>)</span><br><span class="line"><span class="keyword">local</span> col = (index+<span class="number">1</span>)%<span class="number">5</span></span><br><span class="line"><span class="keyword">if</span> col == <span class="number">0</span> <span class="keyword">then</span></span><br><span class="line">    col = <span class="number">5</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="keyword">local</span> x = (col<span class="number">-1</span>)*<span class="number">102</span></span><br><span class="line"><span class="keyword">local</span> y = (<span class="number">5</span>-row)*<span class="number">102</span></span><br><span class="line"><span class="keyword">local</span> sprite = cc.Sprite:createWithTexture(self.captureTexture:getTexture(),cc.rect(x,y,<span class="number">102</span>,<span class="number">102</span>))</span><br><span class="line">sprite:setAnchorPoint(<span class="number">0</span>,<span class="number">1</span>)</span><br><span class="line">sprite:setFlippedY(<span class="literal">true</span>)</span><br><span class="line">parent:displayObject():addChild(sprite)</span><br></pre></td></tr></table></figure></p>
+<p>这里有两个点要注意一下：</p>
+<h5 id="1-一是cosos的锚点默认是-0-5-0-5-坐标原点是在左下角的。而之前学的Laya-OpenGL-Unity的锚点默认是-0-0-而坐标原点是的屏幕的左上角的，现在还是习惯用之前的laya思维去解决问题，这点以后要注意。"><a href="#1-一是cosos的锚点默认是-0-5-0-5-坐标原点是在左下角的。而之前学的Laya-OpenGL-Unity的锚点默认是-0-0-而坐标原点是的屏幕的左上角的，现在还是习惯用之前的laya思维去解决问题，这点以后要注意。" class="headerlink" title="1.一是cosos的锚点默认是(0.5,0.5),坐标原点是在左下角的。而之前学的Laya,OpenGL,Unity的锚点默认是(0,0),而坐标原点是的屏幕的左上角的，现在还是习惯用之前的laya思维去解决问题，这点以后要注意。"></a>1.一是cosos的锚点默认是(0.5,0.5),坐标原点是在左下角的。而之前学的Laya,OpenGL,Unity的锚点默认是(0,0),而坐标原点是的屏幕的左上角的，现在还是习惯用之前的laya思维去解决问题，这点以后要注意。</h5><h5 id="2-RenderTexture截取出来的是上下颠倒的，所以要用sprite-setFlippedY-true-翻转一下。"><a href="#2-RenderTexture截取出来的是上下颠倒的，所以要用sprite-setFlippedY-true-翻转一下。" class="headerlink" title="2.RenderTexture截取出来的是上下颠倒的，所以要用sprite:setFlippedY(true)翻转一下。"></a>2.RenderTexture截取出来的是上下颠倒的，所以要用sprite:setFlippedY(true)翻转一下。</h5><h2 id="最终结果"><a href="#最终结果" class="headerlink" title="最终结果"></a>最终结果</h2><p>虽然这个问题，折腾了一天，也曾困扰的中午睡觉都没心思，好在最后问题还是解决了。<br>以后遇到类似的难点问题，要发散性的多思考一下，一个方案感觉走不通了，要立马转换思路想想其他的可能性，千万不要钻牛角尖。<br><img src="https://cdn.jsdelivr.net/gh/fangyanwei/cloudimg/img/20210404215940.png" alt=""></p>
+
+      
+    </div>
+    
+    
+    
+	
+	<div>
+	  
+		<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+	  
+	</div>
+	
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2021/04/04/实现拼图模糊效果/">实现拼图模糊效果</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Fang Yanwei 的个人博客">Fang Yanwei</a></p>
+  <p><span>发布时间:</span>2021年04月04日 - 07:04</p>
+  <p><span>最后更新:</span>2021年04月04日 - 22:04</p>
+  <p><span>原始链接:</span><a href="/2021/04/04/实现拼图模糊效果/" title="实现拼图模糊效果">http://fangyanwei.top/2021/04/04/实现拼图模糊效果/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://fangyanwei.top/2021/04/04/实现拼图模糊效果/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+      $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+        });
+    });  
+</script>
+
+      
+	</div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/截屏，模糊/" rel="tag"><i class="fa fa-tag"></i> 截屏，模糊</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/12/14/前端维护一键搞定/" rel="next" title="前端维护一键搞定">
+                <i class="fa fa-chevron-left"></i> 前端维护一键搞定
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Fang Yanwei</p>
+              <p class="site-description motion-element" itemprop="description">今天很残酷，明天更残酷，后天很美好，但是大部分的人都是死在了明天晚上</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/fangyanwei" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#需求"><span class="nav-number">1.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分析"><span class="nav-number">2.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#把背景跟立绘画在一张精灵里面"><span class="nav-number">3.</span> <span class="nav-text">把背景跟立绘画在一张精灵里面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模糊处理"><span class="nav-number">4.</span> <span class="nav-text">模糊处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#截取模糊后的部分区域盖到原来的列表上面"><span class="nav-number">5.</span> <span class="nav-text">截取模糊后的部分区域盖到原来的列表上面</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-一是cosos的锚点默认是-0-5-0-5-坐标原点是在左下角的。而之前学的Laya-OpenGL-Unity的锚点默认是-0-0-而坐标原点是的屏幕的左上角的，现在还是习惯用之前的laya思维去解决问题，这点以后要注意。"><span class="nav-number">5.0.0.1.</span> <span class="nav-text">1.一是cosos的锚点默认是(0.5,0.5),坐标原点是在左下角的。而之前学的Laya,OpenGL,Unity的锚点默认是(0,0),而坐标原点是的屏幕的左上角的，现在还是习惯用之前的laya思维去解决问题，这点以后要注意。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-RenderTexture截取出来的是上下颠倒的，所以要用sprite-setFlippedY-true-翻转一下。"><span class="nav-number">5.0.0.2.</span> <span class="nav-text">2.RenderTexture截取出来的是上下颠倒的，所以要用sprite:setFlippedY(true)翻转一下。</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最终结果"><span class="nav-number">6.</span> <span class="nav-text">最终结果</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fang Yanwei</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">30.3k</span>
+  
+</div>
+
+
+	<div class="powered-by">
+		<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+		  本站访客数:<span id="busuanzi_value_site_uv"></span>
+		</span>
+	</div>
+
+  <!--
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+  -->
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共30.3k字</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>

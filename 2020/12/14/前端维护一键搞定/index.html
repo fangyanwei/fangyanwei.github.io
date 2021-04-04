@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-corner-indicator.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="脚本," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="fangyanwei的博客" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="痛点在小游戏里为了加快游戏的加载速度，所有的二进制文件是被放入4个大小差不多的压缩包中的。之前是手动去管理哪些文件放入哪个包的，如果改动不小还好，但是经常会遇到配置表的增加或者删除的现象，所以还是用手动去管理的话就有点太烦琐了，所以想用脚本去管理。 思路先把二进制目录中的所有文件按照从大到小排个序，然后将所有的文件名字放到四个文件中，然后就是循环遍历这4个文件生成IDE需要的文件格式放到特定的目录">
+<meta name="keywords" content="脚本">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端维护一键搞定">
+<meta property="og:url" content="http://fangyanwei.top/2020/12/14/前端维护一键搞定/index.html">
+<meta property="og:site_name" content="fangyanwei的博客">
+<meta property="og:description" content="痛点在小游戏里为了加快游戏的加载速度，所有的二进制文件是被放入4个大小差不多的压缩包中的。之前是手动去管理哪些文件放入哪个包的，如果改动不小还好，但是经常会遇到配置表的增加或者删除的现象，所以还是用手动去管理的话就有点太烦琐了，所以想用脚本去管理。 思路先把二进制目录中的所有文件按照从大到小排个序，然后将所有的文件名字放到四个文件中，然后就是循环遍历这4个文件生成IDE需要的文件格式放到特定的目录">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-04-03T23:35:34.859Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="前端维护一键搞定">
+<meta name="twitter:description" content="痛点在小游戏里为了加快游戏的加载速度，所有的二进制文件是被放入4个大小差不多的压缩包中的。之前是手动去管理哪些文件放入哪个包的，如果改动不小还好，但是经常会遇到配置表的增加或者删除的现象，所以还是用手动去管理的话就有点太烦琐了，所以想用脚本去管理。 思路先把二进制目录中的所有文件按照从大到小排个序，然后将所有的文件名字放到四个文件中，然后就是循环遍历这4个文件生成IDE需要的文件格式放到特定的目录">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://fangyanwei.top/2020/12/14/前端维护一键搞定/"/>
+
+
+
+
+
+  <title>前端维护一键搞定 | fangyanwei的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	
+	<a href="https://github.com/fangyanwei"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">fangyanwei的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">不念过往，不惧未来</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://fangyanwei.top/2020/12/14/前端维护一键搞定/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Fang Yanwei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="fangyanwei的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">前端维护一键搞定</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-12-14T23:44:05+08:00">
+                2020-12-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/脚本/" itemprop="url" rel="index">
+                    <span itemprop="name">脚本</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  8,999
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  45
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="痛点"><a href="#痛点" class="headerlink" title="痛点"></a>痛点</h4><p>在小游戏里为了加快游戏的加载速度，所有的二进制文件是被放入4个大小差不多的压缩包中的。之前是手动去管理哪些文件放入哪个包的，如果改动不小还好，但是经常会遇到配置表的增加或者删除的现象，所以还是用手动去管理的话就有点太烦琐了，所以想用脚本去管理。</p>
+<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>先把二进制目录中的所有文件按照从大到小排个序，然后将所有的文件名字放到四个文件中，然后就是循环遍历这4个文件生成IDE需要的文件格式放到特定的目录去，然后去执行一下。<br>算法优化之后，循环放入明显比依次放入更均匀，达到了我们的目标，可以放心食用了</p>
+<a id="more"></a>
+<h4 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h4><p>实现就直接看脚本的注释吧， 写的比较详细，不展开说了。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br></pre></td><td class="code"><pre><span class="line">::使用说明</span><br><span class="line">::放在任何路径都可以执行，但是要配置两个目录，一个是work_dir,还一个是写入mergebinary.tfpb文件中的path</span><br><span class="line"></span><br><span class="line">rem 进入bintable的目录</span><br><span class="line">set work_dirs=F:\sqhx\client\mylaya</span><br><span class="line">cd %work_dirs%\bin\res\table\bintable</span><br><span class="line">rem 删除旧的gameTable</span><br><span class="line">rm -rf gameTable0*</span><br><span class="line">rem 从大到小排序</span><br><span class="line">rem 这里直接输出到上一级路径，目前路径的话文件中会多一行temp.ini，把临时生成在当前目录的文件也输入进去了</span><br><span class="line">echo |ls -LS &gt;&gt; ../temp.ini</span><br><span class="line">cd ..</span><br><span class="line">rm -rf gameTable0*</span><br><span class="line">echo 把文件名放到四个文件里去</span><br><span class="line">rem 这里注意为了防止变量不生效，要开启延迟扩展，变量名要用！！包起来，在循环中求余要用两个%%表示</span><br><span class="line">rem 优化：从高到低依次放入不均匀，第一个池子大，最后一个池子小了，现在考虑用循环放入方式</span><br><span class="line">set /a i=0</span><br><span class="line">rem 逆转标志</span><br><span class="line">set /a rev=0</span><br><span class="line">setlocal enabledelayedexpansion</span><br><span class="line">for /f %%a in (temp.ini) do (</span><br><span class="line">    set /a n=!i!%%4+1</span><br><span class="line">    if !rev! == 0 (</span><br><span class="line">        echo %%a &gt;&gt; gameTable0!n!.temp</span><br><span class="line">    )else (</span><br><span class="line">        set /a r=5-!n!</span><br><span class="line">        echo %%a &gt;&gt; gameTable0!r!.temp</span><br><span class="line">    )</span><br><span class="line">    </span><br><span class="line">    set /a i+=1</span><br><span class="line">    if !n! == 4 (</span><br><span class="line">        set /a rev=1-!rev!</span><br><span class="line">    ) </span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">echo 生成mergebinary.tfpb文件</span><br><span class="line">rem 删除旧的</span><br><span class="line">del /q mergebinary.tfpb</span><br><span class="line">echo &#123; &gt;&gt; mergebinary.tfpb</span><br><span class="line">echo "path": "F:\\sqhx\\client\\mylaya\\bin", &gt;&gt; mergebinary.tfpb</span><br><span class="line">echo "outPath": "bin\\res\\table\\bintable", &gt;&gt; mergebinary.tfpb</span><br><span class="line">echo "fileMerge": &#123; &gt;&gt; mergebinary.tfpb</span><br><span class="line">rem 第一个压缩包</span><br><span class="line">echo "gameTable01.plfb": [ &gt;&gt; mergebinary.tfpb</span><br><span class="line">rem 先拿到文件的行数</span><br><span class="line">cat gameTable01.temp | wc -l &gt; num.ini</span><br><span class="line">for /F %%i in (num.ini) do ( set count=%%i)</span><br><span class="line">rem 循环输入文件内的内容，注意最后一行没有逗号</span><br><span class="line">set /a i=0</span><br><span class="line">for /f %%a in (gameTable01.temp) do (</span><br><span class="line">    set /a i+=1</span><br><span class="line">    if !count! == !i! (</span><br><span class="line">        echo "res/table/bintable/%%a" &gt;&gt; mergebinary.tfpb</span><br><span class="line">    )else (</span><br><span class="line">        echo "res/table/bintable/%%a", &gt;&gt; mergebinary.tfpb</span><br><span class="line">    ) </span><br><span class="line">)</span><br><span class="line">echo ], &gt;&gt; mergebinary.tfpb</span><br><span class="line">rem 第二个压缩包</span><br><span class="line">echo "gameTable02.plfb": [ &gt;&gt; mergebinary.tfpb</span><br><span class="line">rem 先拿到文件的行数</span><br><span class="line">cat gameTable02.temp | wc -l &gt; num.ini</span><br><span class="line">for /F %%i in (num.ini) do ( set count=%%i)</span><br><span class="line">rem 循环输入文件内的内容，注意最后一行没有逗号</span><br><span class="line">set /a i=0</span><br><span class="line">for /f %%a in (gameTable02.temp) do (</span><br><span class="line">    set /a i+=1</span><br><span class="line">    if !count! == !i! (</span><br><span class="line">        echo "res/table/bintable/%%a" &gt;&gt; mergebinary.tfpb</span><br><span class="line">    )else (</span><br><span class="line">        echo "res/table/bintable/%%a", &gt;&gt; mergebinary.tfpb</span><br><span class="line">    ) </span><br><span class="line">)</span><br><span class="line">echo ], &gt;&gt; mergebinary.tfpb</span><br><span class="line">rem 第三个压缩包</span><br><span class="line">echo "gameTable03.plfb": [ &gt;&gt; mergebinary.tfpb</span><br><span class="line">rem 先拿到文件的行数</span><br><span class="line">cat gameTable03.temp | wc -l &gt; num.ini</span><br><span class="line">for /F %%i in (num.ini) do ( set count=%%i)</span><br><span class="line">rem 循环输入文件内的内容，注意最后一行没有逗号</span><br><span class="line">set /a i=0</span><br><span class="line">for /f %%a in (gameTable03.temp) do (</span><br><span class="line">    set /a i+=1</span><br><span class="line">    if !count! == !i! (</span><br><span class="line">        echo "res/table/bintable/%%a" &gt;&gt; mergebinary.tfpb</span><br><span class="line">    )else (</span><br><span class="line">        echo "res/table/bintable/%%a", &gt;&gt; mergebinary.tfpb</span><br><span class="line">    ) </span><br><span class="line">)</span><br><span class="line">echo ], &gt;&gt; mergebinary.tfpb</span><br><span class="line">rem 第四个压缩包</span><br><span class="line">echo "gameTable04.plfb": [ &gt;&gt; mergebinary.tfpb</span><br><span class="line">rem 先拿到文件的行数</span><br><span class="line">cat gameTable04.temp | wc -l &gt; num.ini</span><br><span class="line">for /F %%i in (num.ini) do ( set count=%%i)</span><br><span class="line">rem 循环输入文件内的内容，注意最后一行没有逗号</span><br><span class="line">set /a i=0</span><br><span class="line">for /f %%a in (gameTable04.temp) do (</span><br><span class="line">    set /a i+=1</span><br><span class="line">    if !count! == !i! (</span><br><span class="line">        echo "res/table/bintable/%%a" &gt;&gt; mergebinary.tfpb</span><br><span class="line">    )else (</span><br><span class="line">        echo "res/table/bintable/%%a", &gt;&gt; mergebinary.tfpb</span><br><span class="line">    ) </span><br><span class="line">)</span><br><span class="line">echo ] &gt;&gt; mergebinary.tfpb</span><br><span class="line">echo &#125; &gt;&gt; mergebinary.tfpb</span><br><span class="line">echo &#125; &gt;&gt; mergebinary.tfpb</span><br><span class="line">rem 删除临时文件</span><br><span class="line">del /q temp.ini</span><br><span class="line">del /q num.ini</span><br><span class="line">rm -rf gameTable0*</span><br><span class="line">rem 将文件拷贝到发布的目录去</span><br><span class="line">rm -rf %work_dirs%\laya\config</span><br><span class="line">mkdir %work_dirs%\laya\config</span><br><span class="line">move mergebinary.tfpb %work_dirs%\laya\config\</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pause</span><br></pre></td></tr></table></figure></p>
+<h4 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h4><p>看能不能不用Laya的IDE，直接一个脚本就生成好这4个压缩包,有时间继续研究下。</p>
+<p>2020年12月14日 23：50：03 更新</p>
+<p>经过几天的研究，总算初步实现了这个功能，中间一度想要放弃，因为在IDE中，集成了node跟h5的环境，所以它是两边的方法都可以用，但是用脚本基本把IDE那个html弹出来的话，很多node.js的功能都不能了，一个简单require(“fs”)都报错,即使实现了也还需要手动点一上发布按钮，与 我们期待的自动化目标不符合。<br>最后用node的方式去实现的发布功能，脱离了 IDE，借鉴了官方引擎的一些实现，查阅了一些资料，只要是web的接口全部想办法替换实现。下面记录这吐血的过程。</p>
+<h4 id="把引擎的Byte类抽离出来形成一个单独的js"><a href="#把引擎的Byte类抽离出来形成一个单独的js" class="headerlink" title="把引擎的Byte类抽离出来形成一个单独的js"></a>把引擎的Byte类抽离出来形成一个单独的js</h4><p>代码是在bundle.js中抽出来改写的，后面有时间还要去加强下js模块相关的知识，有点生疏了。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br><span class="line">431</span><br><span class="line">432</span><br><span class="line">433</span><br><span class="line">434</span><br><span class="line">435</span><br><span class="line">436</span><br><span class="line">437</span><br><span class="line">438</span><br><span class="line">439</span><br><span class="line">440</span><br><span class="line">441</span><br><span class="line">442</span><br><span class="line">443</span><br><span class="line">444</span><br><span class="line">445</span><br><span class="line">446</span><br><span class="line">447</span><br><span class="line">448</span><br><span class="line">449</span><br><span class="line">450</span><br><span class="line">451</span><br><span class="line">452</span><br><span class="line">453</span><br><span class="line">454</span><br><span class="line">455</span><br><span class="line">456</span><br><span class="line">457</span><br><span class="line">458</span><br><span class="line">459</span><br><span class="line">460</span><br><span class="line">461</span><br><span class="line">462</span><br><span class="line">463</span><br><span class="line">464</span><br><span class="line">465</span><br><span class="line">466</span><br><span class="line">467</span><br><span class="line">468</span><br><span class="line">469</span><br><span class="line">470</span><br><span class="line">471</span><br><span class="line">472</span><br><span class="line">473</span><br><span class="line">474</span><br><span class="line">475</span><br><span class="line">476</span><br><span class="line">477</span><br><span class="line">478</span><br><span class="line">479</span><br><span class="line">480</span><br><span class="line">481</span><br><span class="line">482</span><br><span class="line">483</span><br><span class="line">484</span><br><span class="line">485</span><br><span class="line">486</span><br><span class="line">487</span><br><span class="line">488</span><br><span class="line">489</span><br><span class="line">490</span><br><span class="line">491</span><br><span class="line">492</span><br><span class="line">493</span><br><span class="line">494</span><br><span class="line">495</span><br><span class="line">496</span><br><span class="line">497</span><br><span class="line">498</span><br><span class="line">499</span><br><span class="line">500</span><br><span class="line">501</span><br><span class="line">502</span><br><span class="line">503</span><br><span class="line">504</span><br><span class="line">505</span><br><span class="line">506</span><br><span class="line">507</span><br><span class="line">508</span><br><span class="line">509</span><br><span class="line">510</span><br><span class="line">511</span><br><span class="line">512</span><br><span class="line">513</span><br><span class="line">514</span><br><span class="line">515</span><br><span class="line">516</span><br><span class="line">517</span><br><span class="line">518</span><br><span class="line">519</span><br><span class="line">520</span><br><span class="line">521</span><br><span class="line">522</span><br><span class="line">523</span><br><span class="line">524</span><br><span class="line">525</span><br><span class="line">526</span><br><span class="line">527</span><br><span class="line">528</span><br><span class="line">529</span><br><span class="line">530</span><br><span class="line">531</span><br><span class="line">532</span><br><span class="line">533</span><br><span class="line">534</span><br><span class="line">535</span><br><span class="line">536</span><br><span class="line">537</span><br><span class="line">538</span><br><span class="line">539</span><br><span class="line">540</span><br><span class="line">541</span><br><span class="line">542</span><br><span class="line">543</span><br><span class="line">544</span><br><span class="line">545</span><br><span class="line">546</span><br><span class="line">547</span><br><span class="line">548</span><br><span class="line">549</span><br><span class="line">550</span><br><span class="line">551</span><br><span class="line">552</span><br><span class="line">553</span><br><span class="line">554</span><br><span class="line">555</span><br><span class="line">556</span><br><span class="line">557</span><br><span class="line">558</span><br><span class="line">559</span><br><span class="line">560</span><br><span class="line">561</span><br><span class="line">562</span><br><span class="line">563</span><br><span class="line">564</span><br><span class="line">565</span><br><span class="line">566</span><br><span class="line">567</span><br><span class="line">568</span><br><span class="line">569</span><br><span class="line">570</span><br><span class="line">571</span><br><span class="line">572</span><br><span class="line">573</span><br><span class="line">574</span><br><span class="line">575</span><br><span class="line">576</span><br><span class="line">577</span><br><span class="line">578</span><br><span class="line">579</span><br><span class="line">580</span><br><span class="line">581</span><br><span class="line">582</span><br><span class="line">583</span><br><span class="line">584</span><br><span class="line">585</span><br><span class="line">586</span><br><span class="line">587</span><br><span class="line">588</span><br><span class="line">589</span><br><span class="line">590</span><br><span class="line">591</span><br><span class="line">592</span><br><span class="line">593</span><br><span class="line">594</span><br><span class="line">595</span><br><span class="line">596</span><br><span class="line">597</span><br><span class="line">598</span><br><span class="line">599</span><br><span class="line">600</span><br><span class="line">601</span><br><span class="line">602</span><br><span class="line">603</span><br><span class="line">604</span><br><span class="line">605</span><br><span class="line">606</span><br><span class="line">607</span><br><span class="line">608</span><br><span class="line">609</span><br><span class="line">610</span><br><span class="line">611</span><br><span class="line">612</span><br><span class="line">613</span><br><span class="line">614</span><br><span class="line">615</span><br><span class="line">616</span><br><span class="line">617</span><br><span class="line">618</span><br><span class="line">619</span><br><span class="line">620</span><br><span class="line">621</span><br><span class="line">622</span><br><span class="line">623</span><br><span class="line">624</span><br><span class="line">625</span><br><span class="line">626</span><br><span class="line">627</span><br><span class="line">628</span><br><span class="line">629</span><br><span class="line">630</span><br><span class="line">631</span><br><span class="line">632</span><br><span class="line">633</span><br><span class="line">634</span><br><span class="line">635</span><br><span class="line">636</span><br><span class="line">637</span><br><span class="line">638</span><br><span class="line">639</span><br><span class="line">640</span><br><span class="line">641</span><br><span class="line">642</span><br><span class="line">643</span><br><span class="line">644</span><br><span class="line">645</span><br><span class="line">646</span><br><span class="line">647</span><br><span class="line">648</span><br><span class="line">649</span><br><span class="line">650</span><br><span class="line">651</span><br><span class="line">652</span><br><span class="line">653</span><br><span class="line">654</span><br><span class="line">655</span><br><span class="line">656</span><br><span class="line">657</span><br><span class="line">658</span><br><span class="line">659</span><br><span class="line">660</span><br><span class="line">661</span><br><span class="line">662</span><br><span class="line">663</span><br><span class="line">664</span><br><span class="line">665</span><br><span class="line">666</span><br><span class="line">667</span><br><span class="line">668</span><br><span class="line">669</span><br><span class="line">670</span><br><span class="line">671</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Byte</span></span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(data)&#123;</span><br><span class="line">        <span class="comment">/**@private 是否为小端数据。*/</span></span><br><span class="line">        <span class="keyword">this</span>._xd_=<span class="literal">true</span>;</span><br><span class="line">        <span class="comment">/**@private */</span></span><br><span class="line">        <span class="keyword">this</span>._allocated_=<span class="number">8</span>;</span><br><span class="line">        <span class="comment">/**@private 原始数据。*/</span></span><br><span class="line">        <span class="comment">//this._d_=null;</span></span><br><span class="line">        <span class="comment">/**@private DataView*/</span></span><br><span class="line">        <span class="comment">//this._u8d_=null;</span></span><br><span class="line">        <span class="comment">/**@private */</span></span><br><span class="line">        <span class="keyword">this</span>._pos_=<span class="number">0</span>;</span><br><span class="line">        <span class="comment">/**@private */</span></span><br><span class="line">        <span class="keyword">this</span>._length=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span> (data)&#123;</span><br><span class="line">            <span class="keyword">this</span>._u8d_=<span class="keyword">new</span> <span class="built_in">Uint8Array</span>(data);</span><br><span class="line">            <span class="keyword">this</span>._d_=<span class="keyword">new</span> <span class="built_in">DataView</span>(<span class="keyword">this</span>._u8d_.buffer);</span><br><span class="line">            <span class="keyword">this</span>._length=<span class="keyword">this</span>._d_.byteLength;</span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">this</span>._resizeBuffer(<span class="keyword">this</span>._allocated_);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**@private */</span></span><br><span class="line">    _resizeBuffer(len)&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">var</span> newByteView=<span class="keyword">new</span> <span class="built_in">Uint8Array</span>(len);</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>._u8d_ !=<span class="literal">null</span>)&#123;</span><br><span class="line">                <span class="keyword">if</span> (<span class="keyword">this</span>._u8d_.length &lt;=len)newByteView.set(<span class="keyword">this</span>._u8d_);</span><br><span class="line">                <span class="keyword">else</span> newByteView.set(<span class="keyword">this</span>._u8d_.subarray(<span class="number">0</span>,len));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">this</span>._u8d_=newByteView;</span><br><span class="line">            <span class="keyword">this</span>._d_=<span class="keyword">new</span> <span class="built_in">DataView</span>(newByteView.buffer);</span><br><span class="line">            &#125;<span class="keyword">catch</span> (err)&#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="string">"Invalid typed array length:"</span>+len;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *@private</span></span><br><span class="line"><span class="comment">    *&lt;p&gt;常用于解析固定格式的字节流。&lt;/p&gt;</span></span><br><span class="line"><span class="comment">    *&lt;p&gt;先从字节流的当前字节偏移位置处读取一个 &lt;code&gt;Uint16&lt;/code&gt; 值，然后以此值为长度，读取此长度的字符串。&lt;/p&gt;</span></span><br><span class="line"><span class="comment">    *@return 读取的字符串。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    getString()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.readString();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *&lt;p&gt;常用于解析固定格式的字节流。&lt;/p&gt;</span></span><br><span class="line"><span class="comment">    *&lt;p&gt;先从字节流的当前字节偏移位置处读取一个 &lt;code&gt;Uint16&lt;/code&gt; 值，然后以此值为长度，读取此长度的字符串。&lt;/p&gt;</span></span><br><span class="line"><span class="comment">    *@return 读取的字符串。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    readString()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>._rUTF(<span class="keyword">this</span>.getUint16());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *@private</span></span><br><span class="line"><span class="comment">    *&lt;p&gt;从字节流中 &lt;code&gt;start&lt;/code&gt; 参数指定的位置开始，读取 &lt;code&gt;len&lt;/code&gt; 参数指定的字节数的数据，用于创建一个 &lt;code&gt;Float32Array&lt;/code&gt; 对象并返回此对象。&lt;/p&gt;</span></span><br><span class="line"><span class="comment">    *&lt;p&gt;&lt;b&gt;注意：&lt;/b&gt;返回的 Float32Array 对象，在 JavaScript 环境下，是原生的 HTML5 Float32Array 对象，对此对象的读取操作都是基于运行此程序的当前主机字节序，此顺序可能与实际数据的字节序不同，如果使用此对象进行读取，需要用户知晓实际数据的字节序和当前主机字节序，如果相同，可正常读取，否则需要用户对实际数据(Float32Array.buffer)包装一层 DataView ，使用 DataView 对象可按照指定的字节序进行读取。&lt;/p&gt;</span></span><br><span class="line"><span class="comment">    *@param start 开始位置。</span></span><br><span class="line"><span class="comment">    *@param len 需要读取的字节长度。如果要读取的长度超过可读取范围，则只返回可读范围内的值。</span></span><br><span class="line"><span class="comment">    *@return 读取的 Float32Array 对象。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    getFloat32Array(start,len)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.readFloat32Array(start,len);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *从字节流中 &lt;code&gt;start&lt;/code&gt; 参数指定的位置开始，读取 &lt;code&gt;len&lt;/code&gt; 参数指定的字节数的数据，用于创建一个 &lt;code&gt;Float32Array&lt;/code&gt; 对象并返回此对象。</span></span><br><span class="line"><span class="comment">    *@param start 开始位置。</span></span><br><span class="line"><span class="comment">    *@param len 需要读取的字节长度。如果要读取的长度超过可读取范围，则只返回可读范围内的值。</span></span><br><span class="line"><span class="comment">    *@return 读取的 Float32Array 对象。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    readFloat32Array(start,len)&#123;</span><br><span class="line">        <span class="keyword">var</span> end=start+len;</span><br><span class="line">        end=(end &gt; <span class="keyword">this</span>._length)? <span class="keyword">this</span>._length :end;</span><br><span class="line">        <span class="keyword">var</span> v=<span class="keyword">new</span> <span class="built_in">Float32Array</span>(<span class="keyword">this</span>._d_.buffer.slice(start,end));</span><br><span class="line">        <span class="keyword">this</span>._pos_=end;</span><br><span class="line">        <span class="keyword">return</span> v;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *@private</span></span><br><span class="line"><span class="comment">    *从字节流中 &lt;code&gt;start&lt;/code&gt; 参数指定的位置开始，读取 &lt;code&gt;len&lt;/code&gt; 参数指定的字节数的数据，用于创建一个 &lt;code&gt;Uint8Array&lt;/code&gt; 对象并返回此对象。</span></span><br><span class="line"><span class="comment">    *@param start 开始位置。</span></span><br><span class="line"><span class="comment">    *@param len 需要读取的字节长度。如果要读取的长度超过可读取范围，则只返回可读范围内的值。</span></span><br><span class="line"><span class="comment">    *@return 读取的 Uint8Array 对象。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    getUint8Array(start,len)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.readUint8Array(start,len);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *从字节流中 &lt;code&gt;start&lt;/code&gt; 参数指定的位置开始，读取 &lt;code&gt;len&lt;/code&gt; 参数指定的字节数的数据，用于创建一个 &lt;code&gt;Uint8Array&lt;/code&gt; 对象并返回此对象。</span></span><br><span class="line"><span class="comment">    *@param start 开始位置。</span></span><br><span class="line"><span class="comment">    *@param len 需要读取的字节长度。如果要读取的长度超过可读取范围，则只返回可读范围内的值。</span></span><br><span class="line"><span class="comment">    *@return 读取的 Uint8Array 对象。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    readUint8Array(start,len)&#123;</span><br><span class="line">        <span class="keyword">var</span> end=start+len;</span><br><span class="line">        end=(end &gt; <span class="keyword">this</span>._length)? <span class="keyword">this</span>._length :end;</span><br><span class="line">        <span class="keyword">var</span> v=<span class="keyword">new</span> <span class="built_in">Uint8Array</span>(<span class="keyword">this</span>._d_.buffer.slice(start,end));</span><br><span class="line">        <span class="keyword">this</span>._pos_=end;</span><br><span class="line">        <span class="keyword">return</span> v;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *@private</span></span><br><span class="line"><span class="comment">    *&lt;p&gt;从字节流中 &lt;code&gt;start&lt;/code&gt; 参数指定的位置开始，读取 &lt;code&gt;len&lt;/code&gt; 参数指定的字节数的数据，用于创建一个 &lt;code&gt;Int16Array&lt;/code&gt; 对象并返回此对象。&lt;/p&gt;</span></span><br><span class="line"><span class="comment">    *&lt;p&gt;&lt;b&gt;注意：&lt;/b&gt;返回的 Int16Array 对象，在 JavaScript 环境下，是原生的 HTML5 Int16Array 对象，对此对象的读取操作都是基于运行此程序的当前主机字节序，此顺序可能与实际数据的字节序不同，如果使用此对象进行读取，需要用户知晓实际数据的字节序和当前主机字节序，如果相同，可正常读取，否则需要用户对实际数据(Int16Array.buffer)包装一层 DataView ，使用 DataView 对象可按照指定的字节序进行读取。&lt;/p&gt;</span></span><br><span class="line"><span class="comment">    *@param start 开始读取的字节偏移量位置。</span></span><br><span class="line"><span class="comment">    *@param len 需要读取的字节长度。如果要读取的长度超过可读取范围，则只返回可读范围内的值。</span></span><br><span class="line"><span class="comment">    *@return 读取的 Int16Array 对象。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    getInt16Array(start,len)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.readInt16Array(start,len);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *从字节流中 &lt;code&gt;start&lt;/code&gt; 参数指定的位置开始，读取 &lt;code&gt;len&lt;/code&gt; 参数指定的字节数的数据，用于创建一个 &lt;code&gt;Int16Array&lt;/code&gt; 对象并返回此对象。</span></span><br><span class="line"><span class="comment">    *@param start 开始读取的字节偏移量位置。</span></span><br><span class="line"><span class="comment">    *@param len 需要读取的字节长度。如果要读取的长度超过可读取范围，则只返回可读范围内的值。</span></span><br><span class="line"><span class="comment">    *@return 读取的 Uint8Array 对象。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    readInt16Array(start,len)&#123;</span><br><span class="line">        <span class="keyword">var</span> end=start+len;</span><br><span class="line">        end=(end &gt; <span class="keyword">this</span>._length)? <span class="keyword">this</span>._length :end;</span><br><span class="line">        <span class="keyword">var</span> v=<span class="keyword">new</span> <span class="built_in">Int16Array</span>(<span class="keyword">this</span>._d_.buffer.slice(start,end));</span><br><span class="line">        <span class="keyword">this</span>._pos_=end;</span><br><span class="line">        <span class="keyword">return</span> v;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *@private</span></span><br><span class="line"><span class="comment">    *从字节流的当前字节偏移位置处读取一个 IEEE 754 单精度（32 位）浮点数。</span></span><br><span class="line"><span class="comment">    *@return 单精度（32 位）浮点数。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    getFloat32()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.readFloat32();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *从字节流的当前字节偏移位置处读取一个 IEEE 754 单精度（32 位）浮点数。</span></span><br><span class="line"><span class="comment">    *@return 单精度（32 位）浮点数。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    readFloat32()&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>._pos_+<span class="number">4</span> &gt; <span class="keyword">this</span>._length)<span class="keyword">throw</span> <span class="string">"getFloat32 error - Out of bounds"</span>;</span><br><span class="line">        <span class="keyword">var</span> v=<span class="keyword">this</span>._d_.getFloat32(<span class="keyword">this</span>._pos_,<span class="keyword">this</span>._xd_);</span><br><span class="line">        <span class="keyword">this</span>._pos_+=<span class="number">4</span>;</span><br><span class="line">        <span class="keyword">return</span> v;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *@private</span></span><br><span class="line"><span class="comment">    *从字节流的当前字节偏移量位置处读取一个 IEEE 754 双精度（64 位）浮点数。</span></span><br><span class="line"><span class="comment">    *@return 双精度（64 位）浮点数。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    getFloat64()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.readFloat64();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *从字节流的当前字节偏移量位置处读取一个 IEEE 754 双精度（64 位）浮点数。</span></span><br><span class="line"><span class="comment">    *@return 双精度（64 位）浮点数。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    readFloat64()&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>._pos_+<span class="number">8</span> &gt; <span class="keyword">this</span>._length)<span class="keyword">throw</span> <span class="string">"getFloat64 error - Out of bounds"</span>;</span><br><span class="line">        <span class="keyword">var</span> v=<span class="keyword">this</span>._d_.getFloat64(<span class="keyword">this</span>._pos_,<span class="keyword">this</span>._xd_);</span><br><span class="line">        <span class="keyword">this</span>._pos_+=<span class="number">8</span>;</span><br><span class="line">        <span class="keyword">return</span> v;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *在字节流的当前字节偏移量位置处写入一个 IEEE 754 单精度（32 位）浮点数。</span></span><br><span class="line"><span class="comment">    *@param value 单精度（32 位）浮点数。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    writeFloat32(value)&#123;</span><br><span class="line">        <span class="keyword">this</span>._ensureWrite(<span class="keyword">this</span>._pos_+<span class="number">4</span>);</span><br><span class="line">        <span class="keyword">this</span>._d_.setFloat32(<span class="keyword">this</span>._pos_,value,<span class="keyword">this</span>._xd_);</span><br><span class="line">        <span class="keyword">this</span>._pos_+=<span class="number">4</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *在字节流的当前字节偏移量位置处写入一个 IEEE 754 双精度（64 位）浮点数。</span></span><br><span class="line"><span class="comment">    *@param value 双精度（64 位）浮点数。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    writeFloat64(value)&#123;</span><br><span class="line">        <span class="keyword">this</span>._ensureWrite(<span class="keyword">this</span>._pos_+<span class="number">8</span>);</span><br><span class="line">        <span class="keyword">this</span>._d_.setFloat64(<span class="keyword">this</span>._pos_,value,<span class="keyword">this</span>._xd_);</span><br><span class="line">        <span class="keyword">this</span>._pos_+=<span class="number">8</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *@private</span></span><br><span class="line"><span class="comment">    *从字节流的当前字节偏移量位置处读取一个 Int32 值。</span></span><br><span class="line"><span class="comment">    *@return Int32 值。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    getInt32()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.readInt32();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *从字节流的当前字节偏移量位置处读取一个 Int32 值。</span></span><br><span class="line"><span class="comment">    *@return Int32 值。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    readInt32()&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>._pos_+<span class="number">4</span> &gt; <span class="keyword">this</span>._length)<span class="keyword">throw</span> <span class="string">"getInt32 error - Out of bounds"</span>;</span><br><span class="line">        <span class="keyword">var</span> float=<span class="keyword">this</span>._d_.getInt32(<span class="keyword">this</span>._pos_,<span class="keyword">this</span>._xd_);</span><br><span class="line">        <span class="keyword">this</span>._pos_+=<span class="number">4</span>;</span><br><span class="line">        <span class="keyword">return</span> float;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *@private</span></span><br><span class="line"><span class="comment">    *从字节流的当前字节偏移量位置处读取一个 Uint32 值。</span></span><br><span class="line"><span class="comment">    *@return Uint32 值。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    getUint32()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.readUint32();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *从字节流的当前字节偏移量位置处读取一个 Uint32 值。</span></span><br><span class="line"><span class="comment">    *@return Uint32 值。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    readUint32()&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>._pos_+<span class="number">4</span> &gt; <span class="keyword">this</span>._length)<span class="keyword">throw</span> <span class="string">"getUint32 error - Out of bounds"</span>;</span><br><span class="line">        <span class="keyword">var</span> v=<span class="keyword">this</span>._d_.getUint32(<span class="keyword">this</span>._pos_,<span class="keyword">this</span>._xd_);</span><br><span class="line">        <span class="keyword">this</span>._pos_+=<span class="number">4</span>;</span><br><span class="line">        <span class="keyword">return</span> v;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *在字节流的当前字节偏移量位置处写入指定的 Int32 值。</span></span><br><span class="line"><span class="comment">    *@param value 需要写入的 Int32 值。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    writeInt32(value)&#123;</span><br><span class="line">        <span class="keyword">this</span>._ensureWrite(<span class="keyword">this</span>._pos_+<span class="number">4</span>);</span><br><span class="line">        <span class="keyword">this</span>._d_.setInt32(<span class="keyword">this</span>._pos_,value,<span class="keyword">this</span>._xd_);</span><br><span class="line">        <span class="keyword">this</span>._pos_+=<span class="number">4</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *在字节流的当前字节偏移量位置处写入 Uint32 值。</span></span><br><span class="line"><span class="comment">    *@param value 需要写入的 Uint32 值。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    writeUint32(value)&#123;</span><br><span class="line">        <span class="keyword">this</span>._ensureWrite(<span class="keyword">this</span>._pos_+<span class="number">4</span>);</span><br><span class="line">        <span class="keyword">this</span>._d_.setUint32(<span class="keyword">this</span>._pos_,value,<span class="keyword">this</span>._xd_);</span><br><span class="line">        <span class="keyword">this</span>._pos_+=<span class="number">4</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *@private</span></span><br><span class="line"><span class="comment">    *从字节流的当前字节偏移量位置处读取一个 Int16 值。</span></span><br><span class="line"><span class="comment">    *@return Int16 值。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    getInt16()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.readInt16();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *从字节流的当前字节偏移量位置处读取一个 Int16 值。</span></span><br><span class="line"><span class="comment">    *@return Int16 值。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    readInt16()&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>._pos_+<span class="number">2</span> &gt; <span class="keyword">this</span>._length)<span class="keyword">throw</span> <span class="string">"getInt16 error - Out of bounds"</span>;</span><br><span class="line">        <span class="keyword">var</span> us=<span class="keyword">this</span>._d_.getInt16(<span class="keyword">this</span>._pos_,<span class="keyword">this</span>._xd_);</span><br><span class="line">        <span class="keyword">this</span>._pos_+=<span class="number">2</span>;</span><br><span class="line">        <span class="keyword">return</span> us;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *@private</span></span><br><span class="line"><span class="comment">    *从字节流的当前字节偏移量位置处读取一个 Uint16 值。</span></span><br><span class="line"><span class="comment">    *@return Uint16 值。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    getUint16()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.readUint16();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *从字节流的当前字节偏移量位置处读取一个 Uint16 值。</span></span><br><span class="line"><span class="comment">    *@return Uint16 值。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    readUint16()&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>._pos_+<span class="number">2</span> &gt; <span class="keyword">this</span>._length)<span class="keyword">throw</span> <span class="string">"getUint16 error - Out of bounds"</span>;</span><br><span class="line">        <span class="keyword">var</span> us=<span class="keyword">this</span>._d_.getUint16(<span class="keyword">this</span>._pos_,<span class="keyword">this</span>._xd_);</span><br><span class="line">        <span class="keyword">this</span>._pos_+=<span class="number">2</span>;</span><br><span class="line">        <span class="keyword">return</span> us;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *在字节流的当前字节偏移量位置处写入指定的 Uint16 值。</span></span><br><span class="line"><span class="comment">    *@param value 需要写入的Uint16 值。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    writeUint16(value)&#123;</span><br><span class="line">        <span class="keyword">this</span>._ensureWrite(<span class="keyword">this</span>._pos_+<span class="number">2</span>);</span><br><span class="line">        <span class="keyword">this</span>._d_.setUint16(<span class="keyword">this</span>._pos_,value,<span class="keyword">this</span>._xd_);</span><br><span class="line">        <span class="keyword">this</span>._pos_+=<span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *在字节流的当前字节偏移量位置处写入指定的 Int16 值。</span></span><br><span class="line"><span class="comment">    *@param value 需要写入的 Int16 值。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    writeInt16(value)&#123;</span><br><span class="line">        <span class="keyword">this</span>._ensureWrite(<span class="keyword">this</span>._pos_+<span class="number">2</span>);</span><br><span class="line">        <span class="keyword">this</span>._d_.setInt16(<span class="keyword">this</span>._pos_,value,<span class="keyword">this</span>._xd_);</span><br><span class="line">        <span class="keyword">this</span>._pos_+=<span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *@private</span></span><br><span class="line"><span class="comment">    *从字节流的当前字节偏移量位置处读取一个 Uint8 值。</span></span><br><span class="line"><span class="comment">    *@return Uint8 值。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    getUint8()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.readUint8();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *从字节流的当前字节偏移量位置处读取一个 Uint8 值。</span></span><br><span class="line"><span class="comment">    *@return Uint8 值。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    readUint8()&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>._pos_+<span class="number">1</span> &gt; <span class="keyword">this</span>._length)<span class="keyword">throw</span> <span class="string">"getUint8 error - Out of bounds"</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>._u8d_[<span class="keyword">this</span>._pos_++];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *在字节流的当前字节偏移量位置处写入指定的 Uint8 值。</span></span><br><span class="line"><span class="comment">    *@param value 需要写入的 Uint8 值。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    writeUint8(value)&#123;</span><br><span class="line">        <span class="keyword">this</span>._ensureWrite(<span class="keyword">this</span>._pos_+<span class="number">1</span>);</span><br><span class="line">        <span class="keyword">this</span>._d_.setUint8(<span class="keyword">this</span>._pos_,value);</span><br><span class="line">        <span class="keyword">this</span>._pos_++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//<span class="doctag">TODO:</span>coverage</span></span><br><span class="line">    _getUInt8(pos)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>._readUInt8(pos);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//<span class="doctag">TODO:</span>coverage</span></span><br><span class="line">    _readUInt8(pos)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>._d_.getUint8(pos);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//<span class="doctag">TODO:</span>coverage</span></span><br><span class="line">    _getUint16(pos)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>._readUint16(pos);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//<span class="doctag">TODO:</span>coverage</span></span><br><span class="line">    _readUint16(pos)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>._d_.getUint16(pos,<span class="keyword">this</span>._xd_);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//<span class="doctag">TODO:</span>coverage</span></span><br><span class="line">    _getMatrix()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>._readMatrix();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//<span class="doctag">TODO:</span>coverage</span></span><br><span class="line">    _readMatrix()&#123;</span><br><span class="line">        <span class="keyword">var</span> rst=<span class="keyword">new</span> Matrix(<span class="keyword">this</span>.getFloat32(),<span class="keyword">this</span>.getFloat32(),<span class="keyword">this</span>.getFloat32(),<span class="keyword">this</span>.getFloat32(),<span class="keyword">this</span>.getFloat32(),<span class="keyword">this</span>.getFloat32());</span><br><span class="line">        <span class="keyword">return</span> rst;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *@private</span></span><br><span class="line"><span class="comment">    *读取指定长度的 UTF 型字符串。</span></span><br><span class="line"><span class="comment">    *@param len 需要读取的长度。</span></span><br><span class="line"><span class="comment">    *@return 读取的字符串。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    _rUTF(len)&#123;</span><br><span class="line">        <span class="keyword">var</span> v=<span class="string">""</span>,max=<span class="keyword">this</span>._pos_+len,c=<span class="number">0</span>,c2=<span class="number">0</span>,c3=<span class="number">0</span>,f=<span class="built_in">String</span>.fromCharCode;</span><br><span class="line">        <span class="keyword">var</span> u=<span class="keyword">this</span>._u8d_,i=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">this</span>._pos_ &lt; max)&#123;</span><br><span class="line">            c=u[<span class="keyword">this</span>._pos_++];</span><br><span class="line">            <span class="keyword">if</span> (c &lt; <span class="number">0x80</span>)&#123;</span><br><span class="line">                <span class="keyword">if</span> (c !=<span class="number">0</span>)v+=f(c);</span><br><span class="line">                &#125;<span class="keyword">else</span> <span class="keyword">if</span> (c &lt; <span class="number">0xE0</span>)&#123;</span><br><span class="line">                v+=f(((c &amp; <span class="number">0x3F</span>)&lt;&lt; <span class="number">6</span>)| (u[<span class="keyword">this</span>._pos_++] &amp; <span class="number">0x7F</span>));</span><br><span class="line">                &#125;<span class="keyword">else</span> <span class="keyword">if</span> (c &lt; <span class="number">0xF0</span>)&#123;</span><br><span class="line">                c2=u[<span class="keyword">this</span>._pos_++];</span><br><span class="line">                v+=f(((c &amp; <span class="number">0x1F</span>)&lt;&lt; <span class="number">12</span>)| ((c2 &amp; <span class="number">0x7F</span>)&lt;&lt; <span class="number">6</span>)| (u[<span class="keyword">this</span>._pos_++] &amp; <span class="number">0x7F</span>));</span><br><span class="line">                &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                c2=u[<span class="keyword">this</span>._pos_++];</span><br><span class="line">                c3=u[<span class="keyword">this</span>._pos_++];</span><br><span class="line">                v+=f(((c &amp; <span class="number">0x0F</span>)&lt;&lt; <span class="number">18</span>)| ((c2 &amp; <span class="number">0x7F</span>)&lt;&lt; <span class="number">12</span>)| ((c3 &lt;&lt; <span class="number">6</span>)&amp; <span class="number">0x7F</span>)| (u[<span class="keyword">this</span>._pos_++] &amp; <span class="number">0x7F</span>));</span><br><span class="line">            &#125;</span><br><span class="line">            i++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> v;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//<span class="doctag">TODO:</span>coverage</span></span><br><span class="line">    getCustomString(len)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.readCustomString(len);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//<span class="doctag">TODO:</span>coverage</span></span><br><span class="line">    readCustomString(len)&#123;</span><br><span class="line">        <span class="keyword">var</span> v=<span class="string">""</span>,ulen=<span class="number">0</span>,c=<span class="number">0</span>,c2=<span class="number">0</span>,f=<span class="built_in">String</span>.fromCharCode;</span><br><span class="line">        <span class="keyword">var</span> u=<span class="keyword">this</span>._u8d_,i=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (len &gt; <span class="number">0</span>)&#123;</span><br><span class="line">            c=u[<span class="keyword">this</span>._pos_];</span><br><span class="line">            <span class="keyword">if</span> (c &lt; <span class="number">0x80</span>)&#123;</span><br><span class="line">                v+=f(c);</span><br><span class="line">                <span class="keyword">this</span>._pos_++;</span><br><span class="line">                len--;</span><br><span class="line">                &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                ulen=c<span class="number">-0x80</span>;</span><br><span class="line">                <span class="keyword">this</span>._pos_++;</span><br><span class="line">                len-=ulen;</span><br><span class="line">                <span class="keyword">while</span> (ulen &gt; <span class="number">0</span>)&#123;</span><br><span class="line">                    c=u[<span class="keyword">this</span>._pos_++];</span><br><span class="line">                    c2=u[<span class="keyword">this</span>._pos_++];</span><br><span class="line">                    v+=f((c2 &lt;&lt; <span class="number">8</span>)| c);</span><br><span class="line">                    ulen--;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> v;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *清除字节数组的内容，并将 length 和 pos 属性重置为 0。调用此方法将释放 Byte 实例占用的内存。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    clear()&#123;</span><br><span class="line">        <span class="keyword">this</span>._pos_=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">this</span>._length=<span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *@private</span></span><br><span class="line"><span class="comment">    *获取此对象的 ArrayBuffer 引用。</span></span><br><span class="line"><span class="comment">    *@return</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    __getBuffer()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>._d_.buffer;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *&lt;p&gt;将 UTF-8 字符串写入字节流。类似于 writeUTF()方法，但 writeUTFBytes()不使用 16 位长度的字为字符串添加前缀。&lt;/p&gt;</span></span><br><span class="line"><span class="comment">    *&lt;p&gt;对应的读取方法为： getUTFBytes 。&lt;/p&gt;</span></span><br><span class="line"><span class="comment">    *@param value 要写入的字符串。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    writeUTFBytes(value)&#123;</span><br><span class="line">        value=value+<span class="string">""</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> i=<span class="number">0</span>,sz=value.length;i &lt; sz;i++)&#123;</span><br><span class="line">            <span class="keyword">var</span> c=value.charCodeAt(i);</span><br><span class="line">            <span class="keyword">if</span> (c &lt;=<span class="number">0x7F</span>)&#123;</span><br><span class="line">                <span class="keyword">this</span>.writeByte(c);</span><br><span class="line">                &#125;<span class="keyword">else</span> <span class="keyword">if</span> (c &lt;=<span class="number">0x7FF</span>)&#123;</span><br><span class="line">                <span class="keyword">this</span>._ensureWrite(<span class="keyword">this</span>._pos_+<span class="number">2</span>);</span><br><span class="line">                <span class="keyword">this</span>._u8d_.set([<span class="number">0xC0</span> | (c &gt;&gt; <span class="number">6</span>),<span class="number">0x80</span> | (c &amp; <span class="number">0x3F</span>)],<span class="keyword">this</span>._pos_);</span><br><span class="line">                <span class="keyword">this</span>._pos_+=<span class="number">2</span>;</span><br><span class="line">                &#125;<span class="keyword">else</span> <span class="keyword">if</span> (c &lt;=<span class="number">0xFFFF</span>)&#123;</span><br><span class="line">                <span class="keyword">this</span>._ensureWrite(<span class="keyword">this</span>._pos_+<span class="number">3</span>);</span><br><span class="line">                <span class="keyword">this</span>._u8d_.set([<span class="number">0xE0</span> | (c &gt;&gt; <span class="number">12</span>),<span class="number">0x80</span> | ((c &gt;&gt; <span class="number">6</span>)&amp; <span class="number">0x3F</span>),<span class="number">0x80</span> | (c &amp; <span class="number">0x3F</span>)],<span class="keyword">this</span>._pos_);</span><br><span class="line">                <span class="keyword">this</span>._pos_+=<span class="number">3</span>;</span><br><span class="line">                &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">this</span>._ensureWrite(<span class="keyword">this</span>._pos_+<span class="number">4</span>);</span><br><span class="line">                <span class="keyword">this</span>._u8d_.set([<span class="number">0xF0</span> | (c &gt;&gt; <span class="number">18</span>),<span class="number">0x80</span> | ((c &gt;&gt; <span class="number">12</span>)&amp; <span class="number">0x3F</span>),<span class="number">0x80</span> | ((c &gt;&gt; <span class="number">6</span>)&amp; <span class="number">0x3F</span>),<span class="number">0x80</span> | (c &amp; <span class="number">0x3F</span>)],<span class="keyword">this</span>._pos_);</span><br><span class="line">                <span class="keyword">this</span>._pos_+=<span class="number">4</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *&lt;p&gt;将 UTF-8 字符串写入字节流。先写入以字节表示的 UTF-8 字符串长度（作为 16 位整数），然后写入表示字符串字符的字节。&lt;/p&gt;</span></span><br><span class="line"><span class="comment">    *&lt;p&gt;对应的读取方法为： getUTFString 。&lt;/p&gt;</span></span><br><span class="line"><span class="comment">    *@param value 要写入的字符串值。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    writeUTFString(value)&#123;</span><br><span class="line">        <span class="keyword">var</span> tPos=<span class="keyword">this</span>.getPos();</span><br><span class="line">        <span class="keyword">this</span>.writeUint16(<span class="number">1</span>);</span><br><span class="line">        <span class="keyword">this</span>.writeUTFBytes(value);</span><br><span class="line">        <span class="keyword">var</span> dPos=<span class="keyword">this</span>.getPos()-tPos<span class="number">-2</span>;</span><br><span class="line">        <span class="keyword">this</span>._d_.setUint16(tPos,dPos,<span class="keyword">this</span>._xd_);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *@private</span></span><br><span class="line"><span class="comment">    *读取 UTF-8 字符串。</span></span><br><span class="line"><span class="comment">    *@return 读取的字符串。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    readUTFString()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.readUTFBytes(<span class="keyword">this</span>.getUint16());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *&lt;p&gt;从字节流中读取一个 UTF-8 字符串。假定字符串的前缀是一个无符号的短整型（以此字节表示要读取的长度）。&lt;/p&gt;</span></span><br><span class="line"><span class="comment">    *&lt;p&gt;对应的写入方法为： writeUTFString 。&lt;/p&gt;</span></span><br><span class="line"><span class="comment">    *@return 读取的字符串。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    getUTFString()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.readUTFString();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *@private</span></span><br><span class="line"><span class="comment">    *读字符串，必须是 writeUTFBytes 方法写入的字符串。</span></span><br><span class="line"><span class="comment">    *@param len 要读的buffer长度，默认将读取缓冲区全部数据。</span></span><br><span class="line"><span class="comment">    *@return 读取的字符串。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    readUTFBytes(len)&#123;</span><br><span class="line">        (len===<span class="keyword">void</span> <span class="number">0</span>)&amp;&amp; (len=<span class="number">-1</span>);</span><br><span class="line">        <span class="keyword">if</span> (len===<span class="number">0</span>)<span class="keyword">return</span> <span class="string">""</span>;</span><br><span class="line">        <span class="keyword">var</span> lastBytes=getBytesAvailable();</span><br><span class="line">        <span class="keyword">if</span> (len &gt; lastBytes)<span class="keyword">throw</span> <span class="string">"readUTFBytes error - Out of bounds"</span>;</span><br><span class="line">        len=len &gt; <span class="number">0</span> ? len :lastBytes;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>._rUTF(len);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *&lt;p&gt;从字节流中读取一个由 length 参数指定的长度的 UTF-8 字节序列，并返回一个字符串。&lt;/p&gt;</span></span><br><span class="line"><span class="comment">    *&lt;p&gt;一般读取的是由 writeUTFBytes 方法写入的字符串。&lt;/p&gt;</span></span><br><span class="line"><span class="comment">    *@param len 要读的buffer长度，默认将读取缓冲区全部数据。</span></span><br><span class="line"><span class="comment">    *@return 读取的字符串。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    getUTFBytes(len)&#123;</span><br><span class="line">        (len===<span class="keyword">void</span> <span class="number">0</span>)&amp;&amp; (len=<span class="number">-1</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.readUTFBytes(len);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *&lt;p&gt;在字节流中写入一个字节。&lt;/p&gt;</span></span><br><span class="line"><span class="comment">    *&lt;p&gt;使用参数的低 8 位。忽略高 24 位。&lt;/p&gt;</span></span><br><span class="line"><span class="comment">    *@param value</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    writeByte(value)&#123;</span><br><span class="line">        <span class="keyword">this</span>._ensureWrite(<span class="keyword">this</span>._pos_+<span class="number">1</span>);</span><br><span class="line">        <span class="keyword">this</span>._d_.setInt8(<span class="keyword">this</span>._pos_,value);</span><br><span class="line">        <span class="keyword">this</span>._pos_+=<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *&lt;p&gt;从字节流中读取带符号的字节。&lt;/p&gt;</span></span><br><span class="line"><span class="comment">    *&lt;p&gt;返回值的范围是从-128 到 127。&lt;/p&gt;</span></span><br><span class="line"><span class="comment">    *@return 介于-128 和 127 之间的整数。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    readByte()&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>._pos_+<span class="number">1</span> &gt; <span class="keyword">this</span>._length)<span class="keyword">throw</span> <span class="string">"readByte error - Out of bounds"</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>._d_.getInt8(<span class="keyword">this</span>._pos_++);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *@private</span></span><br><span class="line"><span class="comment">    *从字节流中读取带符号的字节。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    getByte()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.readByte();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *@private</span></span><br><span class="line"><span class="comment">    *&lt;p&gt;保证该字节流的可用长度不小于 &lt;code&gt;lengthToEnsure&lt;/code&gt; 参数指定的值。&lt;/p&gt;</span></span><br><span class="line"><span class="comment">    *@param lengthToEnsure 指定的长度。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    _ensureWrite(lengthToEnsure)&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>._length &lt; lengthToEnsure)<span class="keyword">this</span>._length=lengthToEnsure;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>._allocated_ &lt; lengthToEnsure)<span class="keyword">this</span>.setLength(lengthToEnsure);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *&lt;p&gt;将指定 arraybuffer 对象中的以 offset 为起始偏移量， length 为长度的字节序列写入字节流。&lt;/p&gt;</span></span><br><span class="line"><span class="comment">    *&lt;p&gt;如果省略 length 参数，则使用默认长度 0，该方法将从 offset 开始写入整个缓冲区；如果还省略了 offset 参数，则写入整个缓冲区。&lt;/p&gt;</span></span><br><span class="line"><span class="comment">    *&lt;p&gt;如果 offset 或 length 小于0，本函数将抛出异常。&lt;/p&gt;</span></span><br><span class="line"><span class="comment">    *@param arraybuffer 需要写入的 Arraybuffer 对象。</span></span><br><span class="line"><span class="comment">    *@param offset Arraybuffer 对象的索引的偏移量（以字节为单位）</span></span><br><span class="line"><span class="comment">    *@param length 从 Arraybuffer 对象写入到 Byte 对象的长度（以字节为单位）</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    writeArrayBuffer(arraybuffer,offset,length)&#123;</span><br><span class="line">        (offset===<span class="keyword">void</span> <span class="number">0</span>)&amp;&amp; (offset=<span class="number">0</span>);</span><br><span class="line">        (length===<span class="keyword">void</span> <span class="number">0</span>)&amp;&amp; (length=<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">if</span> (offset &lt; <span class="number">0</span> || length &lt; <span class="number">0</span>)<span class="keyword">throw</span> <span class="string">"writeArrayBuffer error - Out of bounds"</span>;</span><br><span class="line">        <span class="keyword">if</span> (length==<span class="number">0</span>)length=arraybuffer.byteLength-offset;</span><br><span class="line">        <span class="keyword">this</span>._ensureWrite(<span class="keyword">this</span>._pos_+length);</span><br><span class="line">        <span class="keyword">var</span> uint8array=<span class="keyword">new</span> <span class="built_in">Uint8Array</span>(arraybuffer);</span><br><span class="line">        <span class="keyword">this</span>._u8d_.set(uint8array.subarray(offset,offset+length),<span class="keyword">this</span>._pos_);</span><br><span class="line">        <span class="keyword">this</span>._pos_+=length;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *读取ArrayBuffer数据</span></span><br><span class="line"><span class="comment">    *@param length</span></span><br><span class="line"><span class="comment">    *@return</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    readArrayBuffer(length)&#123;</span><br><span class="line">        <span class="keyword">var</span> rst;</span><br><span class="line">        rst=<span class="keyword">this</span>._u8d_.buffer.slice(<span class="keyword">this</span>._pos_,<span class="keyword">this</span>._pos_+length);</span><br><span class="line">        <span class="keyword">this</span>._pos_=<span class="keyword">this</span>._pos_+length</span><br><span class="line">        <span class="keyword">return</span> rst;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *获取此对象的 ArrayBuffer 数据，数据只包含有效数据部分。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    getBuffer()&#123;</span><br><span class="line">        <span class="keyword">var</span> rstBuffer=<span class="keyword">this</span>._d_.buffer;</span><br><span class="line">        <span class="keyword">if</span> (rstBuffer.byteLength===<span class="keyword">this</span>._length)<span class="keyword">return</span> rstBuffer;</span><br><span class="line">        <span class="keyword">return</span> rstBuffer.slice(<span class="number">0</span>,<span class="keyword">this</span>._length);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *&lt;p&gt; &lt;code&gt;Byte&lt;/code&gt; 实例的字节序。取值为：&lt;code&gt;BIG_ENDIAN&lt;/code&gt; 或 &lt;code&gt;BIG_ENDIAN&lt;/code&gt; 。&lt;/p&gt;</span></span><br><span class="line"><span class="comment">    *&lt;p&gt;主机字节序，是 CPU 存放数据的两种不同顺序，包括小端字节序和大端字节序。通过 &lt;code&gt;getSystemEndian&lt;/code&gt; 可以获取当前系统的字节序。&lt;/p&gt;</span></span><br><span class="line"><span class="comment">    *&lt;p&gt; &lt;code&gt;BIG_ENDIAN&lt;/code&gt; ：大端字节序，地址低位存储值的高位，地址高位存储值的低位。有时也称之为网络字节序。&lt;br/&gt;</span></span><br><span class="line"><span class="comment">    *&lt;code&gt;LITTLE_ENDIAN&lt;/code&gt; ：小端字节序，地址低位存储值的低位，地址高位存储值的高位。&lt;/p&gt;</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    getEndian()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>._xd_ ? <span class="string">"littleEndian"</span> :<span class="string">"bigEndian"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    setEndian(value)&#123;</span><br><span class="line">        <span class="keyword">this</span>._xd_=(value===<span class="string">"littleEndian"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *&lt;p&gt; &lt;code&gt;Byte&lt;/code&gt; 对象的长度（以字节为单位）。&lt;/p&gt;</span></span><br><span class="line"><span class="comment">    *&lt;p&gt;如果将长度设置为大于当前长度的值，则用零填充字节数组的右侧；如果将长度设置为小于当前长度的值，将会截断该字节数组。&lt;/p&gt;</span></span><br><span class="line"><span class="comment">    *&lt;p&gt;如果要设置的长度大于当前已分配的内存空间的字节长度，则重新分配内存空间，大小为以下两者较大者：要设置的长度、当前已分配的长度的2倍，并将原有数据拷贝到新的内存空间中；如果要设置的长度小于当前已分配的内存空间的字节长度，也会重新分配内存空间，大小为要设置的长度，并将原有数据从头截断为要设置的长度存入新的内存空间中。&lt;/p&gt;</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line"></span><br><span class="line">    getLength()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>._length;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    setLength(value)&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>._allocated_ &lt; value)<span class="keyword">this</span>._resizeBuffer(<span class="keyword">this</span>._allocated_=<span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.max(value,<span class="keyword">this</span>._allocated_ *<span class="number">2</span>)));</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>._allocated_ &gt; value)<span class="keyword">this</span>._resizeBuffer(<span class="keyword">this</span>._allocated_=value);</span><br><span class="line">        <span class="keyword">this</span>._length=value;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *移动或返回 Byte 对象的读写指针的当前位置（以字节为单位）。下一次调用读取方法时将在此位置开始读取，或者下一次调用写入方法时将在此位置开始写入。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line"></span><br><span class="line">     getPos()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>._pos_;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    setPos(value)&#123;</span><br><span class="line">        <span class="keyword">this</span>._pos_=value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *可从字节流的当前位置到末尾读取的数据的字节数。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">     getBytesAvailable()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>._length-<span class="keyword">this</span>._pos_;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    getSystemEndian()&#123;</span><br><span class="line">        <span class="keyword">if</span> (!Byte._sysEndian)&#123;</span><br><span class="line">            <span class="keyword">var</span> buffer=<span class="keyword">new</span> <span class="built_in">ArrayBuffer</span>(<span class="number">2</span>);</span><br><span class="line">            <span class="keyword">new</span> <span class="built_in">DataView</span>(buffer).setInt16(<span class="number">0</span>,<span class="number">256</span>,<span class="literal">true</span>);</span><br><span class="line">            Byte._sysEndian=(<span class="keyword">new</span> <span class="built_in">Int16Array</span>(buffer))[<span class="number">0</span>]===<span class="number">256</span> ? <span class="string">"littleEndian"</span> :<span class="string">"bigEndian"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> Byte._sysEndian;</span><br><span class="line">    &#125;    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = Byte;</span><br></pre></td></tr></table></figure></p>
+<h5 id="改写引擎工具的merge-js"><a href="#改写引擎工具的merge-js" class="headerlink" title="改写引擎工具的merge.js"></a>改写引擎工具的merge.js</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">"fs"</span>);</span><br><span class="line"><span class="keyword">const</span> jQuery = <span class="built_in">require</span>(<span class="string">"jquery"</span>);</span><br><span class="line"><span class="keyword">const</span> Byte = <span class="built_in">require</span>(<span class="string">"./jslibs/Byte"</span>)</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">"path"</span>);</span><br><span class="line"><span class="keyword">const</span> mergeFileName = <span class="string">'mergebinary.tfpb'</span>;</span><br><span class="line"><span class="keyword">const</span> ignoreExtList = [<span class="string">"png"</span>, <span class="string">"jpg"</span>, <span class="string">"jpeg"</span>, <span class="string">"wav"</span>, <span class="string">"mp3"</span>, <span class="string">"txt"</span>, <span class="string">"json"</span>, <span class="string">"atlas"</span>, <span class="string">"js"</span>, <span class="string">"html"</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> </span><br><span class="line">    fileOutputEle = <span class="string">"bin\\res\\table\\bintable"</span>,</span><br><span class="line">    fileIgnoreExtEle = <span class="string">"png,jpg,jpeg,wav,mp3,txt,json,atlas,js,html"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> </span><br><span class="line">    workspacePath=<span class="string">"F:\\sqhx\\client\\mylaya"</span>,</span><br><span class="line">    workspaceBinPath=<span class="string">"F:\\sqhx\\client\\mylaya\\bin"</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mergeBinaryFile</span>(<span class="params">ObjList, keyList, index, successFunc, errorFunc</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> fileList = ObjList[keyList[index]];</span><br><span class="line">    <span class="keyword">let</span> total = keyList.length;</span><br><span class="line">    <span class="comment">// 读取文件</span></span><br><span class="line">    <span class="keyword">let</span> htmlFileObjList = getFileObjList(fileList);</span><br><span class="line">    <span class="keyword">let</span> arrayBufferList = [];</span><br><span class="line">    getArrayBufferList(htmlFileObjList, arrayBufferList, () =&gt; &#123;</span><br><span class="line">        <span class="keyword">let</span> len = arrayBufferList.length;</span><br><span class="line">        <span class="comment">// 成功</span></span><br><span class="line">        <span class="comment">// let byte = new Laya.Byte();</span></span><br><span class="line">        <span class="comment">// let byte = new ByteBuffer();</span></span><br><span class="line">        <span class="keyword">let</span> byte = <span class="keyword">new</span> Byte();</span><br><span class="line">        byte.writeInt32(len); <span class="comment">// 有多少个文件</span></span><br><span class="line">        <span class="keyword">let</span> </span><br><span class="line">            arrayItem,</span><br><span class="line">            arrayBuffer,</span><br><span class="line">            filePath,</span><br><span class="line">            name,</span><br><span class="line">            byteLength;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">            arrayItem = arrayBufferList[i];</span><br><span class="line">            arrayBuffer = arrayItem.arrayBuffer;</span><br><span class="line">            filePath = arrayItem.filePath;</span><br><span class="line">            filePath = filePath.replace(<span class="regexp">/\\/g</span>, <span class="string">"/"</span>);</span><br><span class="line">            workspaceBinPath = workspaceBinPath.replace(<span class="regexp">/\\/g</span>, <span class="string">"/"</span>);</span><br><span class="line">            name = filePath.replace(workspaceBinPath + <span class="string">"/"</span>, <span class="string">""</span>);</span><br><span class="line">            byteLength = arrayBuffer.byteLength;</span><br><span class="line">            byte.writeUTFString(name); <span class="comment">// 名字</span></span><br><span class="line">            byte.writeInt32(byteLength); <span class="comment">// 大小</span></span><br><span class="line">            <span class="comment">// byte.append(arrayBuffer); // 内容</span></span><br><span class="line">            byte.writeArrayBuffer(arrayBuffer, <span class="number">0</span>, byteLength); <span class="comment">// 内容</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// let dv = new DataView(byte.buffer);</span></span><br><span class="line">        <span class="keyword">let</span> buffer = ArrayBuffer2Buffer(byte.getBuffer());</span><br><span class="line">        <span class="keyword">let</span> outPath = path.join(workspacePath, fileOutputEle, keyList[index].replace(<span class="string">"plfb"</span>, <span class="string">"zip"</span>));</span><br><span class="line">        fs.writeFileSync(outPath, buffer);</span><br><span class="line">        <span class="keyword">if</span> (total === ++index) &#123;</span><br><span class="line">            successFunc <span class="keyword">instanceof</span> <span class="built_in">Function</span> &amp;&amp; successFunc();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            mergeBinaryFile(ObjList, keyList, index, successFunc, errorFunc)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;, (err) =&gt; &#123;</span><br><span class="line">        <span class="comment">// 失败，展示到页面</span></span><br><span class="line">        errorFunc <span class="keyword">instanceof</span> <span class="built_in">Function</span> &amp;&amp; errorFunc(err);</span><br><span class="line">        <span class="keyword">throw</span> err;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 获取列表中所有文件的ArrayBuffer对象</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getArrayBufferList</span>(<span class="params">htmlFileObjList, arrayBufferList, successFunc, errorFunc</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> fileObj = htmlFileObjList[arrayBufferList.length];</span><br><span class="line">    <span class="keyword">if</span> (!fileObj) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">`合并二进制文件失败(err 1)`</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> </span><br><span class="line">        filePath = fileObj.filePath,</span><br><span class="line">        file = fileObj.file;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">        getArrayBufferFromFile(file).then(<span class="function">(<span class="params">arrayBuffer</span>) =&gt;</span> &#123;</span><br><span class="line">            arrayBufferList.push(&#123;</span><br><span class="line">                filePath: filePath,</span><br><span class="line">                arrayBuffer: arrayBuffer</span><br><span class="line">            &#125;);</span><br><span class="line">            <span class="keyword">if</span> (arrayBufferList.length === htmlFileObjList.length) &#123;</span><br><span class="line">                successFunc();</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                getArrayBufferList(htmlFileObjList, arrayBufferList, successFunc, errorFunc);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).catch(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">            errorFunc(err);</span><br><span class="line">            <span class="keyword">throw</span> err;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 获取到列表中所有文件的HTML-File对象</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getFileObjList</span>(<span class="params">fileList</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> htmlFileObjList = [];</span><br><span class="line">    <span class="keyword">let</span> </span><br><span class="line">        filePath,</span><br><span class="line">        isExists,</span><br><span class="line">        fileObj;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>, len = fileList.length; i &lt; len; i++) &#123;</span><br><span class="line">        filePath = path.join(workspaceBinPath, fileList[i]);</span><br><span class="line">        isExists = fs.existsSync(filePath);</span><br><span class="line">        <span class="keyword">if</span> (!isExists) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">`文件不存在 -&gt; <span class="subst">$&#123;filePath&#125;</span>`</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        fileObj = getFile(filePath);</span><br><span class="line">        htmlFileObjList.push(&#123;</span><br><span class="line">            filePath: filePath,</span><br><span class="line">            file: fileObj</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> htmlFileObjList;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">buffer2ArrayBuffer</span>(<span class="params">buf</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> ab = <span class="keyword">new</span> <span class="built_in">ArrayBuffer</span>(buf.length);</span><br><span class="line">    <span class="keyword">let</span> view = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>(ab);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; buf.length; ++i) &#123;</span><br><span class="line">        view[i] = buf[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ab;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ArrayBuffer2Buffer</span>(<span class="params">ab</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> buf = <span class="keyword">new</span> Buffer(ab.byteLength);</span><br><span class="line">    <span class="keyword">let</span> view = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>(ab);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; buf.length; ++i) &#123;</span><br><span class="line">        buf[i] = view[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> buf;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 构建html file对象</span></span><br><span class="line"><span class="comment"> * - h5/js/tool.js 中的代码改写</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getFile</span>(<span class="params">filePath</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> encoding = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">let</span>  </span><br><span class="line">        _fileName = path.basename(filePath),</span><br><span class="line">        extname = path.extname(_fileName),</span><br><span class="line">        type;</span><br><span class="line">    <span class="keyword">switch</span>(extname) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">".zip"</span>:</span><br><span class="line">            type = <span class="string">"application/zip"</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">".jpg"</span>:</span><br><span class="line">            type = <span class="string">"image/jpeg"</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">".png"</span>:</span><br><span class="line">            type = <span class="string">"image/png"</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">".mp3"</span>:</span><br><span class="line">            type = <span class="string">"audio/mp3"</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">".wav"</span>:</span><br><span class="line">            type = <span class="string">"audio/wav"</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">".ttf"</span>:</span><br><span class="line">            type = <span class="string">"application/octet-stream"</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            type = <span class="string">""</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> buffer = fs.readFileSync(filePath, encoding);</span><br><span class="line">    <span class="keyword">return</span> buffer;</span><br><span class="line">    <span class="comment">// let file = new File([buffer], _fileName, &#123;type: type&#125;);</span></span><br><span class="line">    <span class="comment">// return file;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 从HTML-file中获取ArrayBuffer</span></span><br><span class="line"><span class="comment"> * - func 回调函数，可有可无，最好使用Promise</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getArrayBufferFromFile</span>(<span class="params">file, func</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> ab = <span class="keyword">new</span> <span class="built_in">ArrayBuffer</span>(file.length);</span><br><span class="line">        <span class="keyword">var</span> view = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>(ab);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; file.length; ++i) &#123;</span><br><span class="line">            view[i] = file[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> resolve(ab);</span><br><span class="line">        <span class="comment">// reader.readAsArrayBuffer(file);</span></span><br><span class="line">        <span class="comment">// reader.onload = function() &#123;</span></span><br><span class="line">        <span class="comment">//     let re = reader.result;</span></span><br><span class="line">        <span class="comment">//     func instanceof Function &amp;&amp; func();</span></span><br><span class="line">        <span class="comment">//     return resolve(re);</span></span><br><span class="line">        <span class="comment">// &#125;</span></span><br><span class="line">        <span class="comment">// reader.onerror = function(e) &#123;</span></span><br><span class="line">        <span class="comment">//     return reject(e);</span></span><br><span class="line">        <span class="comment">// &#125;</span></span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mkdirsSync</span>(<span class="params">dirname, mode</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (fs.existsSync(dirname)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (mkdirsSync(path.dirname(dirname), mode)) &#123;</span><br><span class="line">            fs.mkdirSync(dirname, mode);</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 获取页面列表</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getFileList</span>(<span class="params">_path, oldValueList</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> arr = [];</span><br><span class="line">    <span class="keyword">if</span>(!_path || !fs.existsSync(_path)) <span class="keyword">return</span> arr;</span><br><span class="line">    walk(_path, <span class="number">0</span>, arr, oldValueList);</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">walk</span>(<span class="params">_path, floor, arrList, oldValueList</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// let </span></span><br><span class="line">    <span class="comment">//     extnameList = [".json", ".txt", ".js", ".ts", ".as"],</span></span><br><span class="line">    <span class="comment">//     extname;</span></span><br><span class="line">    floor++;</span><br><span class="line">    <span class="keyword">var</span> files = fs.readdirSync(_path);</span><br><span class="line">    files.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">item</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> tmpPath = path.posix.join(_path, item);</span><br><span class="line">        <span class="keyword">if</span> (tmpPath.indexOf(<span class="string">".svn"</span>) &gt; <span class="number">-1</span>)</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        <span class="keyword">if</span> (tmpPath.indexOf(<span class="string">".git"</span>) &gt; <span class="number">-1</span>)</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        <span class="keyword">if</span> (tmpPath.indexOf(<span class="string">".laya"</span>) &gt; <span class="number">-1</span>)</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        <span class="keyword">var</span> stats = fs.statSync(tmpPath);</span><br><span class="line">        <span class="keyword">let</span> isChecked = <span class="built_in">Array</span>.isArray(oldValueList) &amp;&amp; oldValueList.indexOf(tmpPath) !== <span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">let</span> pathObj = &#123; <span class="comment">// node节点初始化数据</span></span><br><span class="line">            text: item,</span><br><span class="line">            path: tmpPath</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="keyword">if</span> (isChecked) &#123;</span><br><span class="line">            pathObj.state = &#123;</span><br><span class="line">                <span class="string">'opened'</span> : <span class="literal">true</span>,</span><br><span class="line">                <span class="string">'selected'</span> : <span class="literal">true</span></span><br><span class="line">              &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (stats.isDirectory()) &#123;</span><br><span class="line">            pathObj[<span class="string">"li_attr"</span>] =  &#123;</span><br><span class="line">                <span class="string">"data-type"</span>: <span class="string">"dir"</span></span><br><span class="line">            &#125;;</span><br><span class="line">            <span class="comment">// if (!pathObj.state) &#123;</span></span><br><span class="line">            <span class="comment">//     pathObj.state = &#123;</span></span><br><span class="line">            <span class="comment">//         disabled: true</span></span><br><span class="line">            <span class="comment">//     &#125;;</span></span><br><span class="line">            <span class="comment">// &#125; else &#123;</span></span><br><span class="line">            <span class="comment">//     pathObj.state.disabled = true;</span></span><br><span class="line">            <span class="comment">// &#125;</span></span><br><span class="line">            pathObj.children = [];</span><br><span class="line">            arrList.push(pathObj);</span><br><span class="line">            walk(tmpPath, floor, pathObj.children, oldValueList);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">let</span> extname = path.extname(tmpPath).replace(<span class="regexp">/^\./</span>, <span class="string">""</span>);</span><br><span class="line">            <span class="keyword">let</span> ignoreList = fileIgnoreExtEle.value.split(<span class="string">","</span>);</span><br><span class="line">            <span class="keyword">if</span> (!ignoreList.includes(extname)) &#123;</span><br><span class="line">                pathObj[<span class="string">"li_attr"</span>] =  &#123;</span><br><span class="line">                    <span class="string">"data-type"</span>: <span class="string">"file"</span></span><br><span class="line">                &#125;;</span><br><span class="line">                arrList.push(pathObj);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// extname = path.extname(tmpPath);</span></span><br><span class="line">            <span class="comment">// if (extnameList.includes(extname)) &#123;</span></span><br><span class="line">            <span class="comment">//     pathObj["li_attr"] =  &#123;</span></span><br><span class="line">            <span class="comment">//         "data-type": "file"</span></span><br><span class="line">            <span class="comment">//     &#125;;</span></span><br><span class="line">            <span class="comment">//     arrList.push(pathObj);</span></span><br><span class="line">            <span class="comment">// &#125;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//发布</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">publish</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">// 如果没有输入/输出文件夹，则提示</span></span><br><span class="line">    <span class="keyword">let</span> </span><br><span class="line">        fileInputPath = workspaceBinPath,</span><br><span class="line">        fileOutputPath = path.resolve(workspacePath, fileOutputEle);</span><br><span class="line">    <span class="keyword">if</span> (!fileOutputPath) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"请选择输出目录"</span>); <span class="comment">// 请选择输出目录</span></span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (!fs.existsSync(fileInputPath)) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"文件目录不存在"</span>); <span class="comment">// 文件目录不存在</span></span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 如果没有输出目录，自己创建</span></span><br><span class="line">    mkdirsSync(fileOutputPath);</span><br><span class="line">    <span class="keyword">let</span> configPath = path.join(workspaceBinPath, <span class="string">"../"</span>, <span class="string">"laya"</span>, <span class="string">"config"</span>);</span><br><span class="line">    <span class="keyword">let</span> infoStr = fs.readFileSync(path.join(configPath, mergeFileName), <span class="string">'utf8'</span>);</span><br><span class="line">    <span class="keyword">let</span> infoObj = <span class="built_in">JSON</span>.parse(infoStr);</span><br><span class="line">    <span class="keyword">let</span> mergeKeyList = <span class="built_in">Object</span>.keys(infoObj[<span class="string">"fileMerge"</span>]);</span><br><span class="line">    mergeBinaryFile(infoObj[<span class="string">"fileMerge"</span>], mergeKeyList, <span class="number">0</span>, () =&gt; &#123; <span class="comment">// success</span></span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"success"</span>);</span><br><span class="line">    &#125;, (err) =&gt; &#123; <span class="comment">// error</span></span><br><span class="line">        <span class="built_in">console</span>.log(err);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">publish();</span><br></pre></td></tr></table></figure>
+<p>所以，结合之前的自动svn更新，拿到版本号，修改配置的版本号，生成mergeBinary.tfpb文件以及发布生成二进制文件的脚本，再用layadcc打更新包，自动提交，提交完再自动到cdn资源服务器去更新的最终脚本如下：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br></pre></td><td class="code"><pre><span class="line">setlocal enabledelayedexpansion</span><br><span class="line">cd /d ..\..\..\..\client\mylaya\bin</span><br><span class="line">rem  先将bin目录更新到最新，如果只是更新某个文件，则把这行注释去手动更新</span><br><span class="line">svn update</span><br><span class="line"></span><br><span class="line">echo 拿到最新svn版本号</span><br><span class="line">echo | svn info | grep "Last Changed Rev" | tr -d "Last Changed Rev: " &gt; "temp.ini"</span><br><span class="line">for /F %%i in (temp.ini) do ( set commitid=%%i)</span><br><span class="line"></span><br><span class="line">echo 找到文件中需要修改的那一行</span><br><span class="line">set fileName=client.ini</span><br><span class="line">findstr /i "^.version" %fileName% &gt; "temp.ini"</span><br><span class="line">for /F %%i in (temp.ini) do ( set findStr=%%i)</span><br><span class="line">del /q temp.ini</span><br><span class="line"></span><br><span class="line">echo 修改文件中的版本号内容 </span><br><span class="line">for /f %%a in (%fileName%) do ( </span><br><span class="line">    if /i "%%a"=="%findStr%" (echo "version":"1.0.%commitid%", ) else echo %%a </span><br><span class="line">)&gt;&gt; %fileName%.temp </span><br><span class="line">move /y %fileName%.temp %fileName%</span><br><span class="line">echo 删除行尾的空格</span><br><span class="line">sed "s/[ ]*$//g" %fileName%  &gt;&gt; %fileName%.temp</span><br><span class="line">move /y %fileName%.temp %fileName%</span><br><span class="line"></span><br><span class="line">set work_dirs=E:\fjwd\client\mylaya</span><br><span class="line">cd %work_dirs%\bin\res\table\bintable</span><br><span class="line">rem 删除旧的gameTable,bin文件，将分支的bin文件拷贝过来</span><br><span class="line">rm -rf gameTable0*</span><br><span class="line">rm -rf *.bin</span><br><span class="line">xcopy /ys E:\fjwd_branchs\sqhx_h5\wx\tishen\client\mylaya\bin\res\table\bintable\* E:\fjwd\client\mylaya\bin\res\table\bintable\</span><br><span class="line"></span><br><span class="line">rem 从大到小排序</span><br><span class="line">rem 这里直接输出到上一级路径，目前路径的话文件中会多一行temp.ini，把临时生成在当前目录的文件也输入进去了</span><br><span class="line">echo |ls -LS &gt;&gt; ../temp.ini</span><br><span class="line">cd ..</span><br><span class="line">rm -rf gameTable0*</span><br><span class="line">echo 把文件名放到四个文件里去</span><br><span class="line">rem 这里注意为了防止变量不生效，要开启延迟扩展，变量名要用！！包起来，在循环中求余要用两个%%表示</span><br><span class="line">rem 优化：从高到低依次放入不均匀，第一个池子大，最后一个池子小了，现在考虑用循环放入方式</span><br><span class="line">set /a i=0</span><br><span class="line">rem 逆转标志</span><br><span class="line">set /a rev=0</span><br><span class="line">setlocal enabledelayedexpansion</span><br><span class="line">for /f %%a in (temp.ini) do (</span><br><span class="line">    set /a n=!i!%%4+1</span><br><span class="line">    if !rev! == 0 (</span><br><span class="line">        echo %%a &gt;&gt; gameTable0!n!.temp</span><br><span class="line">    )else (</span><br><span class="line">        set /a r=5-!n!</span><br><span class="line">        echo %%a &gt;&gt; gameTable0!r!.temp</span><br><span class="line">    )</span><br><span class="line">    </span><br><span class="line">    set /a i+=1</span><br><span class="line">    if !n! == 4 (</span><br><span class="line">        set /a rev=1-!rev!</span><br><span class="line">    ) </span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">echo 生成mergebinary.tfpb文件</span><br><span class="line">rem 删除旧的</span><br><span class="line">del /q mergebinary.tfpb</span><br><span class="line">echo &#123; &gt;&gt; mergebinary.tfpb</span><br><span class="line">echo "path": "E:\\fjwd\\client\\mylaya\\bin", &gt;&gt; mergebinary.tfpb</span><br><span class="line">echo "outPath": "bin\\res\\table\\bintable", &gt;&gt; mergebinary.tfpb</span><br><span class="line">echo "fileMerge": &#123; &gt;&gt; mergebinary.tfpb</span><br><span class="line">rem 第一个压缩包</span><br><span class="line">echo "gameTable01.plfb": [ &gt;&gt; mergebinary.tfpb</span><br><span class="line">rem 先拿到文件的行数</span><br><span class="line">cat gameTable01.temp | wc -l &gt; num.ini</span><br><span class="line">for /F %%i in (num.ini) do ( set count=%%i)</span><br><span class="line">rem 循环输入文件内的内容，注意最后一行没有逗号</span><br><span class="line">set /a i=0</span><br><span class="line">for /f %%a in (gameTable01.temp) do (</span><br><span class="line">    set /a i+=1</span><br><span class="line">    if !count! == !i! (</span><br><span class="line">        echo "res/table/bintable/%%a" &gt;&gt; mergebinary.tfpb</span><br><span class="line">    )else (</span><br><span class="line">        echo "res/table/bintable/%%a", &gt;&gt; mergebinary.tfpb</span><br><span class="line">    ) </span><br><span class="line">)</span><br><span class="line">echo ], &gt;&gt; mergebinary.tfpb</span><br><span class="line">rem 第二个压缩包</span><br><span class="line">echo "gameTable02.plfb": [ &gt;&gt; mergebinary.tfpb</span><br><span class="line">rem 先拿到文件的行数</span><br><span class="line">cat gameTable02.temp | wc -l &gt; num.ini</span><br><span class="line">for /F %%i in (num.ini) do ( set count=%%i)</span><br><span class="line">rem 循环输入文件内的内容，注意最后一行没有逗号</span><br><span class="line">set /a i=0</span><br><span class="line">for /f %%a in (gameTable02.temp) do (</span><br><span class="line">    set /a i+=1</span><br><span class="line">    if !count! == !i! (</span><br><span class="line">        echo "res/table/bintable/%%a" &gt;&gt; mergebinary.tfpb</span><br><span class="line">    )else (</span><br><span class="line">        echo "res/table/bintable/%%a", &gt;&gt; mergebinary.tfpb</span><br><span class="line">    ) </span><br><span class="line">)</span><br><span class="line">echo ], &gt;&gt; mergebinary.tfpb</span><br><span class="line">rem 第三个压缩包</span><br><span class="line">echo "gameTable03.plfb": [ &gt;&gt; mergebinary.tfpb</span><br><span class="line">rem 先拿到文件的行数</span><br><span class="line">cat gameTable03.temp | wc -l &gt; num.ini</span><br><span class="line">for /F %%i in (num.ini) do ( set count=%%i)</span><br><span class="line">rem 循环输入文件内的内容，注意最后一行没有逗号</span><br><span class="line">set /a i=0</span><br><span class="line">for /f %%a in (gameTable03.temp) do (</span><br><span class="line">    set /a i+=1</span><br><span class="line">    if !count! == !i! (</span><br><span class="line">        echo "res/table/bintable/%%a" &gt;&gt; mergebinary.tfpb</span><br><span class="line">    )else (</span><br><span class="line">        echo "res/table/bintable/%%a", &gt;&gt; mergebinary.tfpb</span><br><span class="line">    ) </span><br><span class="line">)</span><br><span class="line">echo ], &gt;&gt; mergebinary.tfpb</span><br><span class="line">rem 第四个压缩包</span><br><span class="line">echo "gameTable04.plfb": [ &gt;&gt; mergebinary.tfpb</span><br><span class="line">rem 先拿到文件的行数</span><br><span class="line">cat gameTable04.temp | wc -l &gt; num.ini</span><br><span class="line">for /F %%i in (num.ini) do ( set count=%%i)</span><br><span class="line">rem 循环输入文件内的内容，注意最后一行没有逗号</span><br><span class="line">set /a i=0</span><br><span class="line">for /f %%a in (gameTable04.temp) do (</span><br><span class="line">    set /a i+=1</span><br><span class="line">    if !count! == !i! (</span><br><span class="line">        echo "res/table/bintable/%%a" &gt;&gt; mergebinary.tfpb</span><br><span class="line">    )else (</span><br><span class="line">        echo "res/table/bintable/%%a", &gt;&gt; mergebinary.tfpb</span><br><span class="line">    ) </span><br><span class="line">)</span><br><span class="line">echo ] &gt;&gt; mergebinary.tfpb</span><br><span class="line">echo &#125; &gt;&gt; mergebinary.tfpb</span><br><span class="line">echo &#125; &gt;&gt; mergebinary.tfpb</span><br><span class="line">rem 删除临时文件</span><br><span class="line">del /q temp.ini</span><br><span class="line">del /q num.ini</span><br><span class="line">rm -rf gameTable0*</span><br><span class="line">rem 将文件拷贝到发布的目录去</span><br><span class="line">rm -rf %work_dirs%\laya\config</span><br><span class="line">mkdir %work_dirs%\laya\config</span><br><span class="line">move mergebinary.tfpb %work_dirs%\laya\config\</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">rem  发布</span><br><span class="line">d:</span><br><span class="line">cd D:\tools\LayaAirIDE2.0.2\resources\app\out\layarepublic\mergeBinaryFile\jslibs</span><br><span class="line"></span><br><span class="line">node merge.js</span><br><span class="line"></span><br><span class="line">echo 发布成功,将压缩文件拷贝到出包目录</span><br><span class="line">xcopy /ys  E:\fjwd\client\mylaya\bin\res\table\bintable\*.zip E:\fjwd_branchs\sqhx_h5\wx\tishen\client\mylaya\bin\res\table\bintable\</span><br><span class="line"></span><br><span class="line">echo 回到buildnative目录下</span><br><span class="line">e:</span><br><span class="line">cd E:\fjwd_branchs\sqhx_h5\wx\tishen\common\client\tools\BuildNative\</span><br><span class="line"></span><br><span class="line">setlocal enabledelayedexpansion</span><br><span class="line">set webJsonOutUrl=..\..\..\..\client\mylaya\.laya\</span><br><span class="line">set mylayaRootUrl=..\..\..\..\client\mylaya\</span><br><span class="line">set mylayaReleaseUrl=..\..\..\..\client\mylaya\release\wxgame</span><br><span class="line">set mylayaReleaseUrl1=..\..\..\..\client\mylaya\release\lesscache</span><br><span class="line">set mylayaReleaseUrl2=..\..\..\..\client\mylaya\release\web_bak</span><br><span class="line">set mylayaReleaseUrl3=..\..\..\..\client\mylaya\release\web_res</span><br><span class="line">set mylayaReleaseUrl4=..\..\..\..\client\mylaya\release\wholecache</span><br><span class="line">set resRootUrl=.\wxgame</span><br><span class="line">set gameUrl=http://h5.miwan123.com/sqhxclient/client/166137/sqhxh5/sxyx/wxmini/tishen/release/wxgame/index.js</span><br><span class="line">set wholeCacheResOutUrl=wholecache</span><br><span class="line">set filterResConfigFileUrl=..\..\common\client\tools\BuildNative\resconfig.ini</span><br><span class="line"></span><br><span class="line">set prefixGameUrl=http://h5.miwan123.com/sqhxclient/client/166137/sqhxh5/sxyx/wxmini/tishen/release/wxgame/</span><br><span class="line">set versionCode=1</span><br><span class="line">set version=0.0</span><br><span class="line">set name=sqhx</span><br><span class="line">set apkUpdateUrl=http://h5.miwan123.com/sqhxclient/client/166137/sqhxh5/sxyx/wxmini/tishen/release/wxgame/sqhx_release.apk</span><br><span class="line">set indexJs=</span><br><span class="line">set isinnet=0</span><br><span class="line">set serverlisturl=https://sqhxapi.miwan123.com/login/loginServer</span><br><span class="line">set loginurl=http://sqhxmid.miwan123.com/quick/verifyLogin</span><br><span class="line">set extinfo=&#123;"noticeurl":"http://sqhxapi.miwan123.com/notice/html"&#125;</span><br><span class="line">set chargeurl=http://sqhxmid.miwan123.com/quick/Charge</span><br><span class="line"></span><br><span class="line">echo 安装必要的环境</span><br><span class="line">::call npm list -g layaair2-cmd||npm install -g layaair2-cmd</span><br><span class="line">::call npm list -g gulp||npm install -g gulp</span><br><span class="line">::call npm list -g layadcc||npm install -g layadcc</span><br><span class="line"></span><br><span class="line">echo 复制wxgame.json到client/mylaya/.laya目录下</span><br><span class="line">xcopy /y .\wxgame.json %webJsonOutUrl%</span><br><span class="line"></span><br><span class="line">echo 先删除release目录 然后定位到mylaya根目录执行发布</span><br><span class="line">rd /s %mylayaReleaseUrl%</span><br><span class="line">rd /s %mylayaReleaseUrl1%</span><br><span class="line">rd /s %mylayaReleaseUrl2%</span><br><span class="line">rd /s %mylayaReleaseUrl3%</span><br><span class="line">rd /s %mylayaReleaseUrl4%</span><br><span class="line">cd /d %mylayaRootUrl%</span><br><span class="line">call layaair2-cmd publish -c wxgame</span><br><span class="line">echo 上传到服务器</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">echo 更新到最新svn</span><br><span class="line">set work_dirs=E:\fjwd_branchs\sqhx_h5\wx\tishen\client\mylaya\release\wxgame</span><br><span class="line">cd %work_dirs%</span><br><span class="line">svn update --accept mine-full</span><br><span class="line"></span><br><span class="line">echo 提交到svn</span><br><span class="line">set svn_home=D:\Program Files\TortoiseSVN\bin</span><br><span class="line">for %%c in (%work_dirs%) do "%svn_home%"\TortoiseProc.exe/command:commit /path:"%%c" /logmsg:[%commitid%] /closeonend:2</span><br><span class="line"></span><br><span class="line">rem 登录cdn相关目录更新</span><br><span class="line">ssh root@ip -t "cd /data/cdn/sqhxclient/client/166136/xgyx/ios/publish/release/web &amp;&amp; svn update"</span><br><span class="line"></span><br><span class="line">pause</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+	
+	<div>
+	  
+		<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+	  
+	</div>
+	
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2020/12/14/前端维护一键搞定/">前端维护一键搞定</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Fang Yanwei 的个人博客">Fang Yanwei</a></p>
+  <p><span>发布时间:</span>2020年12月14日 - 23:12</p>
+  <p><span>最后更新:</span>2021年04月04日 - 07:04</p>
+  <p><span>原始链接:</span><a href="/2020/12/14/前端维护一键搞定/" title="前端维护一键搞定">http://fangyanwei.top/2020/12/14/前端维护一键搞定/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://fangyanwei.top/2020/12/14/前端维护一键搞定/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+      $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+        });
+    });  
+</script>
+
+      
+	</div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/脚本/" rel="tag"><i class="fa fa-tag"></i> 脚本</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/17/敏感词过滤DFA算法/" rel="next" title="敏感词过滤DFA算法">
+                <i class="fa fa-chevron-left"></i> 敏感词过滤DFA算法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/04/04/实现拼图模糊效果/" rel="prev" title="实现拼图模糊效果">
+                实现拼图模糊效果 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Fang Yanwei</p>
+              <p class="site-description motion-element" itemprop="description">今天很残酷，明天更残酷，后天很美好，但是大部分的人都是死在了明天晚上</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/fangyanwei" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#痛点"><span class="nav-number">1.</span> <span class="nav-text">痛点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#思路"><span class="nav-number">2.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实现"><span class="nav-number">3.</span> <span class="nav-text">实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#后续"><span class="nav-number">4.</span> <span class="nav-text">后续</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#把引擎的Byte类抽离出来形成一个单独的js"><span class="nav-number">5.</span> <span class="nav-text">把引擎的Byte类抽离出来形成一个单独的js</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#改写引擎工具的merge-js"><span class="nav-number">5.1.</span> <span class="nav-text">改写引擎工具的merge.js</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fang Yanwei</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">30.3k</span>
+  
+</div>
+
+
+	<div class="powered-by">
+		<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+		  本站访客数:<span id="busuanzi_value_site_uv"></span>
+		</span>
+	</div>
+
+  <!--
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+  -->
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共30.3k字</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>

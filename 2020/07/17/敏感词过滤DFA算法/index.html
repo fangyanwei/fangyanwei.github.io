@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-corner-indicator.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="dfa算法," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="fangyanwei的博客" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="前言这两天游戏上了几个平台做删档付费测试，上午开服之后很平稳，没有上个项目一样开服之后没多久就当机了，然后停机维护还几个小时起不来··· 本以为可以松一口气，结果下午得知九游平台被下架了，原因有两个：UI上有些美女图片过于波涛汹涌，这个好处理，加点纱什么的遮一下就OK了，另外一个就是敏感词汇没过滤。比如输入习近平肯定没问题，但是输入习&amp;amp;&amp;amp;近平这样中间有干扰项的情况就过滤不了了。 看">
+<meta name="keywords" content="dfa算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="敏感词过滤DFA算法">
+<meta property="og:url" content="http://fangyanwei.top/2020/07/17/敏感词过滤DFA算法/index.html">
+<meta property="og:site_name" content="fangyanwei的博客">
+<meta property="og:description" content="前言这两天游戏上了几个平台做删档付费测试，上午开服之后很平稳，没有上个项目一样开服之后没多久就当机了，然后停机维护还几个小时起不来··· 本以为可以松一口气，结果下午得知九游平台被下架了，原因有两个：UI上有些美女图片过于波涛汹涌，这个好处理，加点纱什么的遮一下就OK了，另外一个就是敏感词汇没过滤。比如输入习近平肯定没问题，但是输入习&amp;amp;&amp;amp;近平这样中间有干扰项的情况就过滤不了了。 看">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.loli.net/2020/07/17/KaZebXniOfjUomt.png">
+<meta property="og:image" content="https://i.loli.net/2020/07/17/MAQWUyBjTgEScZC.png">
+<meta property="og:updated_time" content="2021-04-03T23:35:34.861Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="敏感词过滤DFA算法">
+<meta name="twitter:description" content="前言这两天游戏上了几个平台做删档付费测试，上午开服之后很平稳，没有上个项目一样开服之后没多久就当机了，然后停机维护还几个小时起不来··· 本以为可以松一口气，结果下午得知九游平台被下架了，原因有两个：UI上有些美女图片过于波涛汹涌，这个好处理，加点纱什么的遮一下就OK了，另外一个就是敏感词汇没过滤。比如输入习近平肯定没问题，但是输入习&amp;amp;&amp;amp;近平这样中间有干扰项的情况就过滤不了了。 看">
+<meta name="twitter:image" content="https://i.loli.net/2020/07/17/KaZebXniOfjUomt.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://fangyanwei.top/2020/07/17/敏感词过滤DFA算法/"/>
+
+
+
+
+
+  <title>敏感词过滤DFA算法 | fangyanwei的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	
+	<a href="https://github.com/fangyanwei"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">fangyanwei的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">不念过往，不惧未来</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://fangyanwei.top/2020/07/17/敏感词过滤DFA算法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Fang Yanwei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="fangyanwei的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">敏感词过滤DFA算法</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-17T20:08:59+08:00">
+                2020-07-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2,150
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  9
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>这两天游戏上了几个平台做删档付费测试，上午开服之后很平稳，没有上个项目一样开服之后没多久就当机了，然后停机维护还几个小时起不来···</p>
+<p>本以为可以松一口气，结果下午得知九游平台被下架了，原因有两个：UI上有些美女图片过于波涛汹涌，这个好处理，加点纱什么的遮一下就OK了，另外一个就是敏感词汇没过滤。比如输入习近平肯定没问题，但是输入习&amp;&amp;近平这样中间有干扰项的情况就过滤不了了。</p>
+<p>看了下斗罗大陆，闪铄之光等游戏表现也是如此，还问了两个也是做游戏的同学，也是没做处理。当然像网易这种做门户网站起家的大厂，梦幻西游可以正常过滤。得，不能因为在部分人没做就不做，还是从自己身上找原因，看能不能解决问题。</p>
+<h4 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h4><p>现在项目直接照搬了以前MT游戏的算法过来，过去上的几个平台，也没打回来，可能是最近近网行动，导致了审核更加严格。<br>大概浏览了下算法，也就是一个for循环遍历所有的敏感词库，然后每一条记录都用正则表达式去做匹配。<br>这种算法在词库不是很大，可能没什么性能的影响，但是当词库暴增后，性能还是很低的，而且还无法处理干扰项，所以要优化掉它。<br><a id="more"></a></p>
+<h4 id="DFA算法"><a href="#DFA算法" class="headerlink" title="DFA算法"></a>DFA算法</h4><blockquote>
+<p>DFA（Deterministic Finite Automaton,即确定有穷自动机。其原理为：有一个有限状态集合和一些从一个状态通向另一个状态的边，每条边上标记有一个符号，其中一个状态是初态，某些状态是终态。但不同于不确定的有限自动机，DFA中不会有从同一状态出发的两条边标志有相同的符号。</p>
+</blockquote>
+<p>举个例子：<br><img src="https://i.loli.net/2020/07/17/KaZebXniOfjUomt.png" alt=""></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">root = &#123; </span><br><span class="line">    isEnd = <span class="number">0</span> </span><br><span class="line">    王 = &#123;</span><br><span class="line">        isEnd = <span class="number">0</span></span><br><span class="line">        八 = &#123;</span><br><span class="line">            isEnd = <span class="number">0</span> </span><br><span class="line">            蛋 = &#123;</span><br><span class="line">                isEnd = <span class="number">1</span></span><br><span class="line">            &#125; </span><br><span class="line">            羔 = &#123;</span><br><span class="line">                isEnd = <span class="number">0</span></span><br><span class="line">                子 = &#123;</span><br><span class="line">                    isEnd = <span class="number">1</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125; </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行逻辑：</p>
+<p>检测词，切割成一个个字：王、八、羔、子<br>程序拿着 王 到 敏感词字典树找，有就返回 王 下面的子树，无则不是敏感词<br>接上面 子树 程序开始匹配第二个字 八，有就返回 八 下面的子树，无则不是敏感词。以此类推…<br>若 isEnd = true，表明敏感词搜索已经结束，检测词不是敏感词。</p>
+<h4 id="算法实现"><a href="#算法实现" class="headerlink" title="算法实现"></a>算法实现</h4><p>以下是树节点的定义,有注释，定义也相对简单就不展开介绍了<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">package</span> <span class="title">Application</span>.<span class="title">Logic</span>.<span class="title">Chat</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SensitiveTreeNode</span></span></span><br><span class="line"><span class="class">    </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">var</span> data:Object;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">var</span> isLeaf:Boolean;<span class="comment">//是否是叶子节点</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">var</span> parent:SensitiveTreeNode;<span class="comment">//父节点</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">var</span> value:String;<span class="comment">//保存的字符</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">var</span> offset:int;<span class="comment">//偏移,如果往后三个字符还没找到则抛弃掉</span></span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">SensitiveTreeNode</span><span class="params">()</span></span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            data=&#123;&#125;;</span><br><span class="line">            isLeaf=<span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getChild</span><span class="params">(name:String)</span>:SensitiveTreeNode</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> data[name];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">setChild</span><span class="params">(key:String)</span>:SensitiveTreeNode</span>&#123;</span><br><span class="line">            <span class="keyword">var</span> node:SensitiveTreeNode = <span class="keyword">new</span> SensitiveTreeNode;</span><br><span class="line">            data[key]=node;</span><br><span class="line">            node.value=key;</span><br><span class="line">            node.parent=<span class="keyword">this</span>;</span><br><span class="line">            <span class="keyword">return</span> node;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getFullWord</span><span class="params">()</span>:String</span>&#123;</span><br><span class="line">            <span class="keyword">var</span> rt:String = <span class="keyword">this</span>.value;</span><br><span class="line">            <span class="keyword">var</span> node:SensitiveTreeNode = <span class="keyword">this</span>.parent;</span><br><span class="line">            <span class="keyword">while</span>(node)&#123;</span><br><span class="line">                rt=node.value+rt;</span><br><span class="line">                node=node.parent;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> rt;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">replace</span><span class="params">(dst:String,mask:String)</span>:String</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="keyword">var</span> value:String = <span class="keyword">this</span>.value;</span><br><span class="line">            dst = dst.replace(value,mask);</span><br><span class="line">            <span class="keyword">var</span> node:SensitiveTreeNode = <span class="keyword">this</span>.parent;</span><br><span class="line">            <span class="keyword">while</span>(node &amp;&amp; node.value!=<span class="string">""</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                dst = dst.replace(node.value,mask);</span><br><span class="line">                node = node.parent;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> dst;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后实现词库初始化算法，查找算法。初始化是遍历整个词库，然后每条敏感词从第一个字开始找起，如果第一个字没找到，则新建一棵树，添加到根节点中去。找到则将些节点添加到找到的树中去。这个是在游戏启动的时候初始化一次，用空间去换时间提升性能。</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">package</span> <span class="title">Application</span>.<span class="title">Logic</span>.<span class="title">Chat</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SensiviveWordFilter</span></span></span><br><span class="line"><span class="class">    </span>&#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">SensiviveWordFilter</span><span class="params">()</span></span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">var</span> treeRoot:SensitiveTreeNode;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">regSensitiveWords</span><span class="params">(words:Vector.&lt;String&gt;)</span>:void</span>&#123;</span><br><span class="line">            <span class="comment">//这是一个预处理步骤，生成敏感词索引树，功耗大于查找时使用的方法，但只在程序开始时调用一次。</span></span><br><span class="line">            treeRoot=<span class="keyword">new</span> SensitiveTreeNode();</span><br><span class="line">            treeRoot.value=<span class="string">""</span>;</span><br><span class="line">            <span class="keyword">var</span> words_len:int = words.length;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">var</span> i:int = <span class="number">0</span>;i&lt;words_len;i++)&#123;</span><br><span class="line">                <span class="keyword">var</span> word:String = words[i];</span><br><span class="line">                <span class="keyword">var</span> len:int = word.length;</span><br><span class="line">                <span class="keyword">var</span> currentBranch:SensitiveTreeNode = treeRoot;</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">var</span> c:int = <span class="number">0</span>;c&lt;len;c++)&#123;</span><br><span class="line">                    <span class="keyword">var</span> char:String = word.charAt(c);</span><br><span class="line">                    <span class="keyword">var</span> tmp:SensitiveTreeNode = currentBranch.getChild(char);</span><br><span class="line">                    <span class="keyword">if</span>(tmp)&#123;</span><br><span class="line">                        currentBranch=tmp;</span><br><span class="line">                    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                        currentBranch=currentBranch.setChild(char);</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">if</span>(c==len<span class="number">-1</span>)&#123;</span><br><span class="line">                        currentBranch.isLeaf = <span class="literal">true</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//返回数组</span></span><br><span class="line">        <span class="comment">//第一个参数：是否有屏蔽词</span></span><br><span class="line">        <span class="comment">//第二个参数：转化后的字符串</span></span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">findSensitiveWordsIn</span><span class="params">(dst:String)</span>:Array</span>&#123;</span><br><span class="line">            <span class="keyword">var</span> suspects:Array = [];<span class="comment">//嫌疑列表，但凡前几个字匹配成功的节点都放在这里</span></span><br><span class="line">            <span class="keyword">var</span> len:int = dst.length;</span><br><span class="line">            <span class="keyword">var</span> tmp:SensitiveTreeNode;</span><br><span class="line">            <span class="keyword">var</span> flag:Boolean = <span class="literal">false</span>;<span class="comment">//是否有屏蔽词</span></span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">var</span> c:int = <span class="number">0</span>;c &lt; len; c++)&#123;</span><br><span class="line">                <span class="keyword">var</span> char:String = dst.charAt(c);</span><br><span class="line">                <span class="comment">//如果嫌疑列表内有数据，先对其进行检验，检查char是否是嫌疑列表中某节点的下一个字</span></span><br><span class="line">                <span class="keyword">var</span> p:int = suspects.length;</span><br><span class="line">                <span class="keyword">while</span>(p&gt;<span class="number">0</span>)&#123;</span><br><span class="line">                    <span class="keyword">var</span> node:SensitiveTreeNode = suspects[p<span class="number">-1</span>];</span><br><span class="line">                    node.offset++;</span><br><span class="line">                    <span class="keyword">if</span>(node.offset&gt;=<span class="number">5</span>)&#123;<span class="comment">//往后找了三个字符还没有则抛弃</span></span><br><span class="line">                        suspects.splice(p<span class="number">-1</span>,<span class="number">1</span>);</span><br><span class="line">                    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                        tmp=node.getChild(char);</span><br><span class="line">                        <span class="keyword">if</span>(tmp)&#123;</span><br><span class="line">                            <span class="keyword">if</span>(tmp.isLeaf)&#123;<span class="comment">//找到一个敏感词了，替换成*,将之前的所有嫌疑列表也换成*</span></span><br><span class="line">                                suspects.splice(p<span class="number">-1</span>,<span class="number">1</span>);</span><br><span class="line">                                suspects = removeShortSame(suspects,tmp)</span><br><span class="line">                                <span class="keyword">for</span> <span class="keyword">each</span>(<span class="keyword">var</span> node2:SensitiveTreeNode <span class="keyword">in</span> suspects)</span><br><span class="line">                                &#123;</span><br><span class="line">                                    dst = dst.replace(node2.value,<span class="string">"*"</span>);</span><br><span class="line">                                &#125;</span><br><span class="line">                                dst = tmp.replace(dst,<span class="string">"*"</span>);</span><br><span class="line">                                suspects = [];</span><br><span class="line">                                flag = <span class="literal">true</span>;</span><br><span class="line">                            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                                tmp.offset = <span class="number">0</span>;</span><br><span class="line">                                suspects[p<span class="number">-1</span>]=tmp;</span><br><span class="line">                            &#125;</span><br><span class="line">                            <span class="keyword">break</span>;   </span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                    p--;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">//之后从treeRoot开始查找。因treeRoot的子项是所有敏感词的第一个字，这里在尝试匹配是否有与char相同的敏感词第一字</span></span><br><span class="line">                tmp=treeRoot.getChild(char);</span><br><span class="line">                <span class="keyword">if</span>(tmp)&#123;</span><br><span class="line">                    <span class="comment">//如果是一个字的敏感词，替换它</span></span><br><span class="line">                    <span class="keyword">if</span>(tmp.isLeaf)&#123;</span><br><span class="line">                        dst = dst.replace(tmp.value,<span class="string">"*"</span>)</span><br><span class="line">                        flag = <span class="literal">true</span>;</span><br><span class="line">                    &#125;<span class="keyword">else</span>&#123;<span class="comment">//如果匹配上了非单字敏感词的第一个字，那么将其加入嫌疑列表</span></span><br><span class="line">                        tmp.offset = <span class="number">0</span>;</span><br><span class="line">                        suspects.push(tmp);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> [flag,dst];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//删除更短的嫌疑词，比如找到卫生部是敏感词的时候,有可能生，或者卫也有这些开头的敏感词,</span></span><br><span class="line">        <span class="comment">//所以在分别替换卫、生、部这三个字的时候要把这些短小的嫌疑词去掉，要不有可能把后面的词给换掉了</span></span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">removeShortSame</span><span class="params">(array:Array,node:SensitiveTreeNode)</span>:Array</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="keyword">var</span> len:int = array.length</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">var</span> index:int = len<span class="number">-1</span>; index &gt;= <span class="number">0</span>; index--)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">var</span> element:SensitiveTreeNode = array[index];</span><br><span class="line">                <span class="keyword">while</span>(node.value!=<span class="string">""</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">if</span>(element.value == node.value &amp;&amp; element.offset &lt; node.offset)&#123;</span><br><span class="line">                        array.splice(index,<span class="number">1</span>);</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    node = node.parent;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> array;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>网上介绍的DFA算法，大多都是要全字匹配的，没支持干扰项。因为它们的算法都是找到一个嫌疑词，在找下一个字时，如果在树的子节点没有找到第二个字，就把前面这两个字都抛弃了。</p>
+<p>基于以上原因，所以我的算法中，找到了嫌疑词先加到一个数组里面，下一个没匹配中也不丢弃它。那什么时候丢弃呢，不可能一直保留去跟后面的字做检测，一是影响效率，第二个是很容易误杀。比如vx是敏感词，我输入正常的vabcdx也会被误杀，这明显不符合我们的要求。</p>
+<p>经与策划商量，采用走三步没找到就丢弃的策略。这样即保证性能，能识别一些短的干扰项，又不会被误杀。所以我在根节点的定义中用了一个offset来保存偏移值（即往后查找的字数），然后第一次命中的时候把它压入嫌疑列表中，每往后找一个字就给它的记数加1，当走了三步后还是没有找到敏感词就把它从嫌疑列表中移除。</p>
+<h4 id="实现效果"><a href="#实现效果" class="headerlink" title="实现效果"></a>实现效果</h4><p>以下是我输入测试的输出，其中习近平，卫生部是屏蔽词</p>
+<blockquote>
+<p>习卫生部近平<br>习&amp;&amp;近平</p>
+</blockquote>
+<p><img src="https://i.loli.net/2020/07/17/MAQWUyBjTgEScZC.png" alt=""></p>
+<p>如此便算大功告成了，以后有时间看还不能再优化这个算法，暂时先到这吧，打卡下班，昨晚研究这玩意才睡了4个小时，回家洗洗睡了~~</p>
+
+      
+    </div>
+    
+    
+    
+	
+	<div>
+	  
+		<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+	  
+	</div>
+	
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2020/07/17/敏感词过滤DFA算法/">敏感词过滤DFA算法</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Fang Yanwei 的个人博客">Fang Yanwei</a></p>
+  <p><span>发布时间:</span>2020年07月17日 - 20:07</p>
+  <p><span>最后更新:</span>2021年04月04日 - 07:04</p>
+  <p><span>原始链接:</span><a href="/2020/07/17/敏感词过滤DFA算法/" title="敏感词过滤DFA算法">http://fangyanwei.top/2020/07/17/敏感词过滤DFA算法/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://fangyanwei.top/2020/07/17/敏感词过滤DFA算法/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+      $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+        });
+    });  
+</script>
+
+      
+	</div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/dfa算法/" rel="tag"><i class="fa fa-tag"></i> dfa算法</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/03/解决内容超出输入框没有裁剪的问题/" rel="next" title="解决内容超出输入框没有裁剪的问题">
+                <i class="fa fa-chevron-left"></i> 解决内容超出输入框没有裁剪的问题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/12/14/前端维护一键搞定/" rel="prev" title="前端维护一键搞定">
+                前端维护一键搞定 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Fang Yanwei</p>
+              <p class="site-description motion-element" itemprop="description">今天很残酷，明天更残酷，后天很美好，但是大部分的人都是死在了明天晚上</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/fangyanwei" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#正则表达式"><span class="nav-number">2.</span> <span class="nav-text">正则表达式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DFA算法"><span class="nav-number">3.</span> <span class="nav-text">DFA算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#算法实现"><span class="nav-number">4.</span> <span class="nav-text">算法实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实现效果"><span class="nav-number">5.</span> <span class="nav-text">实现效果</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fang Yanwei</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">30.3k</span>
+  
+</div>
+
+
+	<div class="powered-by">
+		<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+		  本站访客数:<span id="busuanzi_value_site_uv"></span>
+		</span>
+	</div>
+
+  <!--
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+  -->
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共30.3k字</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
